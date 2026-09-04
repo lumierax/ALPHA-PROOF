@@ -1,0 +1,11 @@
+{
+  "name": "alpha-proof-cloud-24x7",
+  "version": "8.5.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
