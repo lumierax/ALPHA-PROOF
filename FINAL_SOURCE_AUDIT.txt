@@ -1,0 +1,46 @@
+ALPHA PROOF Ω v9.5.0 — FINAL SOURCE AUDIT
+BASELINE_REFERENCE=v9.2.0-LAB-AI-FOUNDATION
+TARGET_VERSION=9.5.0-LAB-AI-OMEGA-CORTEX
+
+CORE INVARIANT AUDIT
+radar-flow.js byte-identical to v9.2: True
+radar-flow SHA256=a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435
+analyzePA: IDENTICAL
+analyzeExpansion: IDENTICAL
+analyzeEMA: IDENTICAL
+analyzeTrend: IDENTICAL
+radarEligibility: IDENTICAL
+analyzeDirection: IDENTICAL
+buildVolumeMetrics: IDENTICAL
+featuredRank: IDENTICAL
+betterTimeframeCandidate: IDENTICAL
+timeframeCandidateVector: IDENTICAL
+isFreshLuxAtEntry: IDENTICAL
+luxBreakEvents: IDENTICAL
+
+EXECUTION SAFETY
+Binance order-endpoint scan: CLEAN
+radar-flow AI/CORTEX reference scan: CLEAN
+
+CURRENT SOURCE HASHES
+366b424bab309c11eefc77a6e127ed764bb6ac62d72c91d6bf7bd3b41ca834fb  server.js
+a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435  radar-flow.js
+72b0a30a354bf2d95e76b4d3b2df76ba64b8c72b512b043d812fb1c8cc19beb9  lab-ai.js
+1074edf7139649edde0357bb63f3939950532c18b801a15f3de81a99747c5aab  ai-foundation.js
+b0c76e94b22c04aa78700ce6ad42f5a45ad0dc3aff3973d12d081a8869bd0d9c  market-ai.js
+b5789c0048da02510f999b1699f46f2db5ffdc6d741cd4ec9c54cf16343ccb89  market-ai-foundation.js
+d82d464ae3696f38d405fef4a8abbae8de323dd331b5bb6142f31c4c4162ee1a  learning-forge.js
+138b4dbf8e7526a0ddfa946be28808bc0e04366a700aa069e794dff3c25ae0e7  learning-forge-foundation.js
+3a413d9e4e06718154d92c084ef3c25cc9a0bb5b7ff8e6e1c12c445caeee4f63  index.html
+d141854105e83b3fefaa53d75e2f78d8de2dcb4de7f3f26959e42cc0352f5ca2  public/index.html
+e165d499a94d44c0c1d183d0d9fec74a1e782a819258863882ec7cd816c33e1a  package.json
+30f7cf19a7f3e0f02f3377f397e81d0566ca0c77b4363fb36248bb8587e842c4  README_AR.md
+
+ARCHITECTURE
+Runtime != Dataset != Trade AI Brain != Market AI Brain/Dataset != Omega CORTEX Brain/Events != Checkpoints
+Lux-only radar admission: preserved
+Directional Flow-only radar ranking/strongest cards: preserved
+PA/C-E/EMA helper isolation: preserved
+AI execution mode: SHADOW only
+CORTEX proof: prospective-only + Statistical Firewall + multiple-testing adjustment + temporal block gate
+Feature Tribunal: frozen per-decision ablation probabilities scored after outcome only
