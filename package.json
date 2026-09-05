@@ -1,0 +1,12 @@
+{
+  "name": "alpha-proof-cloud-24x7",
+  "version": "8.9.8",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-radar.js && node test-v89.js && node test-learning.js && node test-frontend.js && node test-api.js"
+  }
+}
