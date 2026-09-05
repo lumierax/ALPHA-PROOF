@@ -1,0 +1,13 @@
+ALPHA PROOF Ω — v9.0.0 LAB BASELINE
+
+Verification summary:
+- Full npm test suite: PASS
+- radar-flow.js: byte-identical to the selected stable v8.9.9 base
+- Lux admission / PA-C/E-EMA isolation: unchanged and tested
+- Strongest lightning is visual-only and uses engine order, not manual table sort
+- Radar sort: timeframe, flash, ΔV, speed, score, B/S; alphabetical symbol sort removed
+- Safari resume: immediate state resync; saved radar snapshot is not cleared on boot
+- Clean Training Memory v1: old noisy learning/history excluded, VALID written to JSONL on disk
+- Technical REJECTED summaries: fixed 24-hour retention, cleanup every hour
+- Export and verified archive + new-memory-cycle routes: tested
+- Railway HTML: no-store cache policy tested
