@@ -1,0 +1,82 @@
+ALPHA PROOF Ω v9.6.0 — FINAL SOURCE AUDIT
+BASELINE_REFERENCE=v9.5.0-LAB-AI-OMEGA-CORTEX
+TARGET_VERSION=9.6.0-LAB-AI-NET-PNL-24H
+INTEGRITY_REPAIR=NET-PNL-INTEGRITY-2026-09-06-R2
+
+PRE-MODIFICATION REVIEW
+- Original v9.5.0 ZIP extracted and test suite executed before modification: PASS.
+- Original Lux-only admission / Directional Flow ranking / helper isolation tests: PASS.
+- Original no-real-trading architecture confirmed.
+
+CORE INVARIANT AUDIT
+radar-flow.js byte-identical to v9.5.0: True
+radar-flow SHA256=a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435
+Lux-only radar admission: preserved
+Directional Flow-only radar ranking/strongest cards: preserved
+PA/C-E/EMA helper isolation: preserved
+Trade AI / Market AI / Ω CORTEX remain SHADOW-only
+Binance order-endpoint scan: CLEAN
+
+NET PNL / EXECUTION INTEGRITY
+- Spot fee policy fixed to NO BNB discount.
+- Entry fee=0.10%, exit fee=0.10%, round trip=0.20%.
+- TP hit is NOT automatically a WIN; NET_WIN requires netPnlPct > 0 after fees.
+- LONG geometry gate: SL < Fill < TP.
+- SHORT geometry gate: TP < Fill < SL.
+- Targets that do not cover 0.20% round-trip fees are economically gated to SKIP.
+- Training magnitude uses bounded economic soft target + weight, so a large loss outweighs a tiny win.
+
+24H / DAILY ECONOMICS
+- Results stored in Asia/Riyadh calendar-day buckets (24h daily periods).
+- Stores wins, losses, gross move, net profits, net losses, fees, net total, best/worst, win rate, average net and Profit Factor.
+- Current day is compared with previous day and previous-7-day average.
+- net24h / dayVsHistory / profitBalance24h are Trade AI features.
+- Daily/lifetime PnL includes ENTER Shadow trades only; SKIP counterfactuals teach labels but do not alter portfolio PnL.
+
+V9.5 DATA INTEGRITY MIGRATION
+- current.jsonl receives a byte-identical raw audit backup before sanitation.
+- Historical archive files remain immutable raw audit evidence and are excluded from direct learning.
+- A separate canonical historical learning source is generated from only verified/corrected legacy AI cases.
+- Wrong-side TP/SL cases are deleted from canonical learning data.
+- Legacy TP/SL labels without frozen journey proof are deleted from canonical learning data.
+- REVERSE may be verified from the actual recorded reverse exit price.
+- Verified cases are rewritten with explicit Gross / 0.20% fees / Net PnL economics.
+- Old TRAINING rows are removed from active current canonical data; brain is rebuilt from corrected CASE truth.
+- Old active Trade AI shadows are quarantined as LEGACY so they cannot train after migration.
+- Trade AI and Ω CORTEX are rebuilt chronologically from corrected cases; Market AI is not reset.
+- Raw audit evidence is never a learning source after migration.
+
+CURRENT SOURCE HASHES
+3162a3ba03c637b5531a10628746d00153c3d161802c452ede9317125732a894  server.js
+a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435  radar-flow.js
+f6fd2a79556b5d9790a6c938c8134efa4bd4892fac5d3a9ccbe7e03850c30641  lab-ai.js
+1074edf7139649edde0357bb63f3939950532c18b801a15f3de81a99747c5aab  ai-foundation.js
+b0c76e94b22c04aa78700ce6ad42f5a45ad0dc3aff3973d12d081a8869bd0d9c  market-ai.js
+b5789c0048da02510f999b1699f46f2db5ffdc6d741cd4ec9c54cf16343ccb89  market-ai-foundation.js
+2ddb86a81335258774c9ff05b4817a185cc9d2f447c0811f3b186054be056cdf  learning-forge.js
+d9565dd18d47192e0989ca0fd8431827d63cd96020f4fb5fa3009e0021df399c  learning-forge-foundation.js
+5b906e5be59b7c368610963b81ef9750008a7126b60523895a0972be661515ca  index.html
+1d669aa9c5c57249cad6780ca8db4c27bbcbf0fbb28cae1463149df08725ad24  public/index.html
+aee7f7671d4bf09a55e24560bb3dd4fe940282ccf85c4c78ce057e766e136b3b  package.json
+96c2816319ef1571c29cd175cfc7a01982d6a1d782c069e8e94f34c86c485101  README_AR.md
+973407bc42ec336612972f094ed20f1bdc7aa009ba78d1bf4e6d8b05b046353a  test-integrity-replay.js
+
+FINAL TEST COVERAGE
+- test-radar.js
+- test-v89.js
+- test-learning.js
+- test-memory.js
+- test-learning-forge.js
+- test-frontend.js
+- test-ai.js
+- test-foundation.js
+- test-market-ai.js
+- test-integrity-replay.js
+- test-api.js
+
+Required final procedure:
+1) run full test suite on final source;
+2) build ZIP with development backup files excluded;
+3) extract ZIP into a fresh directory;
+4) run full test suite again from extracted ZIP;
+5) verify hashes / no order endpoints / expected package contents.
