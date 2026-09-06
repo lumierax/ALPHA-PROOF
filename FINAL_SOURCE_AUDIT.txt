@@ -1,7 +1,0 @@
-ALPHA PROOF Ω v9.8.1 — FINAL SOURCE AUDIT
-TARGET_VERSION=9.8.1-FREE-MANAGEMENT-KLINE-TRUTH-MEMORY-SAFE
-POLICY=Review -> modify -> full tests -> ZIP -> fresh extract -> full tests again
-INTEGRITY=No dataset/brain/checkpoint wipe
-RADAR_FLOW=Unchanged from v9.7/v9.8 baseline
-MEMORY_FIXES=Selective large-state load excludes duplicated liveRows; persisted liveRows omitted; Adaptive Manager RAM windows bounded; replay records compacted
-PRESSURE_TEST=Node --max-old-space-size=96 with oversized legacy runtime state
