@@ -1,0 +1,12 @@
+{
+  "name": "alpha-proof-cloud-24x7",
+  "version": "9.9.4-research14.1",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-cortex-workforce.js && node test-father-workshop.js && node test-recovery.js && node test-mentor-lock.js && node test-shadow-mentor.js && node test-radar.js && node test-v89.js && node test-learning.js && node test-memory.js && node test-learning-forge.js && node test-frontend.js && node test-ai.js && node test-foundation.js && node test-market-ai.js && node test-scheduler.js && node test-integrity-replay.js && node test-research-governance.js && node test-adaptive-manager.js && node test-free-decision.js && node test-api.js && node test-memory-pressure.js && node test-tiered-memory.js && node test-memory-soak.js && node test-research14.js && node test-practical-integrity.js"
+  }
+}
