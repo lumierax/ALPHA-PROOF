@@ -1,0 +1,109 @@
+ALPHA PROOF Ω — IMPLEMENTATION AUDIT
+WORKFORCE + FATHER WORKSHOP READY
+Base: v9.9.3 FULL PROFIT FIRST + RESEARCH TOOLS
+
+1) PRE-AUDIT BEFORE ANY MODIFICATION
+- Baseline ZIP extracted to a clean working directory.
+- Full npm test suite: PASS.
+- Included memory pressure checks: 96 MB heap PASS; 64 MB soak PASS.
+- Integrity/Cohort/Free Decision/Research Governance: PASS.
+- Mentor/Calibration deferred-lock source SHA-256: 22482752ef5a0b33b56a478aa1a4effff9862888f2adbe77d131573d303361bb
+- research-governance.js SHA-256: eb7ef74d61b05e0260588117615a0831ec4b977efa3dd56fd053897d4dad11e6
+
+2) IMPLEMENTATION SCOPE
+ADDED:
+- cortex-workforce.js
+- father-workshop-contract.js
+- test-cortex-workforce.js
+- test-father-workshop.js
+- test-mentor-lock.js
+- FATHER_WORKSHOP_INTEGRATION_AR.md
+- IMPLEMENTATION_AUDIT_WORKFORCE_FATHER_READY.txt
+
+CHANGED:
+- learning-forge.js: bounded on-demand worker routing/state + public workforce/Father readiness state.
+- server.js: Father Workshop read/preview contracts only; no outbound workshop connection.
+- index.html: GitHub Backup embeds workforce/contracts and operations screen.
+- public/index.html: Railway operations screen.
+- package.json: adds new tests to npm test.
+- test-learning-forge.js: integration assertions that workers are actually dispatched.
+- test-frontend.js: screen and pre-VPS Father button guards.
+- README_AR.md: documents workforce, Father preparation and audit policy.
+
+UNCHANGED CORE POLICY FILE:
+- research-governance.js remained byte-for-byte unchanged.
+
+3) FOUR CORTEX WORKERS
+- Evidence Hunter / باحث الأدلة
+- Falsifier / المشكك
+- Prospective Experimenter / المجرب المستقبلي
+- Generalization Tester / مختبر التعميم
+
+Policy enforced in tests:
+- Workers cannot trade.
+- Workers cannot modify Trade AI.
+- Workers cannot modify live confidence.
+- Workers cannot approve EDGE.
+- Workers cannot use historical discovery data as prospective proof.
+- Workers return bounded reports to CORTEX.
+
+4) SIX RESEARCH TOOLS
+The existing six tools remain bounded/on-demand and are used by CORTEX and its workers:
+- Similarity Comparison
+- Temporal Microscope
+- Decision Lab
+- Variable Isolation
+- Hypothesis Ledger
+- Knowledge Validity Map
+
+5) FATHER WORKSHOP PREPARATION
+- Gateway status: DISABLED_UNTIL_VPS.
+- No API key stored.
+- No key input activated.
+- No outbound Father Workshop network connection.
+- Handoff schema ready: alpha-proof-father-handoff/1.
+- Response schema ready: alpha-proof-father-response/1.
+- Father outputs are proposal-only and cannot bypass Prospective Proof / Statistical Firewall.
+- Read/preview endpoints verified: /api/father/status, /api/father/contract, /api/father/handoff/preview.
+
+6) OPERATIONS SCREEN
+AI LAB now shows:
+- CORTEX orchestration message.
+- Each worker status.
+- Last assigned job.
+- Last result summary.
+- Samples inspected.
+- Tools used.
+- Recent research job log.
+- Father Gateway readiness/locked status.
+
+7) POST-AUDIT AFTER IMPLEMENTATION
+- Full npm test suite: PASS.
+- New worker authority/immutability test: PASS.
+- New Father contract test: PASS.
+- New Mentor lock hash test: PASS.
+- LearningForge worker dispatch integration: PASS.
+- Frontend workforce/Father screen guard: PASS.
+- Live local server API integration: PASS.
+- 96 MB memory pressure test: PASS.
+- 64 MB long-run soak test: PASS.
+- Integrity/Cohort/Free Decision/Research Governance: PASS.
+- Mentor/Calibration deferred-lock SHA-256 after implementation: 22482752ef5a0b33b56a478aa1a4effff9862888f2adbe77d131573d303361bb (IDENTICAL TO PRE-AUDIT).
+- research-governance.js SHA-256 after implementation: eb7ef74d61b05e0260588117615a0831ec4b977efa3dd56fd053897d4dad11e6 (IDENTICAL TO PRE-AUDIT).
+
+8) BASELINE FILE DIFF AUDIT
+Compared recursively against the supplied v9.9.3 RESEARCH TOOLS ZIP.
+No baseline file was removed.
+Only the files listed in section (2) were changed/added.
+
+9) IMPORTANT NON-CLAIMS
+- These tests do not prove live trading profitability.
+- This package was not deployed to or used to alter the current Railway test.
+- The deferred Mentor/Calibration lock was deliberately not fixed in this implementation.
+- Father Workshop remains structurally prepared but inactive until VPS.
+
+10) FINAL ZIP VERIFICATION
+- The final ZIP was created from the audited working tree.
+- It was extracted into a brand-new independent directory.
+- Full npm test was executed from that extracted directory: PASS.
+- The clean extracted package again passed the 96 MB memory-pressure test and 64 MB soak test.

@@ -1,0 +1,34 @@
+
+> alpha-proof-cloud-24x7@9.9.4 test
+> node test-cortex-workforce.js && node test-father-workshop.js && node test-recovery.js && node test-mentor-lock.js && node test-shadow-mentor.js && node test-radar.js && node test-v89.js && node test-learning.js && node test-memory.js && node test-learning-forge.js && node test-frontend.js && node test-ai.js && node test-foundation.js && node test-market-ai.js && node test-scheduler.js && node test-integrity-replay.js && node test-research-governance.js && node test-adaptive-manager.js && node test-free-decision.js && node test-api.js && node test-memory-pressure.js && node test-tiered-memory.js && node test-memory-soak.js
+
+PASS: CORTEX keeps thinking while four bounded on-demand workers dig, report counter-evidence and cannot mutate Trade AI/confidence/EDGE
+PASS: Father Workshop contract is VPS-ready but key/network remain disabled; every father output stays proposal-only behind prospective proof
+PASS: A/B recovery preserves legacy knowledge and current capture positions, and rejects damaged policy state
+PASS: verified A/B recovery rotates oldest, restores runtime/Trade AI/CORTEX/Adaptive/Market memory after deliberate corruption, falls back to previous slot, and fails closed when all local copies are invalid; Father GitHub recovery remains disabled until VPS
+PASS: circular Mentor/Calibration lock replaced by per-EDGE prospective Shadow Mentor; RISK remains excluded
+PASS: per-EDGE Shadow Mentor learns counterfactual calibration prospectively, cannot change live confidence early, and never creates RISK research
+PASS: directional RVOL/speed/acceleration, seller-only surge rejected, symmetry, zero baseline, repeated bursts, controls, stale guards and browser parity
+PASS: Lux-only admission, helper isolation, settings wiring, market context and notification templates
+PASS: compact learning journey structure, market/F&G context and adaptive compression
+large legacy state 34 MB — safe selective load without historical liveHistory
+PASS: clean memory schema, VALID/REJECTED gate, settings references, SHORT math and fixed 24h reject cleanup
+PASS: Ω CORTEX V4 NET-PNL discovers profit-first EDGE hypotheses, runs six bounded on-demand research tools, forbids hindsight proof, applies Statistical Firewall + Feature Tribunal and stays bounded
+PASS: frontend syntax, useful radar sorting, visual-only strong flash, Safari resume sync and clean local memory
+PASS: executable browser/backend capture parity and wired Arabic economic results
+PASS: Trade AI net-PnL integrity, 0.20% no-BNB fees, execution geometry, 24h/day economics, historical comparison, dedupe and bounded brain
+PASS: observed gap pricing, symmetric return denominator, explicit impact scenario and expired quote rejection
+PASS: separate durable AI brain, v9.1 migration, feature-schema guard and 100-case checkpoints
+PASS: Market AI observes bounded 5m state, anchors every 15m, learns true forward horizons and persists brain/runtime/dataset separately
+PASS: all timeframes use a lightweight wake-up hint but full scans are gated by actual Binance closed Kline truth
+PASS: legacy datasets and all three brains preserved byte-for-byte, with no replay into current learning
+PASS: clean cohort rejects old/invalid decisions, blocks hindsight proof and economically harmful high-accuracy rules
+PASS: a proposed profitable rule can fail and retain measured loss evidence without becoming an assumed RISK rule
+PASS: adaptive Shadow manager has free entry vs baseline and learns HOLD/EXIT prospectively without fixed TP/SL
+PASS: frame-based capture holds intact +3% trend, protects against adverse moves, follows exits, persists evidence, rejects gaps, and separates win rate from expected return
+PASS: management timeframe stays frozen and observations continue beyond radar removal
+PASS: free Shadow entry is independent from legacy TP/SL baseline geometry while baseline integrity remains strict
+PASS: v9.9.0 tiered-memory Foundation preserves compatible brain, separates runtime/datasets/AI brains, exports V4 research evidence, and keeps Restart non-destructive
+PASS: Railway-style 96 MB heap startup survives oversized legacy UI snapshot; adaptive manager remains bounded
+PASS: tiered memory keeps cold history on disk, loads only a bounded tail, and computes detailed usage only on demand
+PASS: long-run bounded hot memory survives 64 MB soak while cold history grows on disk

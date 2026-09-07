@@ -1,0 +1,39 @@
+learning-forge.js                  UNCHANGED
+  base b587c9d32f464136a4b3dd95416032e89453ac95f77855d4c0816269127b6d98
+  v10  b587c9d32f464136a4b3dd95416032e89453ac95f77855d4c0816269127b6d98
+learning-forge-foundation.js       UNCHANGED
+  base a46292fefb31b0e92d38a6f0abd44b92efd247dd7420cc33c980ef270c22616f
+  v10  a46292fefb31b0e92d38a6f0abd44b92efd247dd7420cc33c980ef270c22616f
+research-governance.js             UNCHANGED
+  base 7345b6e65f24f4024131e4edf9eb762777e6e56f8357671dff4784ad13ddcfbe
+  v10  7345b6e65f24f4024131e4edf9eb762777e6e56f8357671dff4784ad13ddcfbe
+lab-ai.js                          UNCHANGED
+  base a0aa5b3ca97e298d65defe1ad4d966d7917a0ed212c909aefa87d1f8803922e4
+  v10  a0aa5b3ca97e298d65defe1ad4d966d7917a0ed212c909aefa87d1f8803922e4
+ai-foundation.js                   UNCHANGED
+  base a7b5388ec023099a9c4974695228d59031083c33276cca965d0e6e7ef3fd2575
+  v10  a7b5388ec023099a9c4974695228d59031083c33276cca965d0e6e7ef3fd2575
+adaptive-manager.js                UNCHANGED
+  base 1a578f8bf226397bea521edd665dc4872454b584cb1e379052187055893895a3
+  v10  1a578f8bf226397bea521edd665dc4872454b584cb1e379052187055893895a3
+adaptive-manager-foundation.js     UNCHANGED
+  base 327b546ed113f4abfe2573ff00fa077736880d4306ad5c2ef032368d3524fbda
+  v10  327b546ed113f4abfe2573ff00fa077736880d4306ad5c2ef032368d3524fbda
+market-ai.js                       UNCHANGED
+  base b0c76e94b22c04aa78700ce6ad42f5a45ad0dc3aff3973d12d081a8869bd0d9c
+  v10  b0c76e94b22c04aa78700ce6ad42f5a45ad0dc3aff3973d12d081a8869bd0d9c
+market-ai-foundation.js            UNCHANGED
+  base 790698884164f02ea5cd21821e5ebefdee7d27febacd728d3d02a06093d341ee
+  v10  790698884164f02ea5cd21821e5ebefdee7d27febacd728d3d02a06093d341ee
+radar-flow.js                      UNCHANGED
+  base a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435
+  v10  a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435
+cold-runtime-store.js              UNCHANGED
+  base 13a11f1cedfc3776caaef91127cb7456fd93b099b3d1245f25067aaa821db0a2
+  v10  13a11f1cedfc3776caaef91127cb7456fd93b099b3d1245f25067aaa821db0a2
+recovery-manager.js                UNCHANGED
+  base cb0727441ad8efc983cd6ab9fd3e00f31aa76ee92f43a69656585211be3b8133
+  v10  cb0727441ad8efc983cd6ab9fd3e00f31aa76ee92f43a69656585211be3b8133
+cortex-workforce.js                UNCHANGED
+  base 2d5b876a49f9120c7243ed0f47fc679f6418ae524b53199cd0dce9ef56fda379
+  v10  2d5b876a49f9120c7243ed0f47fc679f6418ae524b53199cd0dce9ef56fda379

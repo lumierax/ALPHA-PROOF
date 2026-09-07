@@ -1,0 +1,89 @@
+ALPHA PROOF v10 — FINAL IMPLEMENTATION AUDIT
+Date: 2026-09-07
+
+STATUS: PASS
+
+ROLLBACK REFERENCE
+- ALPHA-PROOF-v9.9.4-FULL-PROFIT-FIRST-VERIFIED-MEMORY-RECOVERY-AB-FATHER-READY.zip
+- SHA-256: f0d3de890fa420bd9862ca2d7fc78142de0f2b54481a71fbe4cc6e75285367e7
+
+CAPTURE INPUT
+- ALPHA-PROOF-v9.9.4-CAPTURE-1-modified-only(2).zip
+- SHA-256: 5ca166f3e5206d88f5baebde17504281bd0deeccfb6cae2acd7f4a3cd7aeb9d8
+
+BUILD IDENTITY
+- Package version: 10.0.0
+- Runtime version: 10.0.0-FULL-PROFIT-FIRST-RESEARCH-ARCH-CAPTURE-1
+- v10 authority: NO_LIVE_AUTHORITY for all new research capabilities.
+- v9.9.4 remains rollback/control and its historical evidence is not relabeled as v10 prospective proof.
+
+IMPLEMENTED V10 RESEARCH CAPABILITIES
+1. Multi-Horizon Return Distribution
+2. Economic Continuation Value
+3. Liquidity-Price Response / Absorption
+4. Size-Aware Execution + depth/latency scenario
+5. Portfolio & Capital Allocation shadow accounting
+6. Probabilistic Market Regime
+7. Sequential Evidence
+8. Hierarchical Transfer / partial pooling
+9. Multi-Task Maturity
+10. Prioritized Diverse Replay
+11. Causal Self-Supervised Representation
+12. Value-of-Information Budget
+13. Common-future Shadow Policy Tournament
+14. Teacher / Student Distillation, with Father Teacher disabled until VPS
+
+GOVERNANCE
+- New v10 capabilities begin in Research/Shadow and do not receive LIVE authority automatically.
+- CORTEX remains Profit First / EDGE-only; no new RISK hypothesis generation path was added.
+- Transferred knowledge is not counted as independent evidence.
+- Replay training updates are separate from independent future outcomes.
+- Profitability, calibration, and statistical certainty remain separate concepts.
+- Father/Workers remain proposal/research-only and cannot directly mutate Trade AI, Adaptive Manager, confidence, or approve EDGE.
+
+MEMORY / RECOVERY
+- v10 Research brain has its own verified A/B recovery foundation.
+- Existing Recovery A/B behavior remains in place for existing memories.
+- Father/GitHub recovery remains DISABLED_UNTIL_VPS.
+
+PRE/POST AUDIT
+- v9.9.4 rollback baseline tests: PASS (recorded in PRE_AUDIT_V994_BASE_TESTS.txt)
+- CAPTURE candidate base tests: PASS (recorded in PRE_AUDIT_CAPTURE_BASE_TESTS.txt)
+- v10 final full test suite: PASS (recorded in FINAL_POST_AUDIT_V10_TESTS.txt)
+- 96 MB memory pressure: PASS
+- 64 MB memory soak: PASS
+- Recovery A/B: PASS
+- Shadow Mentor: PASS
+- CORTEX workforce / Father permissions: PASS
+- Profit First / no RISK generation: PASS
+- Frontend / local GitHub backup parity: PASS
+- API / v10 Research state: PASS
+
+SENSITIVE FILE COMPARISON AGAINST CAPTURE BASE
+Unchanged byte-for-byte:
+- learning-forge.js
+- learning-forge-foundation.js
+- research-governance.js
+- lab-ai.js
+- ai-foundation.js
+- adaptive-manager.js
+- adaptive-manager-foundation.js
+- market-ai.js
+- market-ai-foundation.js
+- radar-flow.js
+- cold-runtime-store.js
+- recovery-manager.js
+- cortex-workforce.js
+See FINAL_UNTOUCHED_SHA256_V10.txt for hashes.
+
+INTENTIONAL CORE INTEGRATION CHANGES
+- server.js (wires v10 research engine/foundation and public state)
+- tiered-memory.js (accounts for v10 research memory)
+- father-workshop-contract.js (adds v10 research/teacher job types only)
+- public/index.html + index.html (v10 Research UI / local parity)
+- package.json (v10 version + test entry)
+- test-api.js / test-frontend.js (v10 contract assertions)
+- documentation and v10-specific modules/tests
+
+IMPORTANT INTERPRETATION
+PASS here means engineering integrity and test conformance. It does NOT prove that v10 increases live trading profitability. Candidate policies must accumulate prospective common-future evidence before any live promotion.

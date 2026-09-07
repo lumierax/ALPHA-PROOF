@@ -1,0 +1,16 @@
+ALPHA PROOF Ω v9.9.0 — FINAL SOURCE AUDIT
+TARGET_VERSION=9.9.0-TIERED-MEMORY-KLINE-TRUTH-FREE-MANAGEMENT
+POLICY=Review v9.8.1 -> baseline full tests -> modify -> full tests -> ZIP -> fresh extract -> full tests again
+INTEGRITY=No Dataset / Trade AI / Market AI / CORTEX / Checkpoint wipe
+RADAR_FLOW=Byte-identical to v9.7/v9.8.1 baseline
+RADAR_FLOW_SHA256=a7a3eff96b8d68809e4bf662c1e4f83ab0dc94ea9fd71817813a2aeb2029d435
+MEMORY_ARCHITECTURE=Bounded HOT runtime + durable WARM brains/checkpoints + append-only COLD history on Volume
+COLD_RUNTIME=closed history append-only on disk; only bounded tail loaded into RAM
+STATE=No persisted liveRows duplicate; no persisted closed history; active journeys compressed; caches bounded and janitored
+MEMORY_UI=Totals captured once at startup; detailed used/remaining breakdown only on manual button POST /api/memory/usage
+FREE_DECISION=Adaptive Shadow can open from modelDecision=ENTER independently of legacy TP/SL economic/geometry gate; learns HOLD/EXIT prospectively with no fixed TP/SL, trailing stop, or max duration
+BASELINE=Legacy TP/SL remains comparison/audit baseline only for free-manager path
+FEES=Spot 0.10% entry + 0.10% exit = 0.20% round trip; no BNB discount
+SCAN_TRUTH=Wake-up timer is hint only; full scan gated by confirmed Binance closed Kline newer than lastProcessedClosedCandle
+PRESSURE_TESTS=96 MB oversized legacy-state startup + 64 MB long-run hot/cold memory soak
+REAL_EXECUTION=NONE; all AI management remains Shadow-only
