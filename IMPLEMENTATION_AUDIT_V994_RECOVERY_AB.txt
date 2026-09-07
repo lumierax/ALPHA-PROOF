@@ -1,0 +1,96 @@
+ALPHA PROOF v9.9.4 — VERIFIED MEMORY RECOVERY A/B
+IMPLEMENTATION AUDIT — PRE / POST
+
+SCOPE
+- Base: user-designated ALPHA PROOF v9.9.4 = FULL PROFIT FIRST + Per-EDGE Shadow Mentor + Research Tools + 4 Workers + Father Ready.
+- Change only durability/recovery layer, future Father/GitHub recovery contract, status UI, tests and docs.
+- No change to trading logic, Profit First discovery, Mentor/Calibration math, research governance, worker logic, Market AI model logic, Adaptive decision logic, Radar/Flow logic.
+
+PRE-AUDIT
+- Full npm test executed on untouched reference before implementation: PASS.
+- Included 96 MB memory-pressure and 64 MB long-run memory-soak tests: PASS.
+- SHA-256 baselines captured for sensitive files.
+- Evidence: PRE_AUDIT_V994_BEFORE_RECOVERY.txt and PRE_AUDIT_V994_SHA256.txt.
+
+IMPLEMENTED
+1) recovery-manager.js
+   - Bounded Checkpoint A/B vault per component.
+   - New write overwrites oldest verified slot.
+   - Each slot: sequence, timestamp, SHA-256, app version, component and cohort ID where applicable.
+   - Slot is independently parsed/hashed/validated; manifest alone is never trusted.
+   - Atomic .tmp -> rename writes.
+2) Protected components
+   - Runtime state.json
+   - Trade AI brain
+   - CORTEX brain (therefore Shadow Mentor / research workforce state travels with the brain)
+   - Adaptive Manager brain
+   - Market AI brain
+   - Market AI runtime
+3) Recovery behavior
+   - Valid Main -> use Main.
+   - Invalid/missing Main with existing history -> newest verified A/B.
+   - Invalid newest slot -> previous verified slot.
+   - Main + A + B invalid -> STOP; silent new brain/state reset forbidden.
+   - On total local failure write RECOVERY_REQUIRED.json for the future independent Father Workshop service.
+4) Recovery Manifest
+   - Per-component manifest.
+   - Global DATA_DIR/recovery/recovery-manifest.json.
+   - Future external provider explicitly GITHUB_PRIVATE and DISABLED_UNTIL_VPS.
+   - No secrets in recovery snapshots/manifest.
+5) Father Workshop future contract
+   - BACKUP_CHECKPOINT
+   - VERIFY_BACKUP
+   - RESTORE_CHECKPOINT
+   - RESTORE_SNAPSHOT
+   - Policy: last 2 verified external snapshots, overwrite oldest, validate hash/schema/version/cohort, never invent missing memory.
+6) UI
+   - Arabic “حماية الذاكرة — Recovery A/B” panel.
+   - Shows Runtime / Trade AI / CORTEX / Adaptive / Market AI / Market Runtime protection state and latest A/B sequence.
+   - Shows startup recovery when it occurred.
+7) Version alignment
+   - Internal package/server/UI release aligned to user-designated v9.9.4.
+
+DELIBERATE CORRUPTION TEST
+PASS:
+- A/B rotation keeps only two recovery slots and overwrites the oldest.
+- Main corrupt -> restore newest verified slot.
+- Main + newest slot corrupt -> restore previous verified slot.
+- Deliberately corrupted simultaneously:
+  state.json + Trade AI + CORTEX + Adaptive Manager + Market AI brain + Market AI runtime.
+- Seeded values returned correctly after restart:
+  Runtime settings, Trade AI sample count, CORTEX cases, Adaptive samples, Market AI resolved labels and Market regime.
+- Main + A + B corrupt -> process refused boot with non-zero stop.
+- RECOVERY_REQUIRED.json created for future Father Workshop.
+- Father/GitHub remained disabled; no external network/key path activated.
+
+POST-AUDIT
+- Full npm test after final implementation: PASS.
+- Recovery corruption test is now part of npm test.
+- 96 MB pressure: PASS.
+- 64 MB soak: PASS.
+- Integrity / clean cohort / no hindsight: PASS.
+- Profit First / no RISK generation: PASS.
+- Shadow Mentor: PASS.
+- Workers / Father permissions: PASS.
+- Frontend / API: PASS.
+
+UNTOUCHED SENSITIVE LOGIC — SHA-256 MATCHES PRE-AUDIT
+- research-governance.js
+- learning-forge.js
+- cortex-workforce.js
+- lab-ai.js
+- adaptive-manager.js
+- market-ai.js
+- radar-flow.js
+- tiered-memory.js
+- cold-runtime-store.js
+
+IMPORTANT BOUNDARY
+- This implementation provides verified LOCAL A/B recovery now.
+- GitHub backup/restore is only an interface/contract until VPS + Father Workshop + private repository credentials are configured later.
+- This does not prove trading profitability.
+
+FINAL CLEAN-ZIP VERIFICATION
+- PASS: package was unzipped into a new directory.
+- PASS: full npm test executed from extracted files, including deliberate corruption recovery, 96 MB pressure and 64 MB soak.
+- PASS: extracted source bytes matched the packaged work tree before release.

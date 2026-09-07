@@ -1,0 +1,16 @@
+ALPHA PROOF v9.9.3 + PROFIT_FIRST + CORTEX RESEARCH TOOLKIT — consolidated source package
+BASE_SERVER=Externally supplied server(2).js, then v9.9.3 edits
+INCLUDES=Complete uploaded project plus the requested v9.9.3 documentation/UI correction and six lightweight CORTEX research tools
+CORTEX_HYPOTHESES=New discovery generates PROFIT_FIRST EDGE hypotheses only; failed profit hypotheses remain failure/loss evidence and are not auto-converted into RISK rules
+RESEARCH_TOOLS=Similar Opportunity Comparator; Temporal Microscope; Enter-Wait-Exit Decision Lab; Variable Isolation; Hypothesis Ledger; Knowledge Validity Map
+RESEARCH_MODE=ON_DEMAND at discovery gates; compact research-case memory is bounded; discovery history cannot prove a newly born hypothesis
+DECISION_LAB_FEES=SPOT_NO_BNB 0.20% round trip
+JOURNEY_SOURCE=Actual stored opportunity journey is passed to CORTEX on resolved clean cases; missing checkpoints remain unknown rather than being imputed as zero
+GITHUB_BACKUP=Embedded CORTEX synchronized byte-for-byte with learning-forge.js module body
+MENTOR_CALIBRATION_LOCK=UNCHANGED from the uploaded v9.9.3 Profit First source; calibration-lock redesign remains deferred
+UI_VERSION=9.9.3-CLEAN-PROSPECTIVE-RESEARCH in Railway and GitHub Backup views
+VALIDATION=Full npm test passed in working copy; fresh-extract archive validation performed before delivery
+LIVE_DATA=Not included; existing deployment DATA_DIR and Volume must be retained
+LIVE_24H_MEMORY_TEST=Deferred
+LIVE_DEPLOYMENT=Not performed
+PROFITABILITY=Not established by code tests
