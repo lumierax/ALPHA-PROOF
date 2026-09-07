@@ -23,7 +23,7 @@ html,body{margin:0;min-height:100%;background:#07111f;color:#edf5ff;font-family:
     // Railway view is a truthful monitor. Never hide a server outage by silently
     // switching this page to the browser-local backup engine.
     html=html.replace(/(async\s+)?function\s+activateLocal\s*\(([^)]*)\)\s*\{/,
-      (m,a,args)=>(a||'')+'function activateLocal('+args+'){if(window.__ALPHA_LOCAL_DISABLED__){try{runtimeMode="remote"}catch(_e){};try{setMode("remote")}catch(_e){};try{setStatus("Railway غير متاح — واجهة الخادم لن تتحول بصمت إلى النسخة المحلية.","err")}catch(_e){};return false;}'
+      (m,a,args)=>(a||'')+'function activateLocal('+args+'){if(window.__ALPHA_LOCAL_DISABLED__){try{runtimeMode="remote"}catch(_e){};try{serverState.meta=serverState.meta||{};serverState.meta.connectionState="DISCONNECTED";serverState.meta.lastError="Railway unavailable"}catch(_e){};try{setMode("remote")}catch(_e){};try{setStatus("Railway غير متاح — واجهة الخادم لن تتحول بصمت إلى النسخة المحلية.","err")}catch(_e){};return false;}'
     );
 
     const closeScript='<'+'/script>';
