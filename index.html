@@ -19,8 +19,9 @@ html,body{margin:0;min-height:100%;background:#07111f;color:#edf5ff;font-family:
     const r=await fetch('./public/ui-engine.html',{cache:'no-store'});
     if(!r.ok) throw new Error('تعذر تحميل ui-engine.html — HTTP '+r.status);
     let html=await r.text();
-    const headInject='<script>window.__ALPHA_ENTRY_MODE__="LOCAL_STANDALONE";<\\/script><script src="./public/standalone-guard.js"><\\/script>';
-    const bodyInject='<script src="./public/engine-observer.js"><\\/script>';
+    const closeScript='<'+'/script>';
+    const headInject='<script>window.__ALPHA_ENTRY_MODE__="LOCAL_STANDALONE";'+closeScript+'<script src="./public/standalone-guard.js">'+closeScript;
+    const bodyInject='<script src="./public/engine-observer.js">'+closeScript;
     if(!html.includes('<head>')||!html.includes('</body>')) throw new Error('بنية ملف المحرك غير متوقعة');
     html=html.replace('<head>','<head>'+headInject).replace('</body>',bodyInject+'</body>');
     document.open(); document.write(html); document.close();
