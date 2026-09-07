@@ -28,6 +28,84 @@
     catch (_) { return "—"; }
   };
 
+  const tape=[];
+  let previous=null;
+  function pushEvent(type,text,level="info"){
+    if(!text) return;
+    const last=tape[0];
+    if(last && last.type===type && last.text===text && Date.now()-last.at<1500) return;
+    tape.unshift({at:Date.now(),type,text,level});
+    if(tape.length>120)tape.length=120;
+  }
+
+  function recoveryFingerprint(s){
+    const comps=obj(s?.recovery?.components);
+    return Object.keys(comps).sort().map(k=>`${k}:${comps[k]?.state||"?"}:${comps[k]?.latest?.slot||""}:${comps[k]?.latest?.sequence||""}`).join("|");
+  }
+  function forecastFingerprint(market){
+    const f=obj(market?.forecasts);
+    return Object.keys(f).sort().map(k=>`${k}:${f[k]?.direction||f[k]?.dir||f[k]?.label||"?"}:${Math.round(num(f[k]?.confidence)*1000)}`).join("|");
+  }
+  function snapshot(s){
+    const m=obj(s.meta), ai=obj(s.aiLab), market=obj(s.marketAI), cortex=obj(s.cortex||s.learningForge), wf=obj(cortex.researchWorkforce), adaptive=obj(s.adaptiveManager), r14=obj(s.research14||s.v10Research);
+    const active=Object.keys(obj(s.active)).sort();
+    const jobs=arr(wf.recentJobs);
+    const latestJob=jobs[0]||{};
+    const err=[m.lastError,m.lastMarketAiError,m.lastCortexError,m.lastTelegramError].filter(Boolean).join(" | ");
+    return {
+      connection:IS_LOCAL?"LOCAL":(m.connectionState||"UNKNOWN"),
+      scanning:!!m.scanning,
+      scanTf:m.currentScanTimeframe||s.settings?.tf||"—",
+      lastScanAt:m.lastScanAt||s.lastScanAt||null,
+      active,
+      featuredLong:s.featuredTrackers?.LONG?.symbol||"",
+      featuredShort:s.featuredTrackers?.SHORT?.symbol||"",
+      closedN:arr(s.closed).length,
+      aiSamples:num(ai.modelSamples??ai.samples),
+      cortexCases:num(cortex.observedCases??cortex.cases),
+      jobsDone:num(wf.jobsCompleted),
+      latestJobId:String(latestJob.id||latestJob.jobId||latestJob.completedAt||latestJob.createdAt||""),
+      latestJobText:latestJob.summary||latestJob.reason||"",
+      adaptiveOpen:arr(adaptive.open).length,
+      researchOps:num(r14?.counters?.opportunities??r14.opportunities??r14.totalCases),
+      settingsRevision:s.settingsRevision??null,
+      forecasts:forecastFingerprint(market),
+      recovery:recoveryFingerprint(s),
+      error:err
+    };
+  }
+
+  function captureChanges(s){
+    const now=snapshot(s);
+    if(!previous){
+      pushEvent("BOOT",IS_LOCAL?"تم تشغيل مراقب النسخة الاحتياطية المحلية — Railway محظور في هذه الصفحة.":"تم ربط مراقب الواجهة بحالة محرك Railway.","ok");
+      previous=now; return;
+    }
+    if(now.connection!==previous.connection) pushEvent("CONNECTION",`حالة الاتصال: ${previous.connection} ← ${now.connection}`,now.connection==="CONNECTED"||now.connection==="LOCAL"?"ok":"bad");
+    if(now.scanning!==previous.scanning) pushEvent("SCAN",now.scanning?`بدأ فحص ${now.scanTf}`:`انتهى فحص ${previous.scanTf}`,now.scanning?"warn":"ok");
+    if(now.lastScanAt && now.lastScanAt!==previous.lastScanAt) pushEvent("SCAN_DONE",`تم تسجيل مسح جديد عند ${time(now.lastScanAt)}`,"ok");
+    if(now.featuredLong!==previous.featuredLong) pushEvent("FEATURED_LONG",`أقوى LONG: ${previous.featuredLong||"—"} ← ${now.featuredLong||"—"}`,"ok");
+    if(now.featuredShort!==previous.featuredShort) pushEvent("FEATURED_SHORT",`أقوى SHORT: ${previous.featuredShort||"—"} ← ${now.featuredShort||"—"}`,"warn");
+    const before=new Set(previous.active), after=new Set(now.active);
+    for(const x of now.active) if(!before.has(x)) pushEvent("RADAR_ENTER",`دخل ${x} إلى الرادار النشط`,"ok");
+    for(const x of previous.active) if(!after.has(x)) pushEvent("RADAR_EXIT",`خرج ${x} من الرادار النشط`,"warn");
+    if(now.closedN>previous.closedN) pushEvent("CLOSED",`أضيفت ${now.closedN-previous.closedN} نتيجة مغلقة جديدة`,"ok");
+    if(now.aiSamples!==previous.aiSamples) pushEvent("TRADE_AI",`Trade AI samples: ${previous.aiSamples} ← ${now.aiSamples}`,"info");
+    if(now.cortexCases!==previous.cortexCases) pushEvent("CORTEX",`CORTEX cases: ${previous.cortexCases} ← ${now.cortexCases}`,"info");
+    if(now.latestJobId && now.latestJobId!==previous.latestJobId) pushEvent("WORKER",`مهمة بحث جديدة: ${now.latestJobText||now.latestJobId}`,"info");
+    else if(now.jobsDone!==previous.jobsDone) pushEvent("WORKER",`Research Workforce المكتملة: ${previous.jobsDone} ← ${now.jobsDone}`,"info");
+    if(now.adaptiveOpen!==previous.adaptiveOpen) pushEvent("ADAPTIVE",`Adaptive Manager open: ${previous.adaptiveOpen} ← ${now.adaptiveOpen}`,"info");
+    if(now.researchOps!==previous.researchOps) pushEvent("RESEARCH",`Research opportunities: ${previous.researchOps} ← ${now.researchOps}`,"info");
+    if(now.settingsRevision!==previous.settingsRevision) pushEvent("SETTINGS",`Settings revision: ${previous.settingsRevision??"—"} ← ${now.settingsRevision??"—"}`,"warn");
+    if(now.forecasts!==previous.forecasts) pushEvent("MARKET_AI","تغيّرت توقعات Market AI","info");
+    if(now.recovery!==previous.recovery) pushEvent("RECOVERY","تغيّرت حالة Recovery A/B","warn");
+    if(now.error!==previous.error){
+      if(now.error) pushEvent("ERROR",now.error,"bad");
+      else if(previous.error) pushEvent("ERROR_CLEAR","تمت إزالة آخر حالة خطأ من المحرك","ok");
+    }
+    previous=now;
+  }
+
   function addStyles(){
     if ($("#alphaObserverStyle")) return;
     const st=document.createElement("style"); st.id="alphaObserverStyle";
@@ -46,8 +124,9 @@
       #alphaObserver summary{cursor:pointer;font-size:10px;font-weight:900;color:#54e1ff}
       #alphaObserver pre{direction:ltr;text-align:left;white-space:pre-wrap;word-break:break-word;max-height:46vh;overflow:auto;font-size:9px;color:#b9ccde;margin:8px 0 0}
       #alphaObserver .aow-actions{display:flex;gap:6px;flex-wrap:wrap}.aow-btn{border:1px solid #29516e!important;background:#0b2032!important;color:#ddecfa!important;padding:6px 9px!important;border-radius:9px!important;font-size:10px!important}
+      #alphaObserver .aow-tape{max-height:260px;overflow:auto;margin-top:6px;display:grid;gap:5px}.aow-event{display:grid;grid-template-columns:64px 1fr;gap:7px;align-items:start;padding:6px 7px;border:1px solid #19344a;border-radius:9px;background:#061521}.aow-event .t{font-size:9px;color:#7f96ad;direction:ltr;text-align:left}.aow-event .x{font-size:10px;color:#d9e7f4;line-height:1.45}.aow-event.ok{border-right:3px solid #4ee6a8}.aow-event.warn{border-right:3px solid #ffd369}.aow-event.bad{border-right:3px solid #ff7187}.aow-event.info{border-right:3px solid #54e1ff}
       @media(max-width:950px){#alphaObserver .aow-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-      @media(max-width:560px){#alphaObserver .aow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      @media(max-width:560px){#alphaObserver .aow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.aow-event{grid-template-columns:56px 1fr}}
     `;
     document.head.appendChild(st);
   }
@@ -65,6 +144,7 @@
       <div class="aow-wide" id="aowSchedule"></div>
       <div class="aow-wide" id="aowBrains"></div>
       <div class="aow-wide" id="aowMovement"></div>
+      <div class="aow-wide"><b class="aow-cyan">سجل التحركات المباشر</b><div class="aow-tape" id="aowTape"></div></div>
       <div class="aow-wide" id="aowErrors"></div>
       <details id="aowRaw"><summary>الحالة الخام الكاملة التي تعرضها هذه النسخة (Raw State)</summary><pre id="aowRawText">—</pre></details>`;
     const shell=$(".shell"), app=$(".app") || document.body;
@@ -85,19 +165,23 @@
     for(const k of names){const st=String(comps[k]?.state||""); if(st==="PROTECTED_AB")ok++; else if(st)degraded++;}
     return degraded ? `${ok}/${names.length} A/B · ${degraded} غير مكتملة` : `${ok}/${names.length} A/B محمية`;
   }
-
   function summarizeNext(meta){
     const xs=arr(meta.autoScanNext);
     if(!xs.length) return "—";
     return xs.slice(0,8).map(x=>`${x.tf||"?"}: ${time(x.nextAt)}`).join(" · ");
   }
+  function renderTape(){
+    const p=$("#aowTape"); if(!p)return;
+    p.innerHTML=tape.length?tape.map(e=>`<div class="aow-event ${esc(e.level)}"><div class="t">${esc(new Date(e.at).toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit",second:"2-digit"}))}</div><div class="x"><b>${esc(e.type)}</b> · ${esc(e.text)}</div></div>`).join(""):'<div style="color:#8fa6bf;padding:6px">بانتظار أول تغير في حالة المحرك.</div>';
+  }
 
   function render(){
     const box=ensurePanel(); const s=currentState(); if(!s) return;
+    captureChanges(s);
     const m=obj(s.meta), ai=obj(s.aiLab), market=obj(s.marketAI), cortex=obj(s.cortex||s.learningForge), wf=obj(cortex.researchWorkforce), adaptive=obj(s.adaptiveManager), r14=obj(s.research14||s.v10Research), mem=obj(s.memoryUsage), mt=obj(s.memoryTotals||mem.totals);
     const activeCount=Object.keys(obj(s.active)).length, tracked=m.trackedCount!=null?m.trackedCount:activeCount;
     const modeEl=$("#aowMode",box); modeEl.textContent=IS_LOCAL?"LOCAL BACKUP · مستقل":"RAILWAY · LIVE"; modeEl.className="aow-mode"+(IS_LOCAL?" local":"");
-    $("#aowSubtitle",box).textContent=IS_LOCAL?"لا توجد أي مطالبة تشغيلية لـ Railway؛ Binance والذاكرة المحلية يعملان من هذا الجهاز.":"قراءة مباشرة من /api/state — هذه اللوحة لا تخمّن القيم ولا تستبدل المحرك.";
+    $("#aowSubtitle",box).textContent=IS_LOCAL?"Railway محظور عمدًا هنا؛ Binance والذاكرة المحلية يعملان من هذا الجهاز فقط.":"قراءة مباشرة من حالة محرك Railway؛ لا يتم إخفاء انقطاع الخادم بالتحويل إلى LOCAL.";
     const conn=IS_LOCAL?"LOCAL":(m.connectionState||"CONNECTED");
     const scan=m.scanning?`${m.currentScanTimeframe||s.settings?.tf||"—"} · ${Math.round(num(m.progress))}%`:"لا يوجد فحص جارٍ";
     const aiSamples=ai.modelSamples ?? ai.samples ?? 0;
@@ -136,9 +220,10 @@
     $("#aowMovement",box).innerHTML=`<b class="aow-cyan">آخر التحركات المرئية</b>${line("أقوى LONG",long?.symbol?`${long.symbol} · ${long.cycleId||""}`:"—")}${line("أقوى SHORT",short?.symbol?`${short.symbol} · ${short.cycleId||""}`:"—")}${line("آخر تحديث Radar",latestLive?`${latestLive.symbol||"—"} · ${latestLive.dir||"—"} · ${latestLive.tf||"—"} · score ${Math.round(num(latestLive.radarScore))}`:"—")}${line("آخر نتيجة مغلقة",latestClosed?`${latestClosed.symbol||"—"} · ${latestClosed.reason||latestClosed.exitReason||"—"} · ${time(latestClosed.exitAt||latestClosed.closedAt||latestClosed.t)}`:"—")}${line("آخر مهمة بحث",latestJob?`${latestJob.workerName||latestJob.worker||"worker"} · ${latestJob.reason||"—"} · ${latestJob.summary||"—"}`:"—")}`;
 
     const ram=mem?.ram?.rssBytes, disk=mem?.storage?.usedBytes;
-    const errs=[m.lastError, m.lastMarketAiError, m.lastCortexError, m.lastTelegramError].filter(Boolean);
+    const errs=[m.lastError,m.lastMarketAiError,m.lastCortexError,m.lastTelegramError].filter(Boolean);
     const samples=arr(m.lastScanErrorSamples).slice(0,4).map(x=>`${x.symbol||"?"}: ${x.error||"?"}`).join(" | ");
-    $("#aowErrors",box).innerHTML=`<b class="aow-cyan">الصحة والأخطاء</b>${line("RAM / Volume",`${bytes(ram)} / ${bytes(disk)} · limits ${bytes(mt.ramLimitBytes)} / ${bytes(mt.volumeTotalBytes)}`)}${line("Scan errors",`${m.lastActualErrors??0} · insufficient ${m.lastInsufficientHistory??0}`,(m.lastActualErrors??0)>0?"aow-warn":"aow-ok")}${line("آخر خطأ",errs.join(" | ")||"لا يوجد","aow-ok")}${samples?line("عينات أخطاء",samples,"aow-warn"):""}`;
+    $("#aowErrors",box).innerHTML=`<b class="aow-cyan">الصحة والأخطاء</b>${line("RAM / Volume",`${bytes(ram)} / ${bytes(disk)} · limits ${bytes(mt.ramLimitBytes)} / ${bytes(mt.volumeTotalBytes)}`)}${line("Scan errors",`${m.lastActualErrors??0} · insufficient ${m.lastInsufficientHistory??0}`,(m.lastActualErrors??0)>0?"aow-warn":"aow-ok")}${line("آخر خطأ",errs.join(" | ")||"لا يوجد",errs.length?"aow-bad":"aow-ok")}${samples?line("عينات أخطاء",samples,"aow-warn"):""}`;
+    renderTape();
 
     const vb=$("#versionBadge"); if(vb && s.version) vb.textContent=s.version;
     if($("#aowRaw",box).open) renderRaw();
@@ -153,9 +238,11 @@
   function saveSnapshot(){
     const s=currentState(); if(!s) return;
     try{
-      const payload={capturedAt:new Date().toISOString(),mode:MODE,standalone:IS_LOCAL,state:s};
+      const payload={capturedAt:new Date().toISOString(),mode:MODE,standalone:IS_LOCAL,activityTape:tape,state:s};
       const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
-      const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`alpha-proof-${IS_LOCAL?"local":"railway"}-snapshot-${new Date().toISOString().replace(/[:.]/g,"-")}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+      const url=URL.createObjectURL(blob), a=document.createElement("a");
+      a.href=url; a.download=`alpha-proof-${IS_LOCAL?"local":"railway"}-snapshot-${new Date().toISOString().replace(/[:.]/g,"-")}.json`;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000);
     }catch(e){console.error("snapshot",e);}
   }
 
