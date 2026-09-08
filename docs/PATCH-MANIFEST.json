@@ -1,0 +1,142 @@
+{
+  "schema": "alpha-proof-patch-manifest/1",
+  "version": "9.9.5-execution-lab.1",
+  "base_archive": "التحدي 5(1).zip",
+  "base_archive_sha256": "7ae005f460a1803faf4015def5752e1c7d40da88cae9c3c3d7c10494f16b5086",
+  "description": "Modified and new source files only; preserve existing runtime, learning and checkpoint data. Manifest excludes its own hash.",
+  "files": [
+    {
+      "path": "docs/EXECUTION-READY-LAB.md",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "2c1b4a76aa14e7277b51f330e57c33921fceb84dfae373b645b1b85345105901",
+      "bytes": 16939
+    },
+    {
+      "path": "docs/REPAIR-AND-TEST-REPORT.md",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "c6fd9d2d2fffd2fe8bf1a49f4a8bd0999e64907f9521b34ab164ed76375e7753",
+      "bytes": 6500
+    },
+    {
+      "path": "execution/check.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "1d38dfc0192660def3ffc7554ece1021ff0ad0fc49bc81b7e74a9f89dd247ace",
+      "bytes": 1294
+    },
+    {
+      "path": "execution/decimal.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "2adf0adc938e9d2d93aa61b543b3274d65d44b70949d4cd950dad64a538a968d",
+      "bytes": 1452
+    },
+    {
+      "path": "execution/filters.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "82e918eea6967e77f6d0a8896037e976bb937b87b27790af8fdc5f5c951021d0",
+      "bytes": 4517
+    },
+    {
+      "path": "execution/http.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "1d4e51250dc3c836c12271a45cc4faa43036c9abbda0ff9f22046078d9cb070a",
+      "bytes": 8833
+    },
+    {
+      "path": "execution/journal.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "fa0f02451249ba798665ea099e09bd830c96d5daf0a462fd55522c71bae4bb66",
+      "bytes": 4280
+    },
+    {
+      "path": "execution/lab.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "d1922908b00a739b50d7c0c7ff790cd960d732d8393335ff329581023efd7714",
+      "bytes": 28510
+    },
+    {
+      "path": "execution/tests/fixtures.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "d82bebbaef4b8d10e1b80b26474db9d64c09e94b04ad11280632a426fb61af94",
+      "bytes": 1262
+    },
+    {
+      "path": "execution/tests/http.test.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "81f84f8bee3b34be4f1d5ab45ce1333b665bcbd4b0a2b85dc8ddfe2b966622f9",
+      "bytes": 5858
+    },
+    {
+      "path": "execution/tests/lab.test.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "feb5ece3a631e9648223c63c94ae4fc3909f741951d7c93da69bce7acd8de221",
+      "bytes": 18729
+    },
+    {
+      "path": "execution/tests/regressions.test.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "8c13774d5b98f61c6df7201fa9de9e5fa5771ceb69756e81b5312965ed78e184",
+      "bytes": 3557
+    },
+    {
+      "path": "execution/ui.js",
+      "operation": "add",
+      "sha256_before": null,
+      "sha256_after": "6013b2839607e2393eb1bee61849fc851c768424a55ef3a7bc5c169ab2822b86",
+      "bytes": 18434
+    },
+    {
+      "path": "index.html",
+      "operation": "replace",
+      "sha256_before": "ab1f80d483aa31a44feb411ffc485f3b961e61adcfd04d2535f46c287f89e0a0",
+      "sha256_after": "43af7f07fd9a285e369b7c744df540adfca8c21504488f91bdef7b8e5f59d5fa",
+      "bytes": 511327
+    },
+    {
+      "path": "package.json",
+      "operation": "replace",
+      "sha256_before": "e7efd42323f644327405ff04867e7ebd2ba33edec8e88598c43e436507eab3b4",
+      "sha256_after": "e7bc7dd73aa4ffbd77a8644492284399650293530e4038a9692f93c8f108decc",
+      "bytes": 363
+    },
+    {
+      "path": "portfolio-manager.js",
+      "operation": "replace",
+      "sha256_before": "6f6b3ba0dbc09e2e92e90ca64601d0605bf0e27a5ed0e052d6bb2e589303eef5",
+      "sha256_after": "84c94d258e25da70b4dd211a3281762a3a8100cb224ad95b0dbb9ea9eebe3d94",
+      "bytes": 13029
+    },
+    {
+      "path": "public/index.html",
+      "operation": "replace",
+      "sha256_before": "01314d956d6fc56be4ca8f5448c5999148ad8598ec3614873aad0e33dfb1297b",
+      "sha256_after": "18c09aaf6fa4a3f527f13e0d200b6a9db6c6b457f0c69c3839c1ec85fb3e9270",
+      "bytes": 195214
+    },
+    {
+      "path": "server.js",
+      "operation": "replace",
+      "sha256_before": "5d8f42bb011b433490931d4195c63964396af4404d3fac036e33050e8eef009c",
+      "sha256_after": "8ab2d892bf986bc92941c9251619ee88079c2c1e6b883836b0dfed5d700bf922",
+      "bytes": 129441
+    },
+    {
+      "path": "test-suite.js",
+      "operation": "replace",
+      "sha256_before": "100d81d35e93e450c194151c9d3352ca7e29a3c2cd382ee7b09911f985098f51",
+      "sha256_after": "343bf305a4d489532333f42234551027acc7db618849969b96e303ee98ac86a0",
+      "bytes": 159828
+    }
+  ]
+}
