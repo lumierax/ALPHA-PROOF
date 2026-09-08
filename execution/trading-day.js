@@ -1,16 +1,19 @@
 'use strict';
-
-// ALPHA PROOF has one canonical trading-day boundary: Binance Spot 1D candles.
-// Binance 1D opens/closes at 00:00 UTC. UI local time must never redefine this day.
-const DAY_MS=86400000;
-const BASIS='BINANCE_1D_UTC';
+// ALPHA PROOF has one canonical trading-day boundary: Binance Spot 1D klines.
+// Binance's default Spot 1D kline opens at 00:00 UTC. Never derive the trading
+// day from the server timezone or from Asia/Riyadh local midnight.
+const BASIS='BINANCE_SPOT_1D_UTC';
 const TIMEZONE='UTC';
-function tradingDayId(now=Date.now()) {
-  const t=Number(now);
-  if(!Number.isFinite(t)) throw new TypeError('INVALID_TRADING_DAY_TIME');
-  return new Date(t).toISOString().slice(0,10);
+const OPEN_UTC='00:00';
+function timestamp(value=Date.now()){
+  const n=Number(value);
+  if(!Number.isFinite(n)) throw new TypeError('INVALID_TRADING_DAY_TIMESTAMP');
+  return n;
 }
-function tradingDayStart(now=Date.now()) {
-  return Date.parse(tradingDayId(now)+'T00:00:00.000Z');
+function id(value=Date.now()){return new Date(timestamp(value)).toISOString().slice(0,10)}
+function start(value=Date.now()){
+  const d=new Date(timestamp(value));
+  return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());
 }
-module.exports={DAY_MS,BASIS,TIMEZONE,tradingDayId,tradingDayStart};
+function metadata(){return {basis:BASIS,timezone:TIMEZONE,openUTC:OPEN_UTC}}
+module.exports={BASIS,TIMEZONE,OPEN_UTC,id,start,metadata};
