@@ -132,16 +132,20 @@ test('Order, symbol, gross exposure and order-rate limits fail before reservatio
   f.lab.cancel('ap-order001');f.lab.submit(f.order({clientOrderId:'ap-order002',type:'LIMIT',price:'90'}),[f.context()]);
   A.equal(f.lab.plan(f.order({clientOrderId:'ap-order003',quantity:'0.2'}),[f.context()]).code,'ORDER_RATE_LIMIT');
 });
-test('Daily loss triggers latched cancel-all and midnight does not erase total losses',t=>{
-  const f=fixture(t,{risk:{maxDailyLossUSDT:'1',maxDrawdownUSDT:'100'}});
+test('Daily loss resets only with the Binance 1D trading day; Riyadh midnight does not reset it',t=>{
+  const f=fixture(t,{startAt:Date.UTC(2026,8,8,20,59,0),risk:{maxDailyLossUSDT:'1',maxDrawdownUSDT:'100'}});
   f.lab.submit(f.order(),[f.context()]);
   f.lab.submit(f.order({clientOrderId:'ap-order002',type:'LIMIT',price:'90'}),[f.context()]);
   f.advance();const down=f.context();down.quote.bidPrice='95';down.quote.askPrice='95';down.quote.id+='-down';
   f.lab.tick([down]);A.equal(f.lab.status().killSwitch.reason,'DAILY_LOSS_LIMIT');A.equal(f.lab.status().openOrders,0);
   const loss=f.lab.status().portfolio.totalPnlUSDT;
   expectCode(()=>f.lab.resume([down]),'DAILY_LOSS_LIMIT');
-  f.advance(86400000);const tomorrow=f.context();tomorrow.quote.bidPrice='95';tomorrow.quote.askPrice='95';
-  f.lab.resume([tomorrow]);A.equal(f.lab.status().portfolio.dailyPnlUSDT,'0');A.equal(f.lab.status().portfolio.totalPnlUSDT,loss);
+  // 21:00 UTC is midnight in Riyadh, but it is still the same Binance 1D candle/day.
+  f.advance(2*60*1000);const localMidnight=f.context();localMidnight.quote.bidPrice='95';localMidnight.quote.askPrice='95';
+  expectCode(()=>f.lab.resume([localMidnight]),'DAILY_LOSS_LIMIT');A.equal(f.lab.status().portfolio.tradingDayId,'2026-09-08');
+  // 00:00 UTC starts Binance's next daily candle and therefore the new ALPHA PROOF trading day.
+  f.advance(2*60*60*1000+59*60*1000);const nextBinanceDay=f.context();nextBinanceDay.quote.bidPrice='95';nextBinanceDay.quote.askPrice='95';
+  f.lab.resume([nextBinanceDay]);A.equal(f.lab.status().portfolio.tradingDayId,'2026-09-09');A.equal(f.lab.status().portfolio.dailyPnlUSDT,'0');A.equal(f.lab.status().portfolio.totalPnlUSDT,loss);
   A.equal(f.lab.status().portfolio.rolling7dPnlUSDT,loss);
 });
 test('High-water drawdown remains enforced across days and restarts',t=>{
