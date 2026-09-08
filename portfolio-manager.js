@@ -1,4 +1,5 @@
 'use strict';
+const TradingDay=require('./execution/trading-day.js');
 
 // One shared, Spot-only operating wallet for the whole service.
 // PAPER accounting is executable now. BINANCE mode is intentionally fail-closed:
@@ -19,7 +20,8 @@ const MAX_REJECTIONS=80;
 const finite=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,finite(v,a)));
 const round=(v,p=10)=>Number.isFinite(Number(v))?Number(Number(v).toFixed(p)):null;
-const riyadhDay=now=>new Date(finite(now,Date.now())+3*60*60*1000).toISOString().slice(0,10);
+const tradingDayId=now=>TradingDay.tradingDayId(finite(now,Date.now()));
+const normalizeStampedDay=x=>x&&typeof x==='object'?{...x,day:Number.isFinite(Number(x.t))?tradingDayId(Number(x.t)):String(x.day||'')}:x;
 
 function configuredMode(cfg={}){
   // Unknown modes must never silently become a simulated fill.
@@ -120,8 +122,8 @@ function normalize(raw,cfg={}){
     feesUSDT:Math.max(0,finite(x.feesUSDT)),
     closedTrades:Math.max(0,Math.floor(finite(x.closedTrades))),
     positions,
-    fills:Array.isArray(x.fills)?x.fills.slice(-MAX_FILLS):[],
-    rejections:Array.isArray(x.rejections)?x.rejections.slice(-MAX_REJECTIONS):[],
+    fills:Array.isArray(x.fills)?x.fills.slice(-MAX_FILLS).map(normalizeStampedDay):[],
+    rejections:Array.isArray(x.rejections)?x.rejections.slice(-MAX_REJECTIONS).map(normalizeStampedDay):[],
     updatedAt:finite(x.updatedAt,Date.now()),
     policy:{...policy(cfg),...(x.policy&&typeof x.policy==='object'?x.policy:{}),feePolicy:FEE_POLICY,entryFeePct:ENTRY_FEE_PCT,exitFeePct:EXIT_FEE_PCT,roundTripFeePct:ROUND_TRIP_FEE_PCT,subscriberWallets:false,onePortfolioForAllSubscribers:true,spotOnly:true,shortExecution:false},
     // Never trust persisted flags to arm live execution in this build.
@@ -160,7 +162,7 @@ function requestedNotional(s,requested,marks={}){
   return Math.max(0,finite(s.policy?.fixedTradeUSDT,100));
 }
 function reject(s,code,detail={},now=Date.now()){
-  s.rejections.push({t:now,day:riyadhDay(now),code,...detail});
+  s.rejections.push({t:now,day:tradingDayId(now),code,...detail});
   s.rejections=s.rejections.slice(-MAX_REJECTIONS);s.updatedAt=now;return s;
 }
 function orderIntent(s,trade,opts={}){
@@ -190,7 +192,7 @@ function open(raw,trade,now=Date.now(),opts={}){
   if(spend>s.cashUSDT+1e-9)return reject(s,'CASH_INVARIANT_BLOCK',{id,symbol:String(trade.symbol||'')},now);
   s.cashUSDT=Math.max(0,s.cashUSDT-spend);s.feesUSDT+=fee;
   s.positions[id]={id,symbol:String(trade.symbol||''),side:'LONG',quantity,entryPrice:price,entryAt:now,costUSDT:gross,entryFeeUSDT:fee,feePolicy:FEE_POLICY,source:'ALPHA_PROOF_AI'};
-  s.fills.push({t:now,day:riyadhDay(now),id,symbol:String(trade.symbol||''),side:'BUY',price,quantity,notionalUSDT:gross,feeUSDT:fee,feePct:ENTRY_FEE_PCT,feePolicy:FEE_POLICY,mode:'PAPER'});
+  s.fills.push({t:now,day:tradingDayId(now),id,symbol:String(trade.symbol||''),side:'BUY',price,quantity,notionalUSDT:gross,feeUSDT:fee,feePct:ENTRY_FEE_PCT,feePolicy:FEE_POLICY,mode:'PAPER'});
   s.fills=s.fills.slice(-MAX_FILLS);s.updatedAt=now;return s;
 }
 function close(raw,id,price,now=Date.now(),opts={}){
@@ -201,7 +203,7 @@ function close(raw,id,price,now=Date.now(),opts={}){
   if(s.mode==='BINANCE')return reject(s,'LIVE_EXECUTION_FAIL_CLOSED',{id,symbol:p.symbol,reason:s.adapter.reason},now);
   const gross=p.quantity*px,fee=gross*(EXIT_FEE_PCT/100),net=gross-fee,pnl=net-p.costUSDT-p.entryFeeUSDT;
   s.cashUSDT+=net;s.realizedPnlUSDT+=pnl;s.feesUSDT+=fee;s.closedTrades+=1;
-  s.fills.push({t:now,day:riyadhDay(now),id,symbol:p.symbol,side:'SELL',price:px,quantity:p.quantity,notionalUSDT:gross,feeUSDT:fee,feePct:EXIT_FEE_PCT,feePolicy:FEE_POLICY,realizedPnlUSDT:pnl,mode:'PAPER'});
+  s.fills.push({t:now,day:tradingDayId(now),id,symbol:p.symbol,side:'SELL',price:px,quantity:p.quantity,notionalUSDT:gross,feeUSDT:fee,feePct:EXIT_FEE_PCT,feePolicy:FEE_POLICY,realizedPnlUSDT:pnl,mode:'PAPER'});
   delete s.positions[id];s.fills=s.fills.slice(-MAX_FILLS);s.updatedAt=now;return s;
 }
 function integrity(raw,marks={}){
@@ -223,7 +225,7 @@ function publicState(raw,marks={}){
     exposurePct:round(v.exposurePct,4),feesUSDT:round(s.feesUSDT),closedTrades:s.closedTrades,
     openPositions:v.positions,recentFills:s.fills.slice(-30).reverse(),recentRejections:s.rejections.slice(-12).reverse(),updatedAt:s.updatedAt,
     adapter:s.adapter,policy:s.policy,integrity:check,
-    accounting:{basis:'NET_LIQUIDATION_AFTER_ESTIMATED_EXIT_FEE',feePolicy:FEE_POLICY,entryFeePct:ENTRY_FEE_PCT,exitFeePct:EXIT_FEE_PCT,roundTripFeePct:ROUND_TRIP_FEE_PCT,timezone:'Asia/Riyadh'},
+    accounting:{basis:'NET_LIQUIDATION_AFTER_ESTIMATED_EXIT_FEE',feePolicy:FEE_POLICY,entryFeePct:ENTRY_FEE_PCT,exitFeePct:EXIT_FEE_PCT,roundTripFeePct:ROUND_TRIP_FEE_PCT,timezone:TradingDay.TIMEZONE,dayBoundary:TradingDay.BASIS},
     execution:s.mode==='BINANCE'?'FAIL_CLOSED_NO_SYNTHETIC_FILLS':'PAPER_REALISTIC_ACCOUNTING',
   };
 }
