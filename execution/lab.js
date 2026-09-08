@@ -2,6 +2,7 @@
 const crypto=require('node:crypto');
 const D=require('./decimal');
 const F=require('./filters');
+const TradingDay=require('./trading-day');
 const {Journal,digest,fault}=require('./journal');
 const SCHEMA='alpha-proof-execution-lab/1';
 const LIVE_EXECUTION_ENABLED=false; // No transport, signer, credentials, or arming API exists.
@@ -13,7 +14,7 @@ const TRANSITIONS={PENDING_NEW:['NEW','REJECTED','UNKNOWN','PENDING_CANCEL'],NEW
 const DEFAULT_LIMITS=Object.freeze({maxOrderUSDT:'250',maxSymbolUSDT:'2000',maxGrossUSDT:'5000',maxDailyLossUSDT:'200',maxDrawdownUSDT:'1000',
   maxOpenOrders:10,maxPositions:10,maxOrdersPerMinute:20,maxQuoteAgeMs:15000,maxSpreadBps:50,maxSlippageBps:25,paperSlippageBps:5,participationBps:1000});
 const clone=x=>structuredClone(x);
-const day=now=>new Date(now+3*3600000).toISOString().slice(0,10);
+const day=now=>TradingDay.tradingDayId(now);
 const min=(a,b)=>a<b?a:b;
 const sum=xs=>xs.reduce((a,b)=>a+b,0n);
 const active=s=>Object.values(s.orders).filter(o=>OPEN.has(o.status));
@@ -385,7 +386,7 @@ class ExecutionLab {
     const recentFills=Object.values(s.fills).slice(-40).reverse().map(f=>{const r=clone(f);for(const k of ['quantity','price','notional','fee'])r[k]=D.format(r[k]);return r;});
     return {schema:SCHEMA,mode:'PAPER',liveExecutionEnabled:LIVE_EXECUTION_ENABLED,testnet:'PLAN_ONLY',automaticStrategyOrders:false,
       killSwitch:this.#fatal?{active:true,reason:this.#fatal}:clone(s.kill),reconciliation:clone(s.reconciliation),limits:clone(s.limits),
-      portfolio:{initialCapitalUSDT:D.format(s.capital),cashUSDT:D.format(s.cash),reservedUSDT:D.format(reserved),availableUSDT:D.format(BigInt(s.cash)-reserved),
+      portfolio:{tradingDayId:day(this.#now()),dayBoundary:TradingDay.BASIS,initialCapitalUSDT:D.format(s.capital),cashUSDT:D.format(s.cash),reservedUSDT:D.format(reserved),availableUSDT:D.format(BigInt(s.cash)-reserved),
         equityUSDT:D.format(equity),valuationFresh:!!v,realizedPnlUSDT:D.format(s.realized),unrealizedPnlUSDT:v?D.format(v.unrealized):null,
         totalPnlUSDT:D.format(equity-BigInt(s.capital)),feesUSDT:D.format(s.fees),dailyPnlUSDT:today?.netPnlUSDT||'0',
         rolling7dPnlUSDT:D.format(sum(days.filter(x=>x.date>=day(this.#now()-6*86400000)).map(x=>D.parse(x.netPnlUSDT)))),

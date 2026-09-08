@@ -16,12 +16,12 @@
       <div class="metric"><div class="l">الرصيد المتاح · USDT</div><div class="v" id="execAvailable">—</div></div>
       <div class="metric"><div class="l">الرصيد المحجوز · USDT</div><div class="v" id="execReserved">—</div></div>
       <div class="metric"><div class="l">الصافي التراكمي · USDT</div><div class="v" id="execNet">—</div></div>
-      <div class="metric"><div class="l">صافي اليوم · مكة</div><div class="v" id="execDay">—</div></div>
+      <div class="metric"><div class="l">صافي يوم Binance · USDT</div><div class="v" id="execDay">—</div></div>
       <div class="metric"><div class="l">صافي 7 أيام</div><div class="v" id="execWeek">—</div></div>
       <div class="metric"><div class="l">الرسوم المدفوعة · USDT</div><div class="v" id="execFees">—</div></div>
       <div class="metric"><div class="l">الأوامر المفتوحة</div><div class="v" id="execOpen">—</div></div>
     </div>
-    <p class="exec-note">الرسوم الافتراضية: 0.10% شراء + 0.10% بيع، دون خصم BNB. قيمة الحساب تحتسب رسوم الخروج المقدرة. تصفير عرض اليوم لا يمحو الخسائر التراكمية.</p>
+    <p class="exec-note">الرسوم الافتراضية: 0.10% شراء + 0.10% بيع، دون خصم BNB. قيمة الحساب تحتسب رسوم الخروج المقدرة. يبدأ يوم التداول الجديد فقط مع شمعة Binance 1D الجديدة عند 00:00 UTC؛ ولا تُمحى الخسائر التراكمية.</p>
     <label for="execToken">رمز التحكم بالمختبر · يبقى في هذه الصفحة فقط</label><input id="execToken" type="password" autocomplete="off" placeholder="أدخل رمز التحكم الذي ضبطته على الخادم" maxlength="256">
     <div class="exec-actions"><button id="execKill" class="exec-kill">إيقاف التنفيذ · Kill Switch</button><button id="execReconcile">مطابقة التنفيذ</button><button id="execResume">استئناف Paper</button></div>
     <div id="execMessage" class="exec-message" role="status" aria-live="polite"></div>
