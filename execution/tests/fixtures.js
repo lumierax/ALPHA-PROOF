@@ -2,10 +2,9 @@
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {ExecutionLab}=require('../lab');
 function fixture(t,options={}) {
-  const {startAt,...labOptions}=options;
-  let now=Number.isSafeInteger(startAt)?startAt:Date.UTC(2026,8,8,12);
+  let now=Date.UTC(2026,8,8,12);
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'alpha-execution-'));
-  const lab=new ExecutionLab({directory,clock:()=>now,...labOptions});
+  const lab=new ExecutionLab({directory,clock:()=>now,...options});
   t.after(()=>{lab.close();fs.rmSync(directory,{recursive:true,force:true});});
   const context=(changes={})=>({symbol:'BTCUSDT',eligible:true,rulesAsOf:now,
     rules:{symbol:'BTCUSDT',status:'TRADING',quoteAsset:'USDT',isSpotTradingAllowed:true,filters:[
