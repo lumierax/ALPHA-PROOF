@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Cycle Tracker",
+    "slug": "cycle-tracker-ios",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "cycletracker",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.cycletracker.app",
+      "infoPlist": {
+        "UIBackgroundModes": ["processing"],
+        "BGTaskSchedulerPermittedIdentifiers": ["com.expo.modules.backgroundtask.processing"]
+      }
+    },
+    "plugins": [
+      "expo-background-task",
+      "expo-notifications",
+      ["expo-dev-client", {"launchMode": "most-recent"}]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_AFTER_EAS_INIT"
+      }
+    }
+  }
+}
