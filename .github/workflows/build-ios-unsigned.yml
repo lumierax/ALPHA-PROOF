@@ -1,0 +1,102 @@
+name: Build iOS IPA (Unsigned)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ cycle-tracker-ios-build ]
+
+jobs:
+  build-ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rebuild bundled tracker HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64, gzip
+          from pathlib import Path
+          parts = [Path(f'assets/tracker.part{i:02d}.b64').read_text().strip() for i in range(1, 7)]
+          html = gzip.decompress(base64.b64decode(''.join(parts)))
+          out = Path('assets/tracker.html')
+          out.write_bytes(html)
+          print(f'Rebuilt {out} ({len(html)} bytes)')
+          if len(html) < 50000:
+              raise SystemExit('tracker.html is unexpectedly small')
+          PY
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install JavaScript dependencies
+        run: npm install
+
+      - name: Generate iOS native project
+        run: CI=1 npx expo prebuild --platform ios --clean
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install --repo-update
+
+      - name: Detect workspace and scheme
+        id: iosmeta
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORKSPACE=$(find ios -maxdepth 1 -name '*.xcworkspace' -print -quit)
+          if [ -z "$WORKSPACE" ]; then
+            echo "No Xcode workspace found"
+            exit 1
+          fi
+          SCHEME=$(xcodebuild -workspace "$WORKSPACE" -list -json | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["workspace"]["schemes"][0])')
+          echo "workspace=$WORKSPACE" >> "$GITHUB_OUTPUT"
+          echo "scheme=$SCHEME" >> "$GITHUB_OUTPUT"
+          echo "Workspace: $WORKSPACE"
+          echo "Scheme: $SCHEME"
+
+      - name: Build unsigned Release app
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -workspace "${{ steps.iosmeta.outputs.workspace }}" \
+            -scheme "${{ steps.iosmeta.outputs.scheme }}" \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$PWD/ios-build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' \
+            build
+
+      - name: Package unsigned IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP=$(find "$PWD/ios-build/Build/Products/Release-iphoneos" -maxdepth 1 -name '*.app' -print -quit)
+          if [ -z "$APP" ]; then
+            echo "No .app found after build"
+            exit 1
+          fi
+          rm -rf "$PWD/ipa-out"
+          mkdir -p "$PWD/ipa-out/Payload"
+          cp -R "$APP" "$PWD/ipa-out/Payload/"
+          cd "$PWD/ipa-out"
+          /usr/bin/zip -qry CycleTracker-unsigned.ipa Payload
+          ls -lh CycleTracker-unsigned.ipa
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CycleTracker-unsigned-ipa
+          path: ipa-out/CycleTracker-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
