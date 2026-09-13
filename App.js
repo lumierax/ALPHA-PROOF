@@ -7,6 +7,7 @@ import * as Notifications from 'expo-notifications';
 import { WebView } from 'react-native-webview';
 import { registerBackgroundTask } from './src/backgroundTask';
 import { NATIVE_KEYS } from './src/constants';
+import trackerHtml from './src/trackerHtml';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -128,7 +129,7 @@ export default function App() {
       <View style={styles.webWrap}>
         <WebView
           ref={webRef}
-          source={require('./assets/tracker.html')}
+          source={{ html: trackerHtml }}
           originWhitelist={['*']}
           javaScriptEnabled
           domStorageEnabled
