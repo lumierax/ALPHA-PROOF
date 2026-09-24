@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>ماسح Binance | ثلاثة عمال · ثلاثة جداول</title>
+<title>ماسح Binance | ثلاثة عمال · أربعة جداول</title>
 <style>
 :root{--bg:#0b1018;--panel:#121b27;--panel2:#182331;--line:#273545;--text:#ecf2fa;--muted:#a2b1c4;--lux:#57dacb;--macd:#f3c477;--blue:#83baff;--red:#ff909e;--good:#8ae4bb;--radius:16px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Tahoma,"Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button,a,input,select,summary{outline-offset:4px}button{cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:9px 15px;background:var(--panel2);color:var(--text);transition:background .15s}button:hover:not(:disabled){background:#25354a}button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--lux);border-color:var(--lux);color:#081814;font-weight:bold}button.primary:hover:not(:disabled){background:#8cebdc}button.danger{color:var(--red)}button.small{padding:5px 10px;font-size:12px}button.ghost{background:transparent}input,select{width:100%;min-height:42px;color:var(--text);background:#0d1621;border:1px solid #34465d;border-radius:8px;padding:8px 10px}input[type=checkbox]{width:18px;min-height:18px;height:18px;accent-color:var(--lux);vertical-align:middle;cursor:pointer}input[type=number]{direction:ltr;text-align:left}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}h1,h2,h3,p{margin:0}h1{font-size:29px;line-height:1.5}h2{font-size:19px}h3{font-size:16px}.muted{color:var(--muted)}.tiny{font-size:12px}.mono,.num{font-family:Consolas,"SFMono-Regular",monospace;direction:ltr;unicode-bidi:embed;font-variant-numeric:tabular-nums}.num{display:inline-block}.app{max-width:1536px;margin:auto;padding:26px 28px 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px}.eyebrow{color:var(--lux);font-size:12px;letter-spacing:1.5px;margin-bottom:3px}.top p{color:var(--muted);margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tag{display:inline-flex;gap:7px;align-items:center;font-size:12px;padding:4px 10px;border-radius:30px;background:var(--panel2);border:1px solid var(--line);white-space:nowrap}.dot{height:7px;width:7px;border-radius:50%;background:var(--muted)}.dot.on{background:var(--lux);box-shadow:0 0 9px #57dacb50}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:14px 0 22px}.stat{padding:13px 18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.stat .value{font-size:27px;line-height:1.25;margin-top:6px}.stat .caption{font-size:12px;color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:18px;overflow:hidden}.sectionhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.workers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.worker{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--lux);border-radius:var(--radius);padding:16px}.worker[data-kind=macd]{border-top-color:var(--macd)}.workerhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.workerid{width:28px;height:28px;display:inline-flex;justify-content:center;align-items:center;background:var(--panel2);border-radius:8px;margin-left:7px}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)}.field input,.field select{font-size:14px}.field.wide{grid-column:1/-1}.workerfooter{display:flex;justify-content:space-between;gap:8px;margin-top:10px;align-items:center}.progress{height:5px;margin-top:14px;background:#273545;border-radius:5px;overflow:hidden}.progress span{display:block;background:var(--lux);height:100%;width:0;transition:width .2s}.worker[data-kind=macd] .progress span{background:var(--macd)}.workerstatus{min-height:24px;margin-top:7px;font-size:12px;color:var(--muted)}.settings summary,.help summary,.logs summary{padding:15px 19px;cursor:pointer;font-weight:bold}.settingscontent{padding:0 20px 20px}.settingsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding-top:10px}.settingblock h3{margin-bottom:10px}.settingblock .fieldgrid{gap:10px}.settingblock+.settingblock{border-right:1px solid var(--line);padding-right:20px}.hint{font-size:12px;color:var(--muted);margin-top:9px}.checkline{display:flex;align-items:flex-start;gap:8px;font-size:13px;margin:12px 0 5px}.checkline input{flex-shrink:0;margin-top:3px}.settingbottom{border-top:1px solid var(--line);margin-top:18px;padding-top:16px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.notice{border:1px solid #66512c;border-right:4px solid var(--macd);background:#241f17;color:#ead2a6;border-radius:10px;padding:11px 15px;font-size:13px;margin:12px 0 18px}.notice.error{border-color:#74434d;background:#271921;color:#ffb5be}.notice.info{border-color:#3c576d;background:#142230;color:#bcd6f4}.notice[hidden]{display:none}.notice button{float:left;padding:0 7px;background:transparent}.tablehead{padding:19px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.tabletitle{display:flex;gap:12px;align-items:center}.tableicon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:#183933;color:var(--lux);font:22px Consolas,monospace}.macd .tableicon{background:#393123;color:var(--macd)}.count{color:var(--muted);font-size:13px;font-weight:normal}.tablecontrols{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tablecontrols input[type=search]{width:180px;font-size:13px;min-height:36px}.tablecontrols select{width:135px;font-size:12px;min-height:36px}.tablewrap{overflow-x:auto;max-height:620px;scrollbar-color:#34465d transparent}table{width:100%;border-collapse:collapse;text-align:right;white-space:nowrap}th{font-size:11px;color:var(--muted);background:#172230;padding:11px 16px;font-weight:normal;position:sticky;top:0;z-index:1}td{padding:13px 16px;border-bottom:1px solid #24303f;font-size:13px;vertical-align:top}td.asset{font-size:14px;font-weight:bold}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#152231}.asset a{color:var(--text)}.asset small{display:block;font-size:10px;color:var(--muted);font-weight:normal;letter-spacing:.2px}.frames{display:flex;gap:5px;flex-wrap:wrap;max-width:330px}.frame{border:1px solid #376358;background:#16332d;color:var(--lux);padding:2px 8px;border-radius:6px;font-size:11px}.macd .frame{border-color:#685837;background:#342d20;color:var(--macd)}.frame.pending{border-style:dashed}.frame.failed{opacity:.55;text-decoration:line-through}.state{font-size:11px;display:inline-block;border-radius:5px;padding:2px 6px;background:#193b2e;color:var(--good)}.state.pending{background:#3e321e;color:var(--macd)}.state.failed,.state.withdrawn{background:#362330;color:var(--red)}.state.stale{background:#293649;color:#c5d7ed}.empty{padding:42px 20px;color:var(--muted);text-align:center}.empty strong{display:block;color:var(--text);font-size:16px;margin-bottom:6px}.tablefoot{border-top:1px solid var(--line);padding:10px 20px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.signalDetails{white-space:normal;min-width:130px}.signalDetails summary{cursor:pointer;color:var(--blue);font-size:12px}.signalList{min-width:270px;max-width:480px;margin-top:10px}.signalItem{padding:10px 0;border-top:1px solid var(--line);font-size:11px;line-height:1.8}.signalItem .mono{font-size:11px;word-break:break-word}.signalItem b{font-size:12px}.quoteAge{display:block;font-size:10px;color:var(--muted);font-weight:normal}.quoteAge.stale{color:var(--macd)}.statusbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin:15px 0;font-size:12px;color:var(--muted)}.help .body{padding:0 22px 20px;font-size:13px;line-height:1.95}.help .body p{margin:9px 0}.help .body code{color:var(--macd);direction:ltr;display:inline-block}.logbody{padding:0 19px 15px;max-height:240px;overflow:auto;font-size:11px;color:var(--muted)}.logrow{padding:5px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.logrow.error{color:var(--red)}.footer{margin-top:24px;text-align:center;font-size:11px;color:var(--muted)}.toast{position:fixed;bottom:24px;right:24px;max-width:min(450px,90vw);padding:12px 20px;background:#22374b;color:var(--text);border:1px solid #557490;border-radius:12px;box-shadow:0 8px 25px #0007;z-index:20}.toast[hidden]{display:none}.legend{display:flex;gap:14px;margin:5px 0 16px;font-size:11px;color:var(--muted);flex-wrap:wrap}.legend span:before{content:'●';margin-left:5px;color:var(--lux)}.legend span:nth-child(2):before{color:var(--macd)}.legend span:nth-child(3):before{color:var(--red)}
@@ -20,12 +20,16 @@
 
 .table-reset-strip{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:14px 17px;margin:0 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.table-reset-strip p{margin-top:4px;max-width:880px}.table-reset-strip button{flex-shrink:0}.tablecontrols .reset-table{border-color:#49667c;color:var(--blue)}.table-reset-note{margin:0;padding:0 20px 12px;font-size:11px;color:var(--muted)}
 @media(max-width:760px){.table-reset-strip{align-items:stretch;flex-direction:column;gap:10px}.table-reset-strip button{width:100%}.table-reset-note{padding:0 12px 12px}}
+
+.flow-stat{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:-8px 0 16px;border-color:#466253}.flow-stat .value{font-size:24px;color:var(--good);margin:0}.flow .tableicon{background:#223c2b;color:var(--good)}.flow .frame.lux-frame{color:var(--lux)}.flow .frame.macd-frame{color:var(--macd)}.sort-button{border:0;background:transparent;border-radius:5px;color:inherit;padding:3px 0;text-align:inherit;font:inherit;width:100%}.sort-button:hover:not(:disabled){color:var(--text);background:transparent}.sort-arrow{display:inline-block;margin-right:6px;color:var(--blue)}th[aria-sort=ascending],th[aria-sort=descending]{color:var(--text)}.scope-live{margin-top:12px;color:var(--lux);line-height:1.8}.flow-settings{padding:0 20px 20px}.flow-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.flow-rule{padding:12px 16px;background:#14271e;border:1px solid #395b45;border-radius:10px;margin:12px 0;line-height:1.9}.flow-progress{padding:8px 20px;color:var(--muted);font-size:12px}.sort-help{font-size:11px;color:var(--muted);padding:0 20px 10px}.flow-periods{display:flex;gap:6px;direction:ltr}.flow-periods span{display:inline-block;background:#172a22;border-radius:5px;padding:3px 6px}.flow-periods small{display:block;color:var(--muted)}
+@media(max-width:1100px){.flow-fields{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr}.flow-settings{padding:0 12px 16px}.flow-fields{grid-template-columns:1fr}.sort-button{min-height:32px}.flow-stat{gap:8px 15px}.indicator-dialog-scroll .checkline{font-size:12px}}
 </style>
 </head>
 <body>
 <main class="app">
 <header class="top">
-  <div><div class="eyebrow" dir="ltr">BINANCE / INDICATOR SCANNER</div><h1>ثلاثة عمال. مؤشّران. جدول للمشترَك.</h1><p>نتائج كل مؤشّر محفوظة، والعملات الموجودة في الجدولين تُسجّل في الجدول الثالث.</p></div>
+  <div><div class="eyebrow" dir="ltr">BINANCE / INDICATOR SCANNER</div><h1>ثلاثة عمال. أربعة جداول. فلتر شراء إضافي.</h1><p>اجتماع المؤشّرين في الثالث، والشراء المتسارع في الرابع. نطاق شموع LuxAlgo مستقل وقابل للتعديل.</p></div>
   <div class="actions"><button class="primary" id="startAll">▶ تشغيل المسح التلقائي</button><button id="manualScan">↻ مسح يدوي الآن</button><button id="stopAll" disabled>إيقاف المسح</button><button class="ghost" id="connectionTest">اختبار الاتصال</button></div>
 </header>
 <div id="banner" class="notice error" hidden role="alert"></div>
@@ -36,6 +40,7 @@
  <div class="stat"><div class="caption">عملات جدول MACD + EMA</div><div class="value num" id="macdCount">0</div><div class="caption">مستقل عن نتائج المؤشّر الآخر</div></div>
  <div class="stat"><div class="caption">العملات المشتركة المسجّلة</div><div class="value num" id="commonCount">0</div><div class="caption">نفس الزوج · ولو اختلفت الفريمات</div></div>
 </div>
+<div class="stat flow-stat"><span class="caption">المقبولة بفلتر الشراء المتسارع</span><span class="value num" id="flowCount">0</span><span class="caption">من الجدول الثالث فقط · ليست درجة ترتيب</span></div>
 <div class="schedule-strip"><div><strong id="scheduleSummary">إعادة المسح: كل ساعة بعد انتهاء الجولة</strong><div class="tiny muted">المسح اليدوي متاح دون انتظار. إعدادات المدة داخل لوحة الإعدادات.</div></div><span class="tag" id="scanMode">التلقائي متوقف</span></div>
 <section class="indicator-settings" aria-labelledby="indicatorSettingsHeading">
  <div class="sectionhead"><div><h2 id="indicatorSettingsHeading">إعدادات المؤشّرين</h2><p class="tiny muted">عدّل المدخلات من هنا، دون تعديل الكود. إعدادات كل مؤشر مشتركة بين العمال الذين يختارونه.</p></div></div>
@@ -50,10 +55,10 @@
  <summary>إعدادات نطاق الفحص والتشغيل <span class="muted tiny" id="settingsSummary"></span></summary>
  <form id="settingsForm" class="settingscontent">
  <div class="settingsgrid">
-  <section class="settingblock"><h3>الشموع الداخلة في الفحص</h3><div class="fieldgrid">
-   <label class="field wide">الشموع السابقة: من 0 إلى 30<input name="previousBars" type="number" min="0" max="30" step="1" required></label>
+  <section class="settingblock"><h3>شموع MACD + EMA فقط</h3><div class="fieldgrid">
+   <label class="field wide">MACD — الشموع السابقة: من 0 إلى 30<input name="previousBars" type="number" min="0" max="30" step="1" required></label>
   </div><label class="checkline"><input name="includeCurrent" type="checkbox"><span>تضمين الشمعة الحالية — إشارتها غير مثبتة حتى الإغلاق وإعادة التحقق</span></label>
-  <p class="hint">عند تعطيل الحالية، يبدأ الفحص من آخر شمعة مغلقة. العدد السابق يُضاف إلى الشمعة المرجعية؛ 30 سابقة تعني حتى 31 شمعة. الفريم والمؤشر يُحدَّدان من لوحة كل عامل.</p></section>
+  <p class="hint">عند تعطيل الحالية، يبدأ الفحص من آخر شمعة مغلقة. العدد السابق يُضاف إلى الشمعة المرجعية؛ 30 سابقة تعني حتى 31 شمعة. الفريم والمؤشر يُحدَّدان من لوحة كل عامل. نطاق LuxAlgo مستقل داخل «إعدادات LuxAlgo».</p></section>
   <section class="settingblock"><h3>نطاق العملات</h3>
    <label class="checkline"><input name="excludeStable" type="checkbox"><span>تفعيل قائمة الاستبعاد أدناه</span></label>
    <label class="field">أصول الأساس المستبعدة، مفصولة بفاصلة<input name="excludedAssets" type="text" dir="ltr" maxlength="600"></label>
@@ -64,26 +69,31 @@
    <label class="field wide">مصدر Binance الرسمي<select name="endpoint"><option value="https://data-api.binance.vision">Market Data Only</option><option value="https://api.binance.com">api.binance.com</option></select></label>
   </div><p class="hint" id="autoHelp">التلقائي بحد أدنى ساعة بعد اكتمال جولة العامل. التوازي يغيّر طريقة تنفيذ الطلبات، لا معادلات المؤشرات. المسح اليدوي متاح دون انتظار.</p></section>
  </div>
- <div class="settingbottom"><div class="actions"><button class="primary" type="submit">تطبيق نطاق الفحص والتشغيل</button><button type="button" id="resetScopeDraft">إلغاء تعديلات الحقول</button></div><span class="hint">تغيير النطاق أثناء التشغيل يعيد جولة العمال النشطين؛ تغيير المدة وحدها لا يبدأ جولة. لا تُحذف نتائج الجداول الثلاثة.</span></div>
+ <div class="settingbottom"><div class="actions"><button class="primary" type="submit">تطبيق نطاق الفحص والتشغيل</button><button type="button" id="resetScopeDraft">إلغاء تعديلات الحقول</button></div><span class="hint">تغيير النطاق أثناء التشغيل يعيد جولة العمال النشطين؛ تغيير المدة وحدها لا يبدأ جولة. لا تُحذف نتائج الجداول الأربعة.</span></div>
  </form>
 </details>
 <div class="notice" id="candleNotice"></div>
 <div class="statusbar"><div>الأسعار والفوليوم: <span id="quoteStatus">لم يتصل بعد</span> · <span id="storageStatus">الحفظ المحلي جاهز</span></div><div>وقت Binance UTC: <span class="mono" id="clock">—</span> · <span id="requestStatus">لا توجد طلبات</span></div></div>
 <div class="legend"><span>مثبتة على شمعة مغلقة</span><span>حالية / بانتظار التحقق</span><span>إشارة مؤقتة تراجعت — محفوظة للتوثيق</span></div>
-<div class="table-reset-strip"><div><strong>بداية جديدة دون منع تكرار الشموع</strong><p class="tiny muted">«إفراغ الجدول وبدء جديد» يمسح نتائجه وسجل منعها، ويقبل الشموع نفسها عند الفحص التالي. «حذف» و«حذف المحدد» يمنعان عودة الشموع المحذوفة نفسها.</p></div><button class="danger" id="resetAllTables">إفراغ الجداول الثلاثة وبدء جديد</button></div>
+<div class="table-reset-strip"><div><strong>بداية جديدة دون منع تكرار الشموع</strong><p class="tiny muted">«إفراغ الجدول وبدء جديد» يمسح نتائجه وسجل منعها، ويقبل الشموع نفسها عند الفحص التالي. «حذف» و«حذف المحدد» يمنعان عودة الشموع المحذوفة نفسها.</p></div><button class="danger" id="resetAllTables">إفراغ الجداول الأربعة وبدء جديد</button></div>
 <div id="tables"></div>
 <div class="actions" style="margin:18px 0"><button id="exportBackup">تصدير نسخة احتياطية JSON</button><button id="importBackup">استيراد نسخة احتياطية</button><input type="file" id="backupFile" accept="application/json,.json" hidden><button class="ghost" id="resetDeleted">السماح بإعادة اكتشاف المحذوفات</button></div>
 <details class="panel help"><summary>طريقة التشغيل ومعنى النتائج</summary><div class="body">
+<p><strong>نطاق LuxAlgo المستقل:</strong> من إعدادات المؤشر اختر الحالية المفتوحة فقط، السابقة المغلقة فقط، آخر 30 شمعة، أو عددًا من 1 إلى 1000. العدد هنا إجمالي: 30 مع الحالية = الحالية + 29 سابقة، و30 دونها = آخر 30 مغلقة. لا يغير Lookback الحسابي ولا نطاق MACD. قد يلزم تاريخ تهيئة أطول لحساب المؤشر، لكنه لا يوسّع نافذة قبول الإشارات. النتائج القديمة محفوظة؛ إفراغ الجدول يسمح بالبدء من الصفر. حفظ يعتمد النطاق للجولة القادمة؛ حفظ ومسح الآن يبدأ جولة جديدة للمؤشر.</p>
+<p><strong>الجدول الرابع: فلتر قبول، وليس نقاطًا:</strong> يفحص العملات الموجودة في الجدول الثالث والمستمرة في المصدرين، بغض النظر عن تطابق الفريمات. لا نضيف شرط تثبيت المؤشرين خفية؛ تظل فريماتهما وحالاتهما معروضة. فلتر التدفق نفسه يستعمل فترات مغلقة فقط. يشترط زيادة الشراء المبادر خلال ثلاث فترات متتالية بحيث تكون الزيادة الثانية أكبر من الأولى، ثم حصة شراء لا تقل عن 60% ومضاعف نشاط لا يقل عن 1.5 افتراضيًا. المتوسط من 20 فترة تسبق الفترات الثلاث (لا تتداخل معها). المدة والحصة والمضاعف والمتوسط قابلة للتغيير. القياس Taker Buy Quote Volume من Binance، والبيع = الإجمالي − الشراء. هذا ليس صافي تدفقات مالية ولا اختبار ربحية، ولا يقيس دفتر الأوامر.</p>
+<p><strong>توقيت الفلتر:</strong> يُقيّم بعد جولات المؤشرات، أو يدويًا من زر الجدول الرابع. لا توجد جولة دورية جديدة كل 5 دقائق؛ 5 دقائق هي مدة نافذة القياس فقط، والتلقائي ما زال بحد أدنى ساعة. جميع عملات دفعة التقييم تستخدم نهاية نافذة زمنية واحدة. يعرض وقت التقييم وانتهاء نافذة البيانات، لا بيانات لحظية مزعومة. عند فشل الشروط أو تعذر البيانات يُزال القبول السابق حتى يتم التحقق مجددًا، دون حذف الثالث. لا تُعرض قائمة العملات المرفوضة.</p>
+<p><strong>حذف الرابع:</strong> الحذف الفردي/المحدد يمنع عودة نتيجة الفترة الأخيرة نفسها على فريم الفلتر. يمكن العودة عند فترة مكتملة مختلفة. إفراغ الرابع يمسح سجله ومنع نتائجه فقط، ولا يغير الثالث؛ ولا يُعاد ملؤه قبل تقييم جديد. إعادة تحميل الصفحة لا تنفذ فحصًا من تلقاء نفسها.</p>
+<p><strong>الترتيب بالعناوين:</strong> اضغط عنوان أي عمود بيانات للتصاعدي، ثم اضغط ثانية للتنازلي. الترتيب العددي لا يستخدم نصوص K وM. الفريمات بحسب أكبر فريم ثم عدد الفريمات عند التعادل. عمود التفاصيل بحسب عدد الإشارات، والتوقيت بحسب القيمة الفعلية. الاختيار مستقل ومحفوظ لكل جدول. أعمدة الحذف والتحديد ليست معايير ترتيب.</p>
 <p><strong>ابدأ من لوحة العمال:</strong> لكل عامل اختيار مستقل بين LuxAlgo وMACD + EMA، وفريم من ساعة، 4 ساعات، 8 ساعات، يوم، 3 أيام، أسبوع. يمكن للعاملين أو العمال الثلاثة البحث عن المؤشر نفسه؛ تُدمج العملات والفريمات دون نسخ الصف نفسه. تظهر النتيجة فور وصولها، لا بعد نهاية الجولة.</p>
 <p><strong>التلقائي واليدوي:</strong> اختر مدة التكرار من الإعدادات بحد أدنى ساعة واحدة. «تشغيل المسح التلقائي» يبدأ بجولة مباشرة، ثم ينتظر كل عامل المدة المختارة بعد نهاية جولته، بصرف النظر عن إغلاق الشمعة أو وجود أخطاء. «مسح يدوي الآن» ينفّذ جولة للعمال المفعّلين الجاهزين دون انتظار؛ إذا كان التلقائي متوقفًا تنتهي الجولة دون تكرار. إذا كان التلقائي مفعّلًا، يبدأ عدّ المدة من انتهاء الجولة اليدوية. لا تتراكب جولتان على العامل نفسه. من نافذة المؤشر: «حفظ الإعدادات» يعتمد القيم للجولة التالية دون تقديم موعدها أو تعديل الجولة الجارية؛ «حفظ ومسح الآن» يبدأ جولة جديدة لعمال المؤشر فقط. تغيير نطاق الفحص أثناء التشغيل يعيد جولة العمال النشطين، أما تغيير مدة التكرار وحدها فلا يبدأ جولة جديدة.</p>
 <p><strong>كل المدخلات المؤثرة:</strong> افتح «إعدادات LuxAlgo» أو «إعدادات MACD + EMA» من البطاقة أو العامل أو رأس الجدول. أسماء المدخلات وطرق حسابها مأخوذة من الكودين. يمكن استعادة قيم الصورة أو افتراضيات الكود؛ تعبئة الحقول لا تطبقها حتى تحفظ. تغيّر إعدادات المؤشر لجميع العمال الذين يستخدمونه، وتبقى إشارة الإعدادات القديمة واضحة في تفاصيل الجداول. خيارات الرسم فقط مثل Backpaint والألوان وامتداد الخطوط لا تدخل في الاكتشاف. لا توجد في الصفحة مفاتيح تغير تلك الخيارات الشكلية.</p>
 <p><strong>الجدول الثالث:</strong> تتم مراقبة بيانات الجدولين، لا الصفوف الظاهرة بعد فلتر البحث. تُضاف العملة عندما يكون زوجها نفسه موجودًا في كليهما، حتى لو كان LuxAlgo على 4 ساعات وMACD على يوم، أو كانت الإشارتان من شمعتين مختلفتين. تظهر فريمات كل مؤشر في عمود مستقل، مع وقت تسجيل الاشتراك وتفاصيل الإشارات. تُفحص النتائج المحفوظة كذلك عند فتح النسخة أو استيراد نسخة قديمة، إلا إذا كان الجدول الثالث قد أُفرغ للبدء من جديد؛ حينها ينتظر نتائج فحص جديد ولا يمتلئ بمجرد تحديث الصفحة. لا يشترط ثبات الإشارة لإدراج العملة؛ تُعرض حالات الإشارات كما هي، ولا يعني الاشتراك تزامن الشروط أو تأكيد شراء. قد يجتمع في هذا السجل اكتشافان بإعدادات سابقة مختلفة؛ راجع إعدادات كل إشارة في التفاصيل.</p>
 <p><strong>حفظ سجل الاشتراك:</strong> يبقى الجدول الثالث سجلًا مستقلًا حتى عند حذف العملة أو إفراغ جدول مصدر؛ تتغير حالته إلى «سجل سابق محفوظ». حذف صفه أو المحدد يمنع رجوع الشموع نفسها. أما «إفراغ الجدول وبدء جديد» فيمحو سجله ومنع إعادة اكتشافه دون تغيير جدولَي المؤشرين؛ يمكن للجولات التي تبدأ بعد الإفراغ تسجيل الشموع نفسها مجددًا. إعادة فتح الصفحة وتحديث الأسعار ونتائج الجولات التي بدأت قبل الإفراغ لا تعيد ملء الجدول الثالث الفارغ.</p>
-<p><strong>الحالية + 30 سابقة تعني 31 شمعة كحد أقصى.</strong> هذه نافذة البحث عن الإشارات وليست كل البيانات المستخدمة لحساب المتوسطات: تُحمّل الصفحة تاريخًا أطول للتهيئة، عادة 1000 شمعة، ويزداد مع أطوال المؤشرات الكبيرة. الأزواج الأحدث تستخدم التاريخ المتاح لها. يحافظ الفحص على توقيت شموع Binance الأصلي UTC.</p>
+<p><strong>نطاق MACD: الحالية + 30 سابقة تعني 31 شمعة كحد أقصى.</strong> هذه نافذة البحث عن الإشارات وليست كل البيانات المستخدمة لحساب المتوسطات: تُحمّل الصفحة تاريخًا أطول للتهيئة، عادة 1000 شمعة، ويزداد مع أطوال المؤشرات الكبيرة. الأزواج الأحدث تستخدم التاريخ المتاح لها. يحافظ الفحص على توقيت شموع Binance الأصلي UTC.</p>
 <p><strong>لا تُخلط إشارة تاريخية بفرصة دخول حالية:</strong> افتح «تفاصيل الإشارات» لترى افتتاح شمعة الإشارة وإغلاقها وعمرها وقت آخر فحص وسعرها وإعداداتها. العمود الرئيسي يعرض أحدث سعر متاح، لا سعر الإشارة. الفوليوم الرئيسي هو <code>quoteVolume</code> لآخر 24 ساعة، والتفاصيل تعرض أيضًا فوليوم شمعة الإشارة بوحدة USDT.</p>
 <p><strong>الشمعة الحالية:</strong> الإشارة أثناء تكوّنها قد تظهر ثم تتراجع. تُحفظ مع حالتها، ويعيد العامل التحقق منها في الجولة التالية. إذا بدّلت العامل إلى مؤشر أو فريم آخر فلن تُرقّى تلك الإشارة إلى «مثبتة» دون إعادة فحصها. يكفي تشغيل عامل على إعداداتها الأصلية للتحقق مجددًا.</p>
 <p><strong>حذف عملة أو حذف المحدد:</strong> يمنع عودة إشارات الشموع المحذوفة نفسها للمؤشر والفريم نفسيهما فقط؛ ولا يحظر العملة نهائيًا. يُسمح بعودتها عند ظهور إشارة في شمعة أخرى. تحديد كل العملات ثم «حذف المحدد» يظل حذفًا مع منع الشموع، وليس بداية جديدة.</p>
-<p><strong>إفراغ الجدول وبدء جديد:</strong> عملية مختلفة: تمسح جميع صفوف الجدول المختار وسجل منع إعادة اكتشافه، بما فيه عمليات الحذف الفردية السابقة، وتلغي فلاتر عرضه. يمكن للفحص التالي إعادة نفس العملات على الشموع السابقة نفسها إذا بقيت ضمن نطاق الشموع وطابقت الإعدادات الحالية. لا يتغير أي مؤشر أو جدول آخر. تتوقف عمال المؤشر الذي أُفرغ، بما فيها التلقائي، لمنع نتائج الجولة السابقة من الوصول بعد الإفراغ؛ ابدأ مسحًا يدويًا أو أعد تشغيل التلقائي عند الاستعداد. زر «إفراغ الجداول الثلاثة وبدء جديد» يفعل ذلك للجميع مع الإبقاء على الإعدادات. إفراغ الجدول الثالث وحده لا يوقف عمال المؤشرين؛ ينتظر جولة تبدأ بعد إفراغه.</p>
+<p><strong>إفراغ الجدول وبدء جديد:</strong> عملية مختلفة: تمسح جميع صفوف الجدول المختار وسجل منع إعادة اكتشافه، بما فيه عمليات الحذف الفردية السابقة، وتلغي فلاتر عرضه. يمكن للفحص التالي إعادة نفس العملات على الشموع السابقة نفسها إذا بقيت ضمن نطاق الشموع وطابقت الإعدادات الحالية. لا تتغير إعدادات المؤشرات. سجل الثالث محفوظ، لكن العملات التي لم تعد مشتركة تخرج من المقبولين في الرابع. تتوقف عمال المؤشر الذي أُفرغ، بما فيها التلقائي، لمنع نتائج الجولة السابقة من الوصول بعد الإفراغ؛ ابدأ مسحًا يدويًا أو أعد تشغيل التلقائي عند الاستعداد. زر «إفراغ الجداول الأربعة وبدء جديد» يفعل ذلك للجميع مع الإبقاء على الإعدادات. إفراغ الجدول الثالث وحده لا يوقف عمال المؤشرين؛ ينتظر جولة تبدأ بعد إفراغه.</p>
 <p><strong>الحفظ:</strong> زر «السماح بإعادة اكتشاف المحذوفات» يلغي منع الشموع دون إفراغ النتائج الموجودة؛ تُستعاد الإشارات في الفحص التالي. تُحفظ النتائج والإعدادات وحالة الإفراغ محليًا في هذا المتصفح، وليس على خادم. صدّر نسخة احتياطية قبل تغيير المتصفح أو مسح بياناته، واستخدم تبويبًا واحدًا.</p>
 <p><strong>التشغيل المستمر:</strong> يعمل الماسح ما دامت الصفحة والجهاز نشطين. إغلاق الصفحة يوقف المسح، وقد يعلّق المتصفح العمل في الخلفية، خصوصًا على الهاتف. بعد العودة يحاول العامل استدراك نافذة الشموع المحددة، وليس كل الفترة الغائبة بلا حد. لا تُحذف النتائج عند الإيقاف أو التبديل. تحديث الأسعار منفصل عن فحص المؤشرات.</p>
 <p><strong>الاتصال:</strong> افتح ملف HTML نفسه في متصفح حديث ثم اضغط «ابدأ المسح». لا يحتاج إلى API Key ولا يضع أوامر شراء أو بيع. رسائل الاتصال أو الحظر تظهر صراحةً؛ لا توجد أسعار أو نتائج وهمية بديلة. إذا منع المتصفح تشغيل الملفات المحلية، يمكن تقديم الملف على خادم محلي من مجلده، بعد تثبيت Python، بالأمر <code>python -m http.server 8000 --bind 127.0.0.1</code> ثم فتح <code>http://127.0.0.1:8000/</code>.</p>
@@ -91,7 +101,7 @@
 <p class="tiny">مصادر التنفيذ: <a href="https://developers.binance.com/en/docs/products/spot/faqs/market_data_only" target="_blank" rel="noopener noreferrer">Binance: البيانات العامة</a> · <a href="https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md" target="_blank" rel="noopener noreferrer">Binance: الشموع والفوليوم وحدود الطلبات</a> · <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md" target="_blank" rel="noopener noreferrer">Binance: تدفق الأسعار</a> · <a href="https://www.tradingview.com/pine-script-docs/concepts/repainting/" target="_blank" rel="noopener noreferrer">TradingView: الإشارات أثناء التكوّن</a></p>
 </div></details>
 <details class="panel logs"><summary>سجل التشغيل والاتصال <span class="muted tiny" id="logCount"></span></summary><div class="logbody" id="logBody"></div></details>
-<footer class="footer">إصدار 1.4 · 24 سبتمبر 2026 · مستقل عن Binance وTradingView وLuxAlgo.<br>حسابات Trendlines with Breaks مقتبسة من © LuxAlgo مع تعديلات JavaScript، والنسخة المشتقة تحت <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> — نَسب العمل، استخدام غير تجاري، ومشاركة بالمثل.</footer>
+<footer class="footer">إصدار 1.5 · 24 سبتمبر 2026 · مستقل عن Binance وTradingView وLuxAlgo.<br>حسابات Trendlines with Breaks مقتبسة من © LuxAlgo مع تعديلات JavaScript، والنسخة المشتقة تحت <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> — نَسب العمل، استخدام غير تجاري، ومشاركة بالمثل.</footer>
 </main>
 <dialog id="indicatorDialog" class="indicator-dialog" aria-labelledby="indicatorDialogTitle" aria-describedby="indicatorDialogSubtitle" aria-modal="true">
  <form id="indicatorForm" novalidate>
@@ -242,10 +252,11 @@ function createEngine() {
     // matches permits verification of retained provisional events outside the
     // selected display window, as long as their candles are still available.
     const matches = calculated.events.map(enrich);
-    const signals = calculated.events.filter(e => e.index >= start && e.index <= end).map(enrich);
+    const hasOpen=data[last*STRIDE]<=now&&data[last*STRIDE+5]>=now;
+    const signals = options.currentOnly&&!hasOpen?[]:calculated.events.filter(e => e.index >= start && e.index <= end).map(enrich);
     let nextClose = data[last*STRIDE+5] + 1;
     if (nextClose <= now && last > 0) nextClose += data[last*STRIDE] - data[(last-1)*STRIDE];
-    return {signals,matches,firstTime:data[0],lastTime:data[last*STRIDE],nextClose,now,count:s.n,windowCount:Math.max(0,end-start+1)};
+    return {signals,matches,firstTime:data[0],lastTime:data[last*STRIDE],nextClose,now,count:s.n,windowCount:options.currentOnly&&!hasOpen?0:Math.max(0,end-start+1)};
   }
   return {pack, ema, rma, pivot, series, macdSeries, luxSeries, fingerprint, scan, STRIDE};
 }
@@ -296,11 +307,12 @@ const $ = id => document.getElementById(id), engine = createEngine();
 const KEY = 'binance.dual.indicator.scanner.v2';
 const TF = {'1h':'ساعة','4h':'4 ساعات','8h':'8 ساعات','1d':'يوم','3d':'3 أيام','1w':'أسبوع'};
 const MS = {'1h':3600000,'4h':14400000,'8h':28800000,'1d':86400000,'3d':259200000,'1w':604800000};
-const TITLES = {lux:'LuxAlgo',macd:'MACD + EMA',common:'اجتماع المؤشّرين'};
-const TABLES=['lux','macd','common'];
+const TITLES = {lux:'LuxAlgo',macd:'MACD + EMA',common:'اجتماع المؤشّرين',flow:'فلتر الشراء المتسارع'};
+const FLOW_TF={'1m':60000,'3m':180000,'5m':300000,'15m':900000,'30m':1800000,'1h':3600000};
+const TABLES=['lux','macd','common','flow'];
 const DEFAULTS = {
  workers:[{enabled:true,indicator:'lux',interval:'1h'},{enabled:true,indicator:'lux',interval:'4h'},{enabled:true,indicator:'macd',interval:'1d'}],
- lux:{length:24,mult:1.4,method:'Atr',direction:'up'},macd:{ema:50,fast:12,slow:26,signal:9,mode:'percent',distance:1.5},
+ lux:{length:24,mult:1.4,method:'Atr',direction:'up',scanWindow:{mode:'last30',count:30,includeCurrent:true}},flow:{interval:'5m',share:60,multiple:1.5,baseline:20},macd:{ema:50,fast:12,slow:26,signal:9,mode:'percent',distance:1.5},
  previousBars:30,includeCurrent:true,autoHours:1,parallel:2,endpoint:'https://data-api.binance.vision',
  excludeStable:false,excludedAssets:'USDC, FDUSD, TUSD, USDP, DAI, BUSD, USTC, USDD, USD1, USDE, EURI, EUR, AEUR, RLUSD, PYUSD, USDG'
 };
@@ -309,20 +321,31 @@ const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g,c=>({'&':'&amp;',
 const own = (obj,key) => Object.prototype.hasOwnProperty.call(obj,key);
 const finite = x => typeof x === 'number' && Number.isFinite(x);
 const symOK = s => typeof s==='string' && s.length<90 && s.endsWith('USDT') && !/[\s<>"'&/\\]/.test(s);
-let state = {version:3,commonResetEpoch:0,settings:clone(DEFAULTS),records:{lux:{},macd:{},common:{}},deleted:{lux:{},macd:{},common:{}}};
+let state = {version:4,commonResetEpoch:0,settings:clone(DEFAULTS),sorts:{},records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
 let storageOK = true, clockOffset = 0, clockSynced = false, symbols = [], allSymbols = [], metadata = new Map(), marketAt = 0, marketPromise = null;
-let selected = {lux:new Set(),macd:new Set(),common:new Set()}, renderTimer=null, saveTimer=null, toastTimer=null, logs=[];
+let selected = {lux:new Set(),macd:new Set(),common:new Set(),flow:new Set()}, renderTimer=null, saveTimer=null, toastTimer=null, logs=[];
 let quotes = new Map(), socket=null, socketTimer=null, socketWanted=false, socketTry=0, quoteAt=0, quoteBusy=false, quotePollAt=0;
 let lastQuotesSaved=0, runtime=DEFAULTS.workers.map((_,i)=>({id:i,want:false,auto:false,preparing:false,busy:false,lastFinished:0,worker:null,generation:0,done:0,total:0,errors:0,found:0,rounds:0,nextAt:0,note:'جاهز',lastSymbol:''}));
+const flowRuntime={generation:0,busy:false,timer:null,followUp:false,done:0,total:0,passed:0,errors:0,lastAt:0,note:'بانتظار فحص جديد أو الزر اليدوي'};
 const now = () => Date.now()+clockOffset;
+function validScanWindow(w){return w&&['current','previous','last30','custom'].includes(w.mode)&&Number.isInteger(w.count)&&w.count>=1&&w.count<=1000&&typeof w.includeCurrent==='boolean';}
+function normalizedWindow(w){return {mode:w.mode,count:w.mode==='current'||w.mode==='previous'?1:w.mode==='last30'?30:w.count,includeCurrent:w.mode==='current'?true:w.mode==='previous'?false:w.includeCurrent};}
+function scanOptions(ind,cfg=state.settings[ind]){
+ if(ind==='lux'){const w=normalizedWindow(cfg.scanWindow||{mode:'custom',count:state.settings.previousBars+1,includeCurrent:state.settings.includeCurrent});return {previousBars:w.count-1,includeCurrent:w.includeCurrent,currentOnly:w.mode==='current'};}
+ return {previousBars:state.settings.previousBars,includeCurrent:state.settings.includeCurrent,currentOnly:false};
+}
+function windowLabel(w){w=normalizedWindow(w);return w.mode==='current'?'الحالية المفتوحة فقط':w.mode==='previous'?'السابقة المغلقة فقط':w.count+' شمعة إجمالًا · '+(w.includeCurrent?'الحالية + '+(w.count-1)+' سابقة':'آخر '+w.count+' مغلقة');}
+function validFlowSettings(f){return f&&own(FLOW_TF,f.interval)&&finite(f.share)&&f.share>=0&&f.share<=100&&finite(f.multiple)&&f.multiple>=0&&f.multiple<=1000&&Number.isInteger(f.baseline)&&f.baseline>=1&&f.baseline<=500;}
+
 function validCfg(indicator,x) {
  const num=(v,min,max,integer=false)=>finite(v)&&v>=min&&v<=max&&(!integer||Number.isInteger(v));
  if(!x||typeof x!=='object')return false;
+ if(indicator==='lux'&&x.scanWindow!==undefined&&!validScanWindow(x.scanWindow))return false;
  return indicator==='lux' ? num(x.length,2,300,true)&&num(x.mult,0,100)&&['Atr','Stdev','Linreg'].includes(x.method)&&['up','down','both'].includes(x.direction)
  : ['ema','fast','slow','signal'].every(k=>num(x[k],1,300,true))&&['percent','absolute'].includes(x.mode)&&num(x.distance,0,1000000);
 }
 function validSettings(s) {
- return s&&validCfg('lux',s.lux)&&validCfg('macd',s.macd)&&Array.isArray(s.workers)&&s.workers.length===3&&s.workers.every(w=>w&&['lux','macd'].includes(w.indicator)&&own(TF,w.interval)&&typeof w.enabled==='boolean')&&Number.isInteger(s.previousBars)&&s.previousBars>=0&&s.previousBars<=30&&typeof s.includeCurrent==='boolean'&&Number.isInteger(s.autoHours)&&s.autoHours>=1&&s.autoHours<=168&&[1,2,3].includes(s.parallel)&&['https://data-api.binance.vision','https://api.binance.com'].includes(s.endpoint)&&typeof s.excludedAssets==='string'&&s.excludedAssets.length<=600&&typeof s.excludeStable==='boolean';
+ return s&&validCfg('lux',s.lux)&&validScanWindow(s.lux.scanWindow)&&validFlowSettings(s.flow)&&validCfg('macd',s.macd)&&Array.isArray(s.workers)&&s.workers.length===3&&s.workers.every(w=>w&&['lux','macd'].includes(w.indicator)&&own(TF,w.interval)&&typeof w.enabled==='boolean')&&Number.isInteger(s.previousBars)&&s.previousBars>=0&&s.previousBars<=30&&typeof s.includeCurrent==='boolean'&&Number.isInteger(s.autoHours)&&s.autoHours>=1&&s.autoHours<=168&&[1,2,3].includes(s.parallel)&&['https://data-api.binance.vision','https://api.binance.com'].includes(s.endpoint)&&typeof s.excludedAssets==='string'&&s.excludedAssets.length<=600&&typeof s.excludeStable==='boolean';
 }
 function signalID(fp,interval,s) {return [fp,interval,s.openTime,s.direction].join('|');}
 // Deletion is scoped to indicator + symbol + timeframe + candle open time.
@@ -352,14 +375,16 @@ function cleanSourceRow(indicator,symbol,row) {
 }
 function cleanQuote(q){return q&&finite(q.price)&&q.price>0&&finite(q.quoteVolume)&&q.quoteVolume>=0?{price:q.price,quoteVolume:q.quoteVolume,at:finite(q.at)?q.at:0}:null;}
 function validateState(input) {
- if(!input||![2,3].includes(input.version)||!input.settings||!input.records)throw new Error('هذه ليست نسخة احتياطية متوافقة مع هذا الماسح');
+ if(!input||![2,3,4].includes(input.version)||!input.settings||!input.records)throw new Error('هذه ليست نسخة احتياطية متوافقة مع هذا الماسح');
  const settings=clone(input.settings);
  if(input.version===2&&!own(settings,'autoHours'))settings.autoHours=1;
  delete settings.liveSeconds;
+ if(!settings.lux.scanWindow)settings.lux.scanWindow={mode:'custom',count:settings.previousBars+1,includeCurrent:settings.includeCurrent};
+ if(!settings.flow)settings.flow=clone(DEFAULTS.flow);
  if(!validSettings(settings))throw new Error('إعدادات النسخة غير صالحة؛ مدة المسح التلقائي لا تقل عن ساعة');
  const commonResetEpoch=input.commonResetEpoch===undefined?0:input.commonResetEpoch;
  if(!Number.isSafeInteger(commonResetEpoch)||commonResetEpoch<0||commonResetEpoch>1000000000000)throw new Error('سجل إعادة بدء الجدول الثالث غير صالح');
- const out={version:3,commonResetEpoch,settings,records:{lux:{},macd:{},common:{}},deleted:{lux:{},macd:{},common:{}}};
+ const out={version:4,commonResetEpoch,settings,sorts:cleanSorts(input.sorts),records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
  for(const indicator of ['lux','macd']) {
   const rows=input.records[indicator];if(!rows||typeof rows!=='object'||Array.isArray(rows))throw new Error('تنسيق جدول غير صالح');
   for(const symbol of Object.keys(rows)){
@@ -374,7 +399,7 @@ function validateState(input) {
   if(!lux.signals.length||!macd.signals.length)throw new Error('سجل الاشتراك يحتاج إشارات من كلا المؤشّرين');
   out.records.common[symbol]={symbol,firstSeen:finite(row.firstSeen)?row.firstSeen:now(),lastMatched:finite(row.lastMatched)?row.lastMatched:now(),lastChanged:finite(row.lastChanged)?row.lastChanged:now(),sources:{lux,macd},quoteSnapshot:cleanQuote(row.quoteSnapshot)};
  }
- for(const indicator of TABLES){
+ for(const indicator of ['lux','macd','common']){
   const tombstones=input.deleted?.[indicator]||{};
   if(typeof tombstones!=='object'||Array.isArray(tombstones))throw new Error('سجل حذف غير صالح');
   for(const [symbol,entries] of Object.entries(tombstones)){
@@ -390,6 +415,7 @@ function validateState(input) {
    if(Object.keys(clean).length)out.deleted[indicator][symbol]=clean;
   }
  }
+ cleanFlowBackup(input,out);
  return out;
 }
 let startupWarning='';
@@ -411,7 +437,7 @@ function persist(){if(!saveTimer)saveTimer=setTimeout(persistNow,1200);}
 function fmtUTC(t){if(!finite(t)||t<=0)return '—';return new Date(t).toISOString().slice(0,19).replace('T',' ');}
 function price(x){if(!finite(x))return '—';if(x===0)return '0';const decimals=Math.min(12,Math.max(2,7-Math.floor(Math.log10(Math.abs(x)))));return x.toLocaleString('en-US',{maximumFractionDigits:decimals});}
 function volume(x){if(!finite(x))return '—';if(Math.abs(x)>=1e9)return (x/1e9).toLocaleString('en-US',{maximumFractionDigits:2})+' B';if(Math.abs(x)>=1e6)return (x/1e6).toLocaleString('en-US',{maximumFractionDigits:2})+' M';if(Math.abs(x)>=1e3)return (x/1e3).toLocaleString('en-US',{maximumFractionDigits:2})+' K';return x.toLocaleString('en-US',{maximumFractionDigits:2});}
-function cfgLabel(ind,s){return ind==='lux'?`${s.length} / ${s.mult} / ${s.method} / ${s.direction}`:`EMA ${s.ema} · ${s.fast}/${s.slow}/${s.signal} · ${s.distance}${s.mode==='percent'?'%':' قيمة'}`;}
+function cfgLabel(ind,s){return ind==='lux'?`${s.length} / ${s.mult} / ${s.method} / ${s.direction}${s.scanWindow?' · '+windowLabel(s.scanWindow):''}`:`EMA ${s.ema} · ${s.fast}/${s.slow}/${s.signal} · ${s.distance}${s.mode==='percent'?'%':' قيمة'}`;}
 function actualState(s){if((s.state==='pending'||s.state==='withdrawn')&&s.closeTime<now())return {label:'انتهت · بانتظار إعادة التحقق',css:'stale'};return {confirmed:{label:'مثبتة بالإغلاق',css:''},pending:{label:'حالية غير مثبتة',css:'pending'},withdrawn:{label:'تراجعت أثناء التكوّن',css:'withdrawn'},failed:{label:'لم تثبت عند الإغلاق',css:'failed'}}[s.state];}
 function autoDelayMs(){return Math.max(1,state.settings.autoHours)*3600000;}
 function durationText(ms){const sec=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),z=sec%60;return [h,m,z].map(x=>String(x).padStart(2,'0')).join(':');}
@@ -448,7 +474,7 @@ function frameBadges(signals,ind){
  for(const item of sorted){const key=item.interval+'|'+item.direction;if(!byFrame.has(key))byFrame.set(key,item);}
  return [...byFrame.values()].sort((a,b)=>MS[a.interval]-MS[b.interval]).map(item=>{const st=actualState(item),bad=['failed','withdrawn'].includes(item.state);return `<span class="frame ${ind}-frame ${bad?'failed':st.css?'pending':''}" title="${esc(TF[item.interval]+' · '+st.label+' · '+fmtUTC(item.openTime)+' UTC')}"><bdi>${item.interval} ${item.direction==='up'?'↑':'↓'}</bdi></span>`;}).join('');
 }
-function historyLimit(indicator,cfg){const len=indicator==='lux'?cfg.length:Math.max(cfg.ema,cfg.fast,cfg.slow,cfg.signal);return Math.min(5000,Math.max(1000,len*12+state.settings.previousBars+10));}
+function historyLimit(indicator,cfg){const len=indicator==='lux'?cfg.length:Math.max(cfg.ema,cfg.fast,cfg.slow,cfg.signal);return Math.min(5000,Math.max(1000,len*12+scanOptions(indicator,cfg).previousBars+10));}
 
 class Gate {
  constructor(){this.queue=[];this.active=0;this.max=9;this.used=[];this.budget=1200;this.pauseUntil=0;this.sent=0;this.lastStart=0;this.networkFailures=0;this.timer=setInterval(()=>this.pump(),60);}
@@ -585,6 +611,7 @@ function patchQuotes(){
   if(p)p.textContent=price(q.price);if(v){v.textContent=volume(q.quoteVolume);v.title=q.quoteVolume.toLocaleString('en-US',{maximumFractionDigits:8})+' USDT';}
   if(age){const old=Date.now()-q.at>180000;age.className='quoteAge'+(old?' stale':'');age.textContent=old?'آخر بيانات محفوظة':'تحديث '+new Date(q.at).toLocaleTimeString('en-GB',{hour12:false});}
  });
+ for(const ind of TABLES){const key=state.sorts[ind]?.key;if(key==='price'||key==='volume'){const body=$('body-'+ind);if(body)for(const row of visibleRows(ind)){const tr=[...body.children].find(e=>e.dataset.quoteSymbol===row.symbol);if(tr)body.appendChild(tr);}}}
  const wsLive=socket?.readyState===1&&Date.now()-quoteAt<60000;
  $('quoteStatus').textContent=wsLive?'تدفق متصل':quoteAt?'آخر بيانات '+new Date(quoteAt).toLocaleTimeString('en-GB',{hour12:false})+' · REST':'لم تصل بيانات بعد';
  if(Date.now()-lastQuotesSaved>60000){
@@ -636,7 +663,7 @@ function updateWorkers(){
  runtime.forEach((r,i)=>{
   const enabled=state.settings.workers[i].enabled;
   const wc=state.settings.workers[i],current=state.settings[wc.indicator],el=$('workerConfig'+i);
-  const oldRound=r.busy&&r.snapshot&&(r.snapshot.indicator!==wc.indicator||engine.fingerprint(r.snapshot.indicator,r.snapshot.cfg)!==engine.fingerprint(wc.indicator,current));
+  const oldRound=r.busy&&r.snapshot&&(r.snapshot.indicator!==wc.indicator||JSON.stringify(r.snapshot.cfg)!==JSON.stringify(current));
   if(el)el.innerHTML='<bdi>'+esc(cfgLabel(wc.indicator,current))+'</bdi>'+(oldRound?'<span class="round-config">الجولة الجارية بإعداداتها السابقة؛ الجديدة للفحص القادم</span>':'');
   $('progress'+i).style.width=(r.total?r.done/r.total*100:0)+'%';
   $('workerStatus'+i).textContent=r.busy?'يفحص الآن · '+r.lastSymbol:r.note;
@@ -646,7 +673,7 @@ function updateWorkers(){
   $('workerManual'+i).disabled=!enabled||r.busy||r.preparing;
  });
  const active=runtime.filter(r=>r.want).length,automatic=runtime.filter(r=>r.auto).length,busy=runtime.filter(r=>r.busy||r.preparing).length;
- $('activeCount').textContent=active;$('stopAll').disabled=active===0;
+ $('activeCount').textContent=active;$('stopAll').disabled=active===0&&!flowRuntime.busy;
  $('startAll').textContent=automatic?'تشغيل بقية العمال تلقائيًا':'▶ تشغيل المسح التلقائي';
  $('manualScan').disabled=!runtime.some((r,i)=>state.settings.workers[i].enabled&&!r.busy&&!r.preparing);
  $('scanMode').textContent=automatic?`التلقائي مفعّل · ${automatic} عمال`:busy?'مسح يدوي · لا تكرار تلقائي':'التلقائي متوقف';
@@ -654,7 +681,7 @@ function updateWorkers(){
  else if(!marketPromise)$('networkState').textContent='جاهز — النتائج محفوظة';
 }
 function stopWorker(i){const r=runtime[i];r.want=false;r.auto=false;r.preparing=false;r.busy=false;r.generation++;r.nextAt=0;r.note='متوقف — النتائج محفوظة';if(r.worker){r.worker.terminate();r.worker=null;}updateWorkers();}
-function stopAll(){runtime.forEach((_,i)=>stopWorker(i));$('networkState').textContent='المسح متوقف — النتائج محفوظة';log('أُوقف المسح. لا تُحذف النتائج؛ تحديث الأسعار منفصل.');}
+function stopAll(){cancelFlowEvaluation('أُوقف الفحص');runtime.forEach((_,i)=>stopWorker(i));$('networkState').textContent='المسح متوقف — النتائج محفوظة';log('أُوقف المسح. لا تُحذف النتائج؛ تحديث الأسعار منفصل.');}
 async function startWorker(i,mode='auto'){
  const r=runtime[i];if(!state.settings.workers[i].enabled)return false;
  if(mode==='auto')r.auto=true;
@@ -689,7 +716,7 @@ async function startWorker(i,mode='auto'){
      if(!r.auto)r.want=false;
      r.note=(m.errors?'انتهت الجولة مع أخطاء اتصال':'اكتملت الجولة')+(r.auto?' — انتظار '+autoPeriodText():' — انتهى المسح اليدوي');
      log(`العامل ${i+1}: اكتملت جولة ${r.rounds}؛ ${m.done} زوج، ${m.found} ظهور مطابق، ${m.errors} أخطاء.`);
-     scheduleRender();persist();updateWorkers();
+     scheduleRender();persist();updateWorkers();queueFlowEvaluation(r.snapshot.flowGeneration);
     }
    };
    worker.onerror=e=>{if(worker!==r.worker)return;banner('تعطل العامل '+(i+1)+': '+(e.message||'قد يمنع المتصفح تشغيل العامل من ملف محلي')+'. راجع سجل التشغيل أو شغّل الملف من خادم محلي.');log('خطأ Web Worker '+(i+1)+': '+e.message,'error');stopWorker(i);};
@@ -704,10 +731,11 @@ function startRound(i,explicit=false){
  const r=runtime[i];if(!r.want||r.busy||r.preparing||!r.worker)return;
  if(!explicit&&(!r.auto||!r.nextAt||Date.now()<r.nextAt))return;
  const w=state.settings.workers[i],cfg=clone(state.settings[w.indicator]);
- r.snapshot={indicator:w.indicator,interval:w.interval,cfg,includeCurrent:state.settings.includeCurrent,commonResetEpoch:state.commonResetEpoch};
+ const options=scanOptions(w.indicator,cfg);
+ r.snapshot={indicator:w.indicator,interval:w.interval,cfg,includeCurrent:options.includeCurrent,options:clone(options),commonResetEpoch:state.commonResetEpoch,flowGeneration:flowRuntime.generation};
  r.busy=true;r.done=0;r.errors=0;r.found=0;r.total=symbols.length;r.rounds++;r.started=Date.now();r.lastSymbol='بدء الجولة';r.nextAt=0;
  const list=[...symbols].sort((a,b)=>(quotes.get(b)?.quoteVolume||0)-(quotes.get(a)?.quoteVolume||0)||a.localeCompare(b));
- r.worker.postMessage({type:'round',symbols:list,interval:w.interval,indicator:w.indicator,cfg,limit:historyLimit(w.indicator,cfg),parallel:state.settings.parallel,options:{previousBars:state.settings.previousBars,includeCurrent:state.settings.includeCurrent}});
+ r.worker.postMessage({type:'round',symbols:list,interval:w.interval,indicator:w.indicator,cfg,limit:historyLimit(w.indicator,cfg),parallel:state.settings.parallel,options});
  updateWorkers();
 }
 function manualScan(indices){
@@ -724,20 +752,23 @@ function rescheduleWaiting(){
 function buildTables(){
  $('tables').innerHTML=['lux','macd'].map(ind=>`<section class="panel ${ind}" id="panel-${ind}"><div class="tablehead"><div class="tabletitle"><div class="tableicon">${ind==='lux'?'↗':'∿'}</div><div><h2>${TITLES[ind]} <span class="count" id="count-${ind}"></span></h2><p class="tiny muted">${ind==='lux'?'اختراقات الترند · جميع العمال والفريمات':'إشارات شراء المؤشر · جميع العمال والفريمات'}</p><div class="table-config" data-active-config="${ind}"></div></div></div><div class="tablecontrols"><button class="small settings-launch" data-open-indicator="${ind}">⚙ إعدادات المؤشر</button><input type="search" id="search-${ind}" aria-label="بحث في جدول ${ind}" placeholder="ابحث عن عملة…"><select id="filter-${ind}" aria-label="فلترة الفريم"><option value="all">كل الفريمات</option>${Object.entries(TF).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select><select id="sort-${ind}" aria-label="الترتيب"><option value="latest">أحدث شمعة إشارة</option><option value="volume">الأعلى فوليوم</option><option value="symbol">اسم العملة</option></select><button class="small danger" data-delete-selected="${ind}">حذف المحدد</button><button class="small reset-table" data-reset-table="${ind}" title="إفراغ كل نتائج هذا الجدول وإلغاء منع إعادة الشموع نفسها في الفحص التالي">إفراغ الجدول وبدء جديد</button></div></div>
  <p class="table-reset-note">الإفراغ يشمل كل الصفوف، حتى المخفية بالفلاتر، ويتيح اكتشاف الشموع نفسها من جديد. الحذف الفردي أو المحدد يمنع تكرار شموعه.</p><div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="selectall-${ind}" data-select-all="${ind}" aria-label="تحديد العملات المعروضة"></th><th>العملة</th><th>أحدث سعر <span class="mono">USDT</span></th><th>فوليوم <span class="mono">USDT</span><br>آخر 24 ساعة</th><th>الفريمات المكتشفة</th><th>أحدث شمعة إشارة<br><span class="mono">UTC</span></th><th>كل الإشارات</th><th>حذف</th></tr></thead><tbody id="body-${ind}"></tbody></table></div><div class="tablefoot"><span id="foot-${ind}">لا توجد نتائج حتى الآن</span><span>نتائج هذا الجدول لا تُحذف عند تبديل المؤشر.</span></div></section>`).join('');
- $('tables').insertAdjacentHTML('beforeend',commonTableMarkup());
+ $('tables').insertAdjacentHTML('beforeend',commonTableMarkup()+flowTableMarkup());
+ buildSortHeaders();fillFlowSettings();bindFlowSettings();
  for(const ind of TABLES){
-  $('search-'+ind).addEventListener('input',()=>renderTable(ind));$('filter-'+ind).addEventListener('change',()=>renderTable(ind));$('sort-'+ind).addEventListener('change',()=>renderTable(ind));
+  $('search-'+ind).addEventListener('input',()=>renderTable(ind));$('filter-'+ind).addEventListener('change',()=>renderTable(ind));$('sort-'+ind).addEventListener('change',()=>{state.sorts[ind]={key:$('sort-'+ind).value,dir:['symbol','price','frames','luxFrames','macdFrames'].includes($('sort-'+ind).value)?'asc':'desc'};persist();updateSortHeaders(ind);renderTable(ind);});
  }
 }
 function visibleRows(ind){
+ if(ind==='flow')return visibleFlowRows();
  if(ind==='common')return visibleCommonRows();
  const q=$('search-'+ind).value.trim().toUpperCase(),filter=$('filter-'+ind).value,sort=$('sort-'+ind).value;
  const rows=Object.values(state.records[ind]).filter(r=>r.symbol.toUpperCase().includes(q)&&(filter==='all'||r.signals.some(s=>s.interval===filter)));
  const latest=r=>Math.max(...r.signals.map(s=>s.openTime));
- rows.sort((a,b)=>sort==='symbol'?a.symbol.localeCompare(b.symbol):sort==='volume'?((currentQuote(b.symbol,b)?.quoteVolume||0)-(currentQuote(a.symbol,a)?.quoteVolume||0)||a.symbol.localeCompare(b.symbol)):(latest(b)-latest(a)||a.symbol.localeCompare(b.symbol)));
+ sortRows(ind,rows);
  return rows;
 }
 function renderTable(ind){
+ if(ind==='flow'){renderFlowTable();return;}
  if(ind==='common'){renderCommonTable();return;}
  const body=$('body-'+ind);if(!body)return;
  const opened=new Set([...body.querySelectorAll('details[open]')].map(e=>e.getAttribute('data-detail'))),rows=visibleRows(ind),all=Object.values(state.records[ind]);
@@ -763,7 +794,7 @@ function commonTableMarkup(){
 function visibleCommonRows(){
  const q=$('search-common').value.trim().toUpperCase(),filter=$('filter-common').value,sort=$('sort-common').value;
  const rows=Object.values(state.records.common).filter(r=>r.symbol.toUpperCase().includes(q)&&(filter==='all'||['lux','macd'].some(ind=>r.sources[ind].signals.some(s=>s.interval===filter))));
- rows.sort((a,b)=>sort==='symbol'?a.symbol.localeCompare(b.symbol):sort==='volume'?((currentQuote(b.symbol,b)?.quoteVolume||0)-(currentQuote(a.symbol,a)?.quoteVolume||0)||a.symbol.localeCompare(b.symbol)):(b.lastChanged-a.lastChanged||a.symbol.localeCompare(b.symbol)));
+ sortRows('common',rows);
  return rows;
 }
 function renderCommonTable(){
@@ -791,11 +822,12 @@ function deleteCommonRows(list){
   if(commonPresent(symbol))for(const k of commonCandles({lux:state.records.lux[symbol],macd:state.records.macd[symbol]}))blocked[k]=at;
   delete state.records.common[symbol];selected.common.delete(symbol);
  }
- persistNow();renderCommonTable();log('حذف '+list.length+' عملات من سجل اجتماع المؤشّرين مع منع تكرار شموعها فقط.');notify('حُذف سجل الاشتراك فقط؛ جدولا المؤشّرين محفوظان');
+ pruneFlowRecords();persistNow();renderCommonTable();renderFlowTable();log('حذف '+list.length+' عملات من سجل اجتماع المؤشّرين مع منع تكرار شموعها فقط.');notify('حُذف سجل الاشتراك فقط؛ جدولا المؤشّرين محفوظان');
 }
 function scheduleRender(){if(!renderTimer)renderTimer=setTimeout(()=>{renderTimer=null;TABLES.forEach(renderTable);},450);}
 function deleteRows(ind,list){
  if(!TABLES.includes(ind))return;
+ if(ind==='flow'){deleteFlowRows(list);return;}
  if(ind==='common'){deleteCommonRows(list);return;}
  if(!list.length){notify('لم تحدد عملات للحذف');return;}
  if(!confirm(`حذف ${list.length===1?list[0]:list.length+' عملات'} من جدول ${TITLES[ind]}؟`+'\nلن تعود إشارات الشموع المحذوفة نفسها، لكن يمكن للعملة العودة بإشارة في شمعة أخرى.\nلإفراغ الجدول مع السماح بالشموع نفسها استخدم «إفراغ الجدول وبدء جديد».'))return;
@@ -809,21 +841,22 @@ function deleteRows(ind,list){
   }
   delete state.records[ind][symbol];selected[ind].delete(symbol);
  }
- persistNow();renderTable(ind);renderCommonTable();log(`حذف ${list.length} عملات من ${TITLES[ind]}؛ منع ${count} شموع محذوفة فقط، والإشارات في شموع أخرى مسموحة.`);notify('حُذفت النتائج؛ يمكن للعملة العودة بإشارة في شمعة أخرى');
+ pruneFlowRecords();persistNow();renderTable(ind);renderCommonTable();renderFlowTable();log(`حذف ${list.length} عملات من ${TITLES[ind]}؛ منع ${count} شموع محذوفة فقط، والإشارات في شموع أخرى مسموحة.`);notify('حُذفت النتائج؛ يمكن للعملة العودة بإشارة في شمعة أخرى');
 }
 function resetTables(targets){
  const tables=[...new Set(targets)].filter(ind=>TABLES.includes(ind));if(!tables.length)return;
- const all=tables.length===TABLES.length,commonOnly=tables.length===1&&tables[0]==='common';
+ const all=tables.length===TABLES.length,commonOnly=tables.length===1&&tables[0]==='common',flowOnly=tables.length===1&&tables[0]==='flow';
  const names=tables.map(ind=>TITLES[ind]).join('، ');
  const rows=tables.reduce((n,ind)=>n+Object.keys(state.records[ind]).length,0);
  const blocked=tables.reduce((n,ind)=>n+Object.values(state.deleted[ind]).reduce((sum,entries)=>sum+Object.keys(entries).length,0),0);
- let message=(all?'إفراغ الجداول الثلاثة والبدء من جديد؟':`إفراغ جدول ${names} والبدء من جديد؟`);
+ let message=(all?'إفراغ الجداول الأربعة والبدء من جديد؟':`إفراغ جدول ${names} والبدء من جديد؟`);
  message+=`\n\nستُمسح كل النتائج في النطاق المختار (${rows} صف)، حتى المخفية بالفلاتر، ويُلغى سجل منع إعادة الاكتشاف (${blocked} شمعة مسجلة).`;
  message+='\nيمكن للفحص القادم إعادة العملات على الشموع السابقة نفسها إذا طابقت الشروط الحالية.';
- message+=all?'\nلا تتغير إعدادات المؤشرات أو العمال.':'\nتبقى بيانات الجداول الأخرى وإعدادات المؤشرات والعمال كما هي.';
- message+=commonOnly?'\nيظل الجدول الثالث فارغًا حتى تصل نتائج جولة تبدأ بعد الإفراغ. لا تتوقف عمال المؤشرين؛ والجولات الجارية حاليًا لا تعيد ملء سجله.':'\nتتوقف جولات المسح والتلقائي للعمال المرتبطين بالجداول التي ستُفرغ، حتى لا تُعاد نتائج جولة قديمة. بعد الإفراغ اضغط «مسح يدوي» أو أعد تشغيل التلقائي.';
+ message+=all?'\nلا تتغير إعدادات المؤشرات أو العمال.':'\nتبقى سجلات الجداول الأخرى وإعدادات المؤشرات والعمال. العملات التي لا تعود مشتركة تخرج من المقبولين في الرابع فقط.';
+ message+=flowOnly?'\nيتوقف تقييم الفلتر الجاري فقط. لا تتوقف عمال المؤشرين. لإعادة تقييم نفس الفترات اضغط «فحص فلتر الشراء الآن» بعد الإفراغ.':commonOnly?'\nيظل الجدول الثالث فارغًا حتى تصل نتائج جولة تبدأ بعد الإفراغ. لا تتوقف عمال المؤشرين؛ والجولات الجارية حاليًا لا تعيد ملء سجله.':'\nتتوقف جولات المسح والتلقائي للعمال المرتبطين بالجداول التي ستُفرغ، حتى لا تُعاد نتائج جولة قديمة. بعد الإفراغ اضغط «مسح يدوي» أو أعد تشغيل التلقائي.';
  message+='\n\nلا يمكن التراجع من داخل الصفحة. يمكنك الإلغاء وتصدير نسخة احتياطية أولًا.';
  if(!confirm(message))return;
+ cancelFlowEvaluation('بانتظار فحص بعد الإفراغ');
  // Terminating only affected workers invalidates their generations, including
  // callbacks already awaiting a network response. Do not touch other workers.
  for(const r of runtime){
@@ -838,14 +871,14 @@ function resetTables(targets){
   // Reset the view as well, so retained filters cannot hide new results.
   if($('search-'+ind))$('search-'+ind).value='';
   if($('filter-'+ind))$('filter-'+ind).value='all';
-  if($('sort-'+ind))$('sort-'+ind).value='latest';
+  state.sorts[ind]={key:'latest',dir:'desc'};if($('sort-'+ind))$('sort-'+ind).value='latest';updateSortHeaders(ind);
  }
  if(tables.includes('common'))state.commonResetEpoch=state.commonResetEpoch>=1000000000000?1:state.commonResetEpoch+1;
  if(renderTimer){clearTimeout(renderTimer);renderTimer=null;}
  if(saveTimer){clearTimeout(saveTimer);saveTimer=null;}
- persistNow();TABLES.forEach(renderTable);updateWorkers();
+ pruneFlowRecords();persistNow();TABLES.forEach(renderTable);updateWorkers();
  log(`إفراغ وبداية جديدة: ${names}؛ مُسح ${rows} صف وأُلغي ${blocked} مفتاح منع. الشموع السابقة نفسها مؤهلة للفحص القادم؛ الإعدادات لم تتغير.`);
- notify(commonOnly?'أُفرغ سجل الاشتراك؛ سيُبنى من نتائج فحص جديد، والشموع السابقة مسموحة':'أُفرغ '+(all?'الجداول الثلاثة':'جدول '+names)+'؛ ابدأ مسحًا جديدًا، حتى الشموع السابقة مسموحة');
+ notify(flowOnly?'أُفرغ الرابع؛ اضغط فحص فلتر الشراء الآن لإعادة نفس الفترات. الجداول الأصلية محفوظة.':commonOnly?'أُفرغ سجل الاشتراك؛ سيُبنى من نتائج فحص جديد، والشموع السابقة مسموحة':'أُفرغ '+(all?'الجداول الأربعة':'جدول '+names)+'؛ ابدأ مسحًا جديدًا، حتى الشموع السابقة مسموحة');
 }
 function fillSettings(){
  const f=$('settingsForm').elements,s=state.settings;
@@ -854,9 +887,9 @@ function fillSettings(){
  for(const k of ['includeCurrent','excludeStable'])f.namedItem(k).checked=s[k];updateSettingsText();refreshIndicatorLabels();
 }
 function updateSettingsText(){
- const s=state.settings;$('settingsSummary').textContent=`· ${s.previousBars} سابقة · ${s.includeCurrent?'مع الحالية':'مغلقة فقط'} · تلقائي ${autoPeriodText()}`;
+ const s=state.settings;$('settingsSummary').textContent=`· MACD: ${s.previousBars} سابقة · ${s.includeCurrent?'مع الحالية':'مغلقة فقط'} · تلقائي ${autoPeriodText()}`;
  const scope=s.includeCurrent?`الشمعة الحالية + ${s.previousBars} سابقة. الحالية غير مثبتة حتى إغلاقها وإعادة التحقق.`:`آخر شمعة مغلقة + ${s.previousBars} سابقة.`;
- $('candleNotice').textContent=`الفحص: ${scope} التشغيل التلقائي: جولة أولى فورية، ثم انتظار ${autoPeriodText()} بعد اكتمال جولة كل عامل. يمكنك المسح يدويًا قبل الموعد؛ بعدها تبدأ المدة من جديد للعامل التلقائي.`;
+ $('candleNotice').textContent=`LuxAlgo: ${windowLabel(s.lux.scanWindow)}. MACD: ${scope} التشغيل التلقائي: جولة أولى فورية، ثم انتظار ${autoPeriodText()} بعد اكتمال جولة كل عامل. يمكنك المسح يدويًا قبل الموعد؛ بعدها تبدأ المدة من جديد للعامل التلقائي.`;
  $('candleNotice').className='notice'+(s.includeCurrent?'':' info');
  $('scheduleSummary').textContent='إعادة المسح التلقائي: '+autoPeriodText()+' بعد انتهاء الجولة';
 }
@@ -864,11 +897,11 @@ $('settingsForm').addEventListener('submit',e=>{
  e.preventDefault();const f=e.currentTarget;if(!f.reportValidity())return;const v=name=>f.elements.namedItem(name).value,n=name=>Number(v(name)),old=clone(state.settings);
  const s={...old,previousBars:n('previousBars'),autoHours:n('autoHours'),parallel:n('parallel'),endpoint:v('endpoint'),includeCurrent:f.elements.includeCurrent.checked,excludeStable:f.elements.excludeStable.checked,excludedAssets:v('excludedAssets')};
  if(!validSettings(s)){notify('راجع قيم نطاق الفحص والتوقيت');return;}
- state.settings=s;if(old.endpoint!==s.endpoint){marketAt=0;symbols=[];cache.clear();}
+ state.settings=s;if(old.endpoint!==s.endpoint){cancelFlowEvaluation('تغيّر مصدر البيانات؛ بانتظار فحص جديد');marketAt=0;symbols=[];cache.clear();}
  if(allSymbols.length&&old.endpoint===s.endpoint)filterUniverse();
  const scanChanged=['previousBars','includeCurrent','parallel','endpoint','excludeStable','excludedAssets'].some(k=>JSON.stringify(old[k])!==JSON.stringify(s[k]));
- if(scanChanged)runtime.forEach((_,i)=>restartWorker(i));else rescheduleWaiting();
- persistNow();updateSettingsText();refreshIndicatorLabels();notify('طُبّق نطاق الفحص دون حذف نتائج أي جدول');log('تطبيق نطاق الفحص والتشغيل؛ نتائج الجداول الثلاثة محفوظة.');
+ if(scanChanged){const commonChanged=['parallel','endpoint','excludeStable','excludedAssets'].some(k=>JSON.stringify(old[k])!==JSON.stringify(s[k]));runtime.forEach((_,i)=>{if(commonChanged||s.workers[i].indicator==='macd')restartWorker(i);});}else rescheduleWaiting();
+ persistNow();updateSettingsText();refreshIndicatorLabels();notify('طُبّق نطاق الفحص دون حذف نتائج أي جدول');log('تطبيق نطاق الفحص والتشغيل؛ نتائج الجداول الأربعة محفوظة.');
 });
 $('resetScopeDraft').onclick=()=>{fillSettings();notify('أُعيدت الحقول إلى إعدادات الفحص المحفوظة دون تغيير النتائج');};
 
@@ -892,7 +925,12 @@ function indicatorFieldMarkup(ind,cfg){
  ${select('calcMethod','<bdi>Slope Calculation Method</bdi>',[['Atr','Atr'],['Stdev','Stdev'],['Linreg','Linreg']],cfg.method)}
  <p class="hint">Lookback: من 2 إلى 300 شمعة، وSlope: من 0 إلى 100؛ هذه حدود تشغيل النسخة الحالية. طول ATR أو Stdev أو Linreg يتبع Lookback نفسه، كما في الكود، وليس إعدادًا مستقلًا.</p></fieldset>
  <fieldset class="indicator-group"><legend>اتجاه الإشارة التي يبحث عنها الماسح</legend>${select('direction','علامة الاختراق المطلوبة',[['up','اختراق صاعد B'],['down','كسر هابط B'],['both','الاتجاهان']],cfg.direction)}<p class="hint">الكود الأصلي يصدر الاتجاهين. هذا الخيار يحدد أي علامات تريد إضافتها إلى جدول LuxAlgo.</p></fieldset>
- <div class="formula-note" id="luxFormula"></div>
+ <fieldset class="indicator-group"><legend>الشموع التي يبحث فيها LuxAlgo فقط</legend>
+ ${select('windowMode','نطاق شموع الاكتشاف',[['current','الشمعة الحالية المفتوحة فقط'],['previous','الشمعة السابقة المغلقة فقط'],['last30','آخر 30 شمعة'],['custom','عدد شموع مخصص']],cfg.scanWindow.mode)}
+ ${numericInput('windowCount','إجمالي عدد الشموع',cfg.scanWindow.count,{min:1,max:1000,integer:true,help:'من 1 إلى 1000 · العدد الإجمالي، وليس عددًا يُضاف إلى الحالية'})}
+ <label class="checkline"><input type="checkbox" name="windowInclude" ${cfg.scanWindow.includeCurrent?'checked':''}><span>يشمل العدد الشمعة الحالية المفتوحة (إشارتها مؤقتة)</span></label>
+ <p class="scope-live" id="windowPreview"></p><p class="hint">هذا نطاق البحث عن علامة B، وليس Swing Detection Lookback المستخدم لحساب الترند. يطبق على كل عمال LuxAlgo فقط. تتغير النتائج الجديدة؛ لا تُحذف الإشارات التاريخية المحفوظة تلقائيًا. لبداية فارغة استخدم إفراغ الجدول وبدء جديد.</p>
+ </fieldset><div class="formula-note" id="luxFormula"></div>
  <div class="visual-note">خيارات Backpaint وShow Extended Lines وألوان الخطوط ليست مدخلات قبول أو رفض؛ لذلك لا توجد هنا مفاتيح شكلية توهم بأنها تغيّر نتائج الفحص.</div>`;
  return `<fieldset class="indicator-group"><legend>إعدادات الاتجاه</legend>${numericInput('ema_length','طول المتوسط الأسي (EMA)',cfg.ema,{min:1,max:300,integer:true})}</fieldset>
  <fieldset class="indicator-group"><legend>إعدادات الماكد</legend>${numericInput('fast_length','الماكد: الخط السريع',cfg.fast,{min:1,max:300,integer:true})}${numericInput('slow_length','الماكد: الخط البطيء',cfg.slow,{min:1,max:300,integer:true})}${numericInput('signal_length','الماكد: خط الإشارة',cfg.signal,{min:1,max:300,integer:true})}<p class="hint">أطوال المتوسطات: أعداد صحيحة من 1 إلى 300 شمعة في هذه النسخة.</p></fieldset>
@@ -909,13 +947,21 @@ function editorDraft(showErrors=false){
  }
  if(firstInvalid){if(showErrors){$('indicatorError').textContent='راجع الحقل المحدد: أدخل رقمًا ضمن الحدود الموضحة. الأطوال صحيحة، والميل والمسافة غير سالبين. تُقبل النقطة أو الفاصلة العشرية.';$('indicatorError').hidden=false;firstInvalid.focus();}return null;}
  const f=form.elements,n=k=>parseIndicatorNumber(f.namedItem(k).value),v=k=>f.namedItem(k).value;
- const cfg=editor.indicator==='lux'?{length:n('length'),mult:n('mult'),method:v('calcMethod'),direction:v('direction')}:{ema:n('ema_length'),fast:n('fast_length'),slow:n('slow_length'),signal:n('signal_length'),mode:v('calc_mode'),distance:n('distance_input')};
+ const cfg=editor.indicator==='lux'?{length:n('length'),mult:n('mult'),method:v('calcMethod'),direction:v('direction'),scanWindow:normalizedWindow({mode:v('windowMode'),count:n('windowCount'),includeCurrent:f.namedItem('windowInclude').checked})}:{ema:n('ema_length'),fast:n('fast_length'),slow:n('slow_length'),signal:n('signal_length'),mode:v('calc_mode'),distance:n('distance_input')};
  if(!validCfg(editor.indicator,cfg)){if(showErrors){$('indicatorError').textContent='قيم المؤشر غير صالحة.';$('indicatorError').hidden=false;}return null;}
  if(showErrors)$('indicatorError').hidden=true;
  return cfg;
 }
 function refreshEditor(){
  if(!editor.indicator)return;
+ if(editor.indicator==='lux'){
+  const f=$('indicatorForm').elements,mode=f.namedItem('windowMode').value,count=f.namedItem('windowCount'),include=f.namedItem('windowInclude');
+  count.disabled=mode!=='custom';count.closest('.decimal-control').querySelectorAll('button').forEach(b=>b.disabled=count.disabled);
+  if(mode==='current'||mode==='previous')count.value='1';else if(mode==='last30')count.value='30';
+  include.disabled=mode==='current'||mode==='previous';if(include.disabled)include.checked=mode==='current';
+  const w={mode,count:parseIndicatorNumber(count.value),includeCurrent:include.checked};
+  $('windowPreview').textContent=validScanWindow(w)?'نطاق الجولة القادمة: '+windowLabel(w):'أدخل عددًا صحيحًا من 1 إلى 1000.';
+ }
  const cfg=editorDraft(),dirty=!cfg||JSON.stringify(cfg)!==editor.initial;
  $('indicatorDirty').textContent=dirty?'تعديلات لم تُحفظ':'هذه الإعدادات المعتمدة';
  if(editor.indicator==='macd'){
@@ -952,7 +998,7 @@ function refreshIndicatorLabels(){
  for(const ind of ['lux','macd']){
   const cfg=state.settings[ind],direction={up:'صاعد',down:'هابط',both:'الاتجاهان'};
   const chips=ind==='lux'?[['Lookback',cfg.length],['Slope',cfg.mult],['Method',cfg.method],['الاختراق',direction[cfg.direction]]]:[['EMA',cfg.ema],['MACD',`${cfg.fast} / ${cfg.slow} / ${cfg.signal}`],['الحد',cfg.mode==='percent'?`−${cfg.distance}% من السعر`:`−${cfg.distance} مباشرة`]];
-  $('indicatorValues-'+ind).innerHTML=chips.map(([k,v])=>`<span class="tag">${esc(k)} <bdi class="num">${esc(v)}</bdi></span>`).join('');
+  $('indicatorValues-'+ind).innerHTML=chips.map(([k,v])=>`<span class="tag">${esc(k)} <bdi class="num">${esc(v)}</bdi></span>`).join('')+(ind==='lux'?`<span class="tag">نطاق البحث: ${esc(windowLabel(cfg.scanWindow))}</span>`:'');
   const ids=state.settings.workers.map((w,i)=>w.indicator===ind&&w.enabled?i+1:null).filter(Boolean);
   $('indicatorWorkers-'+ind).textContent=ids.length?'إعدادات مشتركة للعمال: '+ids.join('، '):'لا يوجد عامل مفعّل يستخدم هذا المؤشر حاليًا.';
   document.querySelectorAll(`[data-active-config="${ind}"]`).forEach(el=>el.textContent='إعدادات الفحص المعتمدة: '+cfgLabel(ind,cfg));
@@ -963,13 +1009,13 @@ function saveIndicatorSettings(scanNow=false){
  const cfg=editorDraft(true);if(!cfg)return;
  const ind=editor.indicator,indices=state.settings.workers.map((w,i)=>w.enabled&&w.indicator===ind?i:null).filter(i=>i!==null);
  if(scanNow&&indices.some(i=>runtime[i].busy||runtime[i].preparing)&&!confirm('يوجد فحص جارٍ لهذا المؤشر. إيقاف جولته الحالية وبدء جولة جديدة بالإعدادات المعدلة؟ ستبقى النتائج التي وصلت محفوظة.'))return;
- const changed=engine.fingerprint(ind,state.settings[ind])!==engine.fingerprint(ind,cfg);
+ const changed=JSON.stringify(state.settings[ind])!==JSON.stringify(cfg);
  state.settings[ind]=clone(cfg);persistNow();refreshIndicatorLabels();updateSettingsText();TABLES.forEach(renderTable);updateWorkers();closeIndicatorSettings(true);
  log(`حُفظت إعدادات ${TITLES[ind]}: ${cfgLabel(ind,cfg)}. النتائج السابقة محفوظة؛ ${scanNow?'طُلب المسح الآن':'للفحص القادم دون تغيير موعده'}.`);
  if(scanNow){
   if(!indices.length){notify('حُفظت الإعدادات. اختر هذا المؤشر لعامل مفعّل ثم اضغط مسح يدوي.');return;}
   for(const i of indices){const automatic=runtime[i].auto;stopWorker(i);runtime[i].auto=automatic;startWorker(i,'manual');}
-  notify('حُفظت إعدادات '+TITLES[ind]+' وطُلب مسح عماله فقط. الجداول الثلاثة محفوظة.');
+  notify('حُفظت إعدادات '+TITLES[ind]+' وطُلب مسح عماله فقط. الجداول الأربعة محفوظة.');
  }else notify(changed?'حُفظت القيم للفحص القادم؛ الجولة الجارية تُكمل بإعداداتها الأصلية. النتائج السابقة محفوظة.':'الإعدادات محفوظة دون تغيير المواعيد أو النتائج.');
 }
 $('indicatorForm').addEventListener('submit',e=>{e.preventDefault();saveIndicatorSettings((e.submitter||document.activeElement)?.value==='scan');});
@@ -981,7 +1027,7 @@ $('indicatorForm').addEventListener('click',e=>{
   const ind=editor.indicator,code=preset.dataset.indicatorPreset==='code',cfg=clone(DEFAULTS[ind]);
   if(code){if(ind==='lux'){cfg.length=14;cfg.mult=1;}else{cfg.ema=200;cfg.distance=.1;}}
   // Direction is a scanner preference, not a source-code input or image preset.
-  if(ind==='lux')cfg.direction=$('indicatorForm').elements.namedItem('direction').value;
+  if(ind==='lux'){cfg.direction=$('indicatorForm').elements.namedItem('direction').value;cfg.scanWindow=editorDraft()?.scanWindow||clone(state.settings.lux.scanWindow);}
   $('indicatorFields').innerHTML=indicatorFieldMarkup(ind,cfg);$('indicatorError').hidden=true;refreshEditor();
  }
 });
@@ -1008,6 +1054,7 @@ $('tables').addEventListener('change',e=>{
 });
 $('tables').addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.sortHeader){toggleSort(b.dataset.sortTable,b.dataset.sortHeader);return;}
  if(b.dataset.deleteOne)deleteRows(b.dataset.deleteOne,[decodeURIComponent(b.dataset.symbol)]);
  if(b.dataset.deleteSelected)deleteRows(b.dataset.deleteSelected,[...selected[b.dataset.deleteSelected]]);
  if(b.dataset.resetTable)resetTables([b.dataset.resetTable]);
@@ -1029,10 +1076,10 @@ $('importBackup').onclick=()=>$('backupFile').click();
 $('backupFile').onchange=async e=>{
  const file=e.target.files[0];if(!file)return;
  try{if(file.size>20*1024*1024)throw new Error('حجم النسخة يتجاوز 20 MB');const incoming=validateState(JSON.parse(await file.text()));if(!confirm('استبدال الإعدادات والنتائج الحالية بهذه النسخة الاحتياطية؟ صدّر الحالية أولًا للاحتفاظ بها.'))return;
-  stopAll();state=incoming;selected={lux:new Set(),macd:new Set(),common:new Set()};marketAt=0;symbols=[];cache.clear();storageOK=true;syncCommon();persistNow();buildWorkers();fillSettings();TABLES.forEach(renderTable);notify('استُوردت النسخة والجدول الثالث؛ اختر مسحًا يدويًا أو تلقائيًا');
+  stopAll();state=incoming;selected={lux:new Set(),macd:new Set(),common:new Set(),flow:new Set()};marketAt=0;symbols=[];cache.clear();storageOK=true;syncCommon();pruneFlowRecords();persistNow();buildWorkers();fillSettings();fillFlowSettings();TABLES.forEach(ind=>{updateSortHeaders(ind);renderTable(ind);});notify('استُوردت النسخة والجدول الثالث؛ اختر مسحًا يدويًا أو تلقائيًا');
  }catch(e){banner('لم تُستورد النسخة: '+e.message);}finally{$('backupFile').value='';}
 };
-$('resetDeleted').onclick=()=>{if(confirm('السماح بإعادة اكتشاف كل النتائج المحذوفة عند الفحص القادم؟ لن تُحذف النتائج الموجودة.')){state.deleted={lux:{},macd:{},common:{}};persistNow();notify('أُلغي منع إعادة الاكتشاف؛ يُستعاد المطابق عند الفحص التالي');}};
+$('resetDeleted').onclick=()=>{if(confirm('السماح بإعادة اكتشاف كل النتائج المحذوفة عند الفحص القادم؟ لن تُحذف النتائج الموجودة.')){state.deleted={lux:{},macd:{},common:{},flow:{}};persistNow();notify('أُلغي منع إعادة الاكتشاف؛ يُستعاد المطابق عند الفحص التالي');}};
 window.addEventListener('beforeunload',()=>{if(saveTimer)persistNow();});
 window.addEventListener('pagehide',()=>{if(saveTimer)persistNow();});
 window.addEventListener('storage',e=>{if(e.key===KEY)banner('عُدلت بيانات هذا الماسح في تبويب آخر. استخدم تبويبًا واحدًا لتجنب تعارض حفظ النتائج.','info');});
@@ -1049,12 +1096,184 @@ setInterval(()=>{
 },1000);
 setInterval(patchQuotes,1800);
 setInterval(()=>{if(runtime.some(r=>r.want))ensureMarket(true).catch(e=>log('تحديث قائمة الأزواج: '+e.message,'error'));},15*60000);
-buildWorkers();buildTables();fillSettings();if(syncCommon())persist();TABLES.forEach(renderTable);
+// Column sorting works on the unformatted underlying data, never K/M strings.
+function sortColumns(ind){
+ const base=[['symbol','العملة'],['price','أحدث سعر'],['volume','فوليوم USDT']];
+ if(ind==='lux'||ind==='macd')return [...base,['frames','الفريمات'],['latest','أحدث شمعة إشارة'],['count','عدد الإشارات']];
+ if(ind==='common')return [...base,['luxFrames','فريمات LuxAlgo'],['macdFrames','فريمات MACD'],['firstSeen','وقت تسجيل الاشتراك'],['status','حالة الاشتراك'],['count','عدد الإشارات'],['latest','آخر تحديث للسجل']];
+ return [...base,['luxFrames','فريمات LuxAlgo'],['macdFrames','فريمات MACD'],['buy','الشراء في آخر فترة'],['share','حصة الشراء'],['multiple','مضاعف الشراء'],['gain','تسارع الزيادة'],['latest','وقت التقييم'],['count','عدد فترات الاختبار']];
+}
+function cleanSorts(input){
+ const out={};for(const ind of TABLES){const v=input?.[ind];out[ind]=v&&sortColumns(ind).some(([k])=>k===v.key)&&['asc','desc'].includes(v.dir)?{key:v.key,dir:v.dir}:{key:'latest',dir:'desc'};}return out;
+}
+function metric(ind,row,key){
+ const signals=ind==='lux'||ind==='macd'?row.signals:row.sources?[...row.sources.lux.signals,...row.sources.macd.signals]:[];
+ const frames=s=>{const fs=[...new Set(s.map(x=>x.interval))];return [Math.max(0,...fs.map(x=>MS[x]||0)),fs.length];};
+ if(key==='symbol')return row.symbol;
+ if(key==='price')return currentQuote(row.symbol,row)?.price??null;
+ if(key==='volume')return currentQuote(row.symbol,row)?.quoteVolume??null;
+ if(key==='frames')return frames(signals);
+ if(key==='luxFrames'||key==='macdFrames')return frames(row.sources?.[key==='luxFrames'?'lux':'macd']?.signals||[]);
+ if(key==='count')return ind==='flow'?row.config.baseline+3:signals.length;
+ if(key==='firstSeen')return row.firstSeen;
+ if(key==='status')return commonPresent(row.symbol)?1:0;
+ if(key==='latest')return ind==='common'?row.lastChanged:ind==='flow'?row.evaluatedAt:Math.max(0,...signals.map(s=>s.openTime));
+ if(ind==='flow'){if(key==='buy')return row.periods[2].buy;if(key==='share')return row.buyShare;if(key==='multiple')return row.multiple;if(key==='gain')return row.delta2-row.delta1;}
+ return null;
+}
+function sortRows(ind,rows){
+ const setting=state.sorts[ind]||{key:'latest',dir:'desc'},sign=setting.dir==='asc'?1:-1;
+ const compare=(a,b)=>Array.isArray(a)?(a[0]-b[0]||a[1]-b[1]):typeof a==='string'?a.localeCompare(b,'en',{numeric:true}):a-b;
+ rows.sort((a,b)=>{const x=metric(ind,a,setting.key),y=metric(ind,b,setting.key);if(x===null||x===undefined)return y==null?a.symbol.localeCompare(b.symbol):1;if(y===null||y===undefined)return -1;return sign*compare(x,y)||a.symbol.localeCompare(b.symbol);});return rows;
+}
+function buildSortHeaders(){
+ for(const ind of TABLES){
+  const headers=[...$('panel-'+ind).querySelectorAll('thead th')];
+  const keys=ind==='lux'||ind==='macd'?['symbol','price','volume','frames','latest','count']:ind==='common'?['symbol','price','volume','luxFrames','macdFrames','firstSeen','status','count']:['symbol','price','volume','luxFrames','macdFrames','buy','share','multiple','gain','latest','count'];
+  keys.forEach((key,i)=>{const h=headers[i+1];h.dataset.sortKey=key;h.scope='col';h.innerHTML=`<button type="button" class="sort-button" data-sort-header="${key}" data-sort-table="${ind}" title="اضغط للتصاعدي ثم للتنازلي">${h.innerHTML}<span class="sort-arrow" aria-hidden="true">↕</span></button>`;});
+  const select=$('sort-'+ind);select.innerHTML=sortColumns(ind).map(([key,label])=>`<option value="${key}">${label}</option>`).join('');
+  updateSortHeaders(ind);
+ }
+}
+function updateSortHeaders(ind){
+ const s=state.sorts[ind]||{key:'latest',dir:'desc'};
+ const p=$('panel-'+ind);if(!p)return;
+ p.querySelectorAll('th[data-sort-key]').forEach(h=>{const active=h.dataset.sortKey===s.key;h.setAttribute('aria-sort',active?(s.dir==='asc'?'ascending':'descending'):'none');h.querySelector('.sort-arrow').textContent=active?(s.dir==='asc'?'↑':'↓'):'↕';});
+ if($('sort-'+ind))$('sort-'+ind).value=s.key;
+}
+function toggleSort(ind,key){
+ const prior=state.sorts[ind];state.sorts[ind]={key,dir:prior?.key===key&&prior.dir==='asc'?'desc':'asc'};persist();updateSortHeaders(ind);renderTable(ind);
+}
+// Execution filter: equal, CLOSED windows; the baseline excludes all 3 test windows.
+function flowStats(periods,mean,cfg){
+ if(!validFlowSettings(cfg)||!Array.isArray(periods)||periods.length!==3||!finite(mean)||mean<=0)throw new Error('لا يوجد متوسط شراء موجب كافٍ للمقارنة');
+ for(const p of periods)if(!p||!['openTime','closeTime','buy','quote'].every(k=>finite(p[k]))||p.buy<0||p.quote<0||p.buy>p.quote+Math.max(1e-8,p.quote*1e-10)||p.closeTime-p.openTime+1!==FLOW_TF[cfg.interval])throw new Error('قيم تنفيذ غير صالحة');
+ for(let i=1;i<3;i++)if(periods[i].openTime-periods[i-1].openTime!==FLOW_TF[cfg.interval])throw new Error('فجوة بين فترات الاختبار');
+ const [a,b,c]=periods,delta1=b.buy-a.buy,delta2=c.buy-b.buy,buyShare=c.quote>0?Math.min(100,c.buy/c.quote*100):0,multiple=c.buy/mean;
+ if(![delta1,delta2,buyShare,multiple].every(finite))throw new Error('قيم اختبار غير قابلة للحساب');
+ return {accepted:delta1>0&&delta2>delta1&&buyShare>=cfg.share&&multiple>=cfg.multiple,delta1,delta2,buyShare,multiple};
+}
+function evaluateFlow(rows,cfg,at){
+ if(!validFlowSettings(cfg)||!finite(at)||!Array.isArray(rows))throw new Error('إعدادات أو استجابة الفلتر غير صالحة');
+ const ms=FLOW_TF[cfg.interval],end=Math.floor(at/ms)*ms-1,need=cfg.baseline+3;
+ const sample=rows.filter(r=>Array.isArray(r)&&+r[6]<=end).slice(-need).map(r=>({openTime:+r[0],closeTime:+r[6],quote:+r[7],buy:+r[10]}));
+ if(sample.length!==need)throw new Error(`بيانات غير كافية: يلزم ${need} فترة مغلقة`);
+ for(let i=0;i<sample.length;i++){
+  const p=sample[i];if(!Object.values(p).every(finite)||p.openTime<=0||p.openTime%ms!==0||p.closeTime!==p.openTime+ms-1||p.quote<0||p.buy<0||p.buy>p.quote+Math.max(1e-8,p.quote*1e-10))throw new Error('بيانات شراء/فوليوم غير صالحة');
+  if(i&&p.openTime!==sample[i-1].openTime+ms)throw new Error('بيانات غير مكتملة: توجد فترات مفقودة');
+ }
+ if(sample[sample.length-1].closeTime!==end)throw new Error('لم تصل آخر فترة مغلقة؛ لن تُعرض بيانات أقدم كقياس جديد');
+ const periods=sample.slice(-3),baselineBuys=sample.slice(0,-3).map(p=>p.buy),baselineMean=baselineBuys.reduce((a,b)=>a+b,0)/cfg.baseline;
+ return {...flowStats(periods,baselineMean,cfg),periods,baselineBuys,baselineMean,config:clone(cfg),dataAsOf:end+1,evaluatedAt:at};
+}
+function cleanFlowBackup(input,out){
+ const rows=input.records.flow||{},deleted=input.deleted?.flow||{};
+ if(!rows||typeof rows!=='object'||Array.isArray(rows)||!deleted||typeof deleted!=='object'||Array.isArray(deleted))throw new Error('تنسيق جدول الفلتر غير صالح');
+ for(const [symbol,r]of Object.entries(rows)){
+  if(!symOK(symbol)||!r||!validFlowSettings(r.config)||!Array.isArray(r.baselineBuys)||r.baselineBuys.length!==r.config.baseline||!r.baselineBuys.every(x=>finite(x)&&x>=0)||!finite(r.evaluatedAt)||!finite(r.dataAsOf))throw new Error('سجل فلتر غير صالح');
+  const mean=r.baselineBuys.reduce((a,b)=>a+b,0)/r.baselineBuys.length,calc=flowStats(r.periods,mean,r.config);
+  if(!calc.accepted||r.dataAsOf!==r.periods[2].closeTime+1||r.evaluatedAt<r.dataAsOf)throw new Error('سجل فلتر غير مؤهل أو توقيته غير صالح');
+  const sources={lux:cleanSourceRow('lux',symbol,r.sources.lux),macd:cleanSourceRow('macd',symbol,r.sources.macd)};
+  out.records.flow[symbol]={symbol,...calc,periods:clone(r.periods),baselineBuys:[...r.baselineBuys],baselineMean:mean,config:clone(r.config),dataAsOf:r.dataAsOf,evaluatedAt:r.evaluatedAt,sources,quoteSnapshot:cleanQuote(r.quoteSnapshot)};
+ }
+ for(const [symbol,entries]of Object.entries(deleted)){
+  if(!symOK(symbol)||!entries||typeof entries!=='object'||Array.isArray(entries))throw new Error('سجل حذف الفلتر غير صالح');
+  const clean={};for(const [key,at]of Object.entries(entries)){const parts=key.split('|'),ts=Number(parts[1]);if(parts.length!==2||!own(FLOW_TF,parts[0])||!Number.isSafeInteger(ts)||ts<=0||!finite(at)||at<=0)throw new Error('مفتاح حذف الفلتر غير صالح');clean[key]=at;}if(Object.keys(clean).length)out.deleted.flow[symbol]=clean;
+ }
+}
+function flowCandidate(symbol){return own(state.records.common,symbol)&&commonPresent(symbol);}
+function pruneFlowRecords(){
+ let changed=false;for(const symbol of Object.keys(state.records.flow))if(!flowCandidate(symbol)){delete state.records.flow[symbol];selected.flow.delete(symbol);changed=true;}if(changed)persist();return changed;
+}
+function flowTableMarkup(){return `<section class="panel flow" id="panel-flow"><div class="tablehead"><div class="tabletitle"><div class="tableicon">⇈</div><div><h2>الجدول الرابع · الشراء المتسارع <span class="count" id="count-flow"></span></h2><p class="tiny muted">المقبولة من الجدول الثالث فقط · تسارع شراء منفّذ + هيمنة شراء + نشاط فوق المتوسط</p></div></div><div class="tablecontrols"><button class="small primary" id="runFlow">فحص فلتر الشراء الآن</button><input id="search-flow" type="search" placeholder="ابحث عن عملة…" aria-label="البحث في المقبولة"><select id="filter-flow" aria-label="فلترة فريمات الاكتشاف"><option value="all">كل الفريمات</option>${Object.entries(TF).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select><select id="sort-flow" aria-label="ترتيب المقبولة"></select><button class="small danger" data-delete-selected="flow">حذف المحدد</button><button class="small reset-table" data-reset-table="flow">إفراغ الجدول وبدء جديد</button></div></div>
+<details id="flowSettingsPanel" class="settings"><summary>⚙ إعدادات فلتر الشراء المتسارع <span class="tiny muted" id="flowSettingsSummary"></span></summary><form id="flowForm" class="flow-settings" novalidate><div class="flow-fields"><label class="field">مدة كل فترة قياس<select name="interval">${Object.keys(FLOW_TF).map(v=>`<option value="${v}">${v}</option>`).join('')}</select></label><label class="field">الحد الأدنى لحصة الشراء %<input name="share" type="text" inputmode="decimal" dir="ltr"></label><label class="field">الحد الأدنى لمضاعف الشراء<input name="multiple" type="text" inputmode="decimal" dir="ltr"></label><label class="field">عدد فترات المتوسط السابقة (1–500)<input name="baseline" type="text" inputmode="numeric" dir="ltr"></label></div><p class="flow-rule">يشترط دائمًا: شراء الفترة الثانية أكبر من الأولى، وشراء الثالثة أكبر من الثانية، والزيادة الثانية أكبر من الزيادة الأولى. تُطبّق حصة الشراء والمضاعف على الفترة الثالثة المغلقة. المتوسط يسبق الفترات الثلاث ولا يشملها.</p><div class="actions"><button type="submit" value="save">حفظ الفلتر للفحص القادم</button><button type="submit" value="scan" class="primary">حفظ وفحص الفلتر الآن</button></div><p class="hint" id="flowError" role="status"></p><p class="hint">تغيير إعدادات الفلتر يلغي نتائج قبوله القديمة فقط حتى تُفحص بالشروط الجديدة؛ الجداول الثلاثة الأصلية لا تتغير. مدة 5m ليست موعد المسح؛ التلقائي لا يقل عن ساعة، واليدوي متاح. هذه معايير تجريبية وليست ضمانًا للصعود.</p></form></details>
+<div class="flow-progress" id="flowProgress" role="status"></div><div class="commonNotice">بيانات التنفيذ تخص فترات مغلقة. حصة الشراء = Taker Buy Quote Volume ÷ Quote Volume. ليست صافي أموال داخلة. قد تكون إشارات المؤشرين مفتوحة أو تاريخية؛ حالات فريماتها ظاهرة ولا يعني اجتياز الفلتر أنها مثبتة. <a href="https://developers.binance.com/en/docs/catalog/core-trading-spot-trading/api/rest-api/market" target="_blank" rel="noopener noreferrer">مصدر حقول Binance</a></div>
+<div class="sort-help">اضغط العناوين للترتيب ↑ ↓ · لا تظهر العملات المرفوضة أو غير مكتملة البيانات هنا.</div><div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="selectall-flow" data-select-all="flow" aria-label="تحديد المقبولة المعروضة"></th><th>العملة</th><th>أحدث سعر USDT</th><th>فوليوم USDT<br>آخر 24 ساعة</th><th>فريمات LuxAlgo</th><th>فريمات MACD</th><th>الشراء المنفّذ USDT<br>الفترات الثلاث · الأولى ← الأخيرة</th><th>حصة الشراء<br>آخر فترة</th><th>مضاعف الشراء<br>مقارنة بالمتوسط</th><th>تسارع الزيادة<br>USDT / فترة²</th><th>وقت التقييم UTC</th><th>تفاصيل الاختبار</th><th>حذف</th></tr></thead><tbody id="body-flow"></tbody></table></div><div class="tablefoot"><span id="foot-flow"></span><span>القبول عند وقت التقييم المعروض فقط؛ لا يعتمد على دفتر الأوامر.</span></div></section>`;}
+function fillFlowSettings(){
+ const f=$('flowForm')?.elements;if(!f)return;for(const k of ['interval','share','multiple','baseline'])f.namedItem(k).value=state.settings.flow[k];updateFlowUI();
+}
+function bindFlowSettings(){
+ $('runFlow').onclick=()=>runFlowEvaluation();
+ $('flowForm').onsubmit=e=>{
+  e.preventDefault();const f=e.currentTarget.elements,cfg={interval:f.interval.value,share:parseIndicatorNumber(f.share.value),multiple:parseIndicatorNumber(f.multiple.value),baseline:parseIndicatorNumber(f.baseline.value)};
+  if(!validFlowSettings(cfg)){$('flowError').textContent='الحصة من 0 إلى 100، المضاعف من 0 إلى 1000، والمتوسط عدد صحيح من 1 إلى 500.';return;}
+  const changed=JSON.stringify(cfg)!==JSON.stringify(state.settings.flow);if(changed){cancelFlowEvaluation('تغيّرت الشروط؛ بانتظار تقييم جديد');state.settings.flow=cfg;state.records.flow={};selected.flow.clear();persistNow();renderFlowTable();}
+  $('flowError').textContent='حُفظت الشروط. الجداول الثلاثة الأصلية محفوظة.';updateFlowUI();
+  if((e.submitter||document.activeElement)?.value==='scan')runFlowEvaluation();
+ };
+}
+function updateFlowUI(){
+ if(!$('flowProgress'))return;const f=state.settings.flow,r=flowRuntime;
+ $('flowSettingsSummary').textContent=`· ${f.interval} · شراء ≥ ${f.share}% · مضاعف ≥ ${f.multiple} · متوسط ${f.baseline}`;
+ $('flowProgress').textContent=r.busy?`جارٍ تقييم ${r.done} / ${r.total} عملة مشتركة · ${r.passed} مقبولة · ${r.errors} أخطاء بيانات`:(r.note+(r.lastAt?' · آخر دفعة '+fmtUTC(r.lastAt)+' UTC':''));
+ $('runFlow').disabled=r.busy;
+}
+function visibleFlowRows(){
+ const q=$('search-flow').value.trim().toUpperCase(),f=$('filter-flow').value;
+ return sortRows('flow',Object.values(state.records.flow).filter(r=>flowCandidate(r.symbol)&&r.symbol.includes(q)&&(f==='all'||['lux','macd'].some(ind=>r.sources[ind].signals.some(s=>s.interval===f)))));
+}
+function renderFlowTable(){
+ const body=$('body-flow');if(!body)return;pruneFlowRecords();const rows=visibleFlowRows(),all=Object.values(state.records.flow),opened=new Set([...body.querySelectorAll('details[open]')].map(e=>e.dataset.detail));
+ $('flowCount').textContent=all.length;$('count-flow').textContent='· '+all.length+' عملة';
+ body.innerHTML=rows.length?rows.map(row=>{
+  const q=currentQuote(row.symbol,row),encoded=encodeURIComponent(row.symbol),cfg=row.config,stale=now()-row.dataAsOf>FLOW_TF[cfg.interval];
+  const detail=`<div class="signalItem">مدة الفترة <bdi>${cfg.interval}</bdi> · متوسط الشراء السابق: <bdi>${price(row.baselineMean)} USDT</bdi> من ${cfg.baseline} فترات غير متداخلة مع الفترات الثلاث.</div>`+row.periods.map((p,i)=>`<div class="signalItem"><b>الفترة ${i+1}</b><div class="mono">${fmtUTC(p.openTime)} → ${fmtUTC(p.closeTime+1)} UTC</div><div>شراء مبادر: <bdi>${price(p.buy)} USDT</bdi></div><div>بيع مبادر: <bdi>${price(Math.max(0,p.quote-p.buy))} USDT</bdi></div><div>إجمالي التنفيذ: <bdi>${price(p.quote)} USDT</bdi></div></div>`).join('')+`<div class="signalItem">الزيادة الأولى: <bdi>${price(row.delta1)}</bdi> · الثانية: <bdi>${price(row.delta2)}</bdi> USDT<br>الشروط المستخدمة: حصة ≥ ${cfg.share}% · مضاعف ≥ ${cfg.multiple}.<br>إجمالي فترات القياس: ${cfg.baseline+3} مغلقة.</div>`;
+  return `<tr data-quote-symbol="${esc(row.symbol)}" data-indicator="flow"><td><input type="checkbox" data-select="flow" data-symbol="${encoded}" ${selected.flow.has(row.symbol)?'checked':''} aria-label="تحديد ${esc(row.symbol)}"></td><td class="asset"><a href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent('BINANCE:'+row.symbol)}" target="_blank" rel="noopener noreferrer"><bdi>${esc(row.symbol)}</bdi></a><small>BINANCE · SPOT</small></td><td><span class="num" data-price>${price(q?.price)}</span><span class="quoteAge" data-quote-age>آخر سعر متاح</span></td><td><span class="num" data-volume>${volume(q?.quoteVolume)}</span></td><td><div class="frames">${frameBadges(row.sources.lux.signals,'lux')}</div></td><td><div class="frames">${frameBadges(row.sources.macd.signals,'macd')}</div></td><td><div class="flow-periods">${row.periods.map((p,i)=>`<span title="${price(p.buy)} USDT"><small>${i+1}</small>${volume(p.buy)}</span>`).join('<b>→</b>')}</div><span class="quoteAge">مدة كل فترة: <bdi>${cfg.interval}</bdi></span></td><td><span class="num">${row.buyShare.toFixed(2)}%</span></td><td><span class="num">${row.multiple.toFixed(2)}×</span></td><td><span class="num">${price(row.delta2-row.delta1)}</span></td><td><div class="mono tiny">${fmtUTC(row.evaluatedAt)}</div><div class="quoteAge">انتهاء نافذة التنفيذ:</div><div class="mono tiny">${fmtUTC(row.dataAsOf)}</div><span class="state ${stale?'stale':''}">${stale?'قبول سابق · راجع الوقت':'اجتاز عند آخر تقييم'}</span></td><td><details class="signalDetails" data-detail="${encoded}" ${opened.has(encoded)?'open':''}><summary>تفاصيل (${cfg.baseline+3} فترة)</summary><div class="signalList">${detail}</div></details></td><td><button class="small danger ghost" data-delete-one="flow" data-symbol="${encoded}">حذف</button></td></tr>`;
+ }).join(''):`<tr><td colspan="13"><div class="empty"><strong>${all.length?'لا نتائج تطابق فلاتر العرض':'لا توجد عملة مقبولة عند آخر تقييم'}</strong>الفلتر لا ينشئ إشارات تجريبية. ابدأ فحص المؤشرات أو قيّم العملات الموجودة في الثالث من زر «فحص فلتر الشراء الآن».</div></td></tr>`;
+ const n=rows.filter(r=>selected.flow.has(r.symbol)).length;$('selectall-flow').checked=rows.length>0&&n===rows.length;$('selectall-flow').indeterminate=n>0&&n<rows.length;
+ $('foot-flow').textContent=`المعروض ${rows.length} من ${all.length} مقبولة · المحدد ${selected.flow.size}`;updateFlowUI();patchQuotes();
+}
+function deleteFlowRows(list){
+ list=list.filter(s=>state.records.flow[s]);if(!list.length){notify('لم تحدد عملات للحذف');return;}
+ if(!confirm(`حذف ${list.length} عملة من فلتر الشراء فقط؟\nلن تعود نتيجة الفترة الأخيرة نفسها على فريم الفلتر. يمكن العودة عند فترة مغلقة مختلفة.\nللعودة بنفس الفترة استخدم إفراغ الجدول وبدء جديد.`))return;
+ for(const symbol of list){const r=state.records.flow[symbol],key=candleKey(r.config.interval,r.periods[2].openTime);(state.deleted.flow[symbol]||(state.deleted.flow[symbol]={}))[key]=now();delete state.records.flow[symbol];selected.flow.delete(symbol);}
+ persistNow();renderFlowTable();notify('حُذفت نتائج الفلتر المحددة فقط؛ يمكن العودة بفترة جديدة.');
+}
+function cancelFlowEvaluation(note='متوقف'){
+ flowRuntime.generation++;if(flowRuntime.timer)clearTimeout(flowRuntime.timer);flowRuntime.timer=null;flowRuntime.busy=false;flowRuntime.followUp=false;flowRuntime.note=note;updateFlowUI();
+}
+function queueFlowEvaluation(generation){
+ if(generation!==flowRuntime.generation)return;
+ if(runtime.some(r=>r.busy||r.preparing))return; // Last finishing worker will enqueue the common batch.
+ if(flowRuntime.busy){flowRuntime.followUp=true;return;}
+ if(flowRuntime.timer)clearTimeout(flowRuntime.timer);
+ flowRuntime.timer=setTimeout(()=>{flowRuntime.timer=null;if(generation===flowRuntime.generation)runFlowEvaluation();},600);
+}
+async function runFlowEvaluation(){
+ if(flowRuntime.busy){notify('تقييم الفلتر جارٍ بالفعل');return;}
+ if(flowRuntime.timer)clearTimeout(flowRuntime.timer);flowRuntime.timer=null;
+ pruneFlowRecords();const list=Object.keys(state.records.common).filter(flowCandidate),gen=flowRuntime.generation,cfg=clone(state.settings.flow);
+ Object.assign(flowRuntime,{busy:true,done:0,total:list.length,passed:0,errors:0,followUp:false});updateFlowUI();updateWorkers();
+ try{
+  if(!list.length){flowRuntime.note='لا توجد عملات مشتركة حالية لتقييمها';return;}
+  await ensureMarket();if(gen!==flowRuntime.generation)return;
+  const at=now(),endTime=Math.floor(at/FLOW_TF[cfg.interval])*FLOW_TF[cfg.interval]-1;let cursor=0;
+  const slot=async()=>{
+   while(cursor<list.length&&gen===flowRuntime.generation){const symbol=list[cursor++];
+    try{
+     if(!flowCandidate(symbol))continue;
+     const rows=await gate.request('/api/v3/klines',{symbol,interval:cfg.interval,endTime,limit:cfg.baseline+3},2);
+     if(gen!==flowRuntime.generation)return;
+     const result=evaluateFlow(rows,cfg,at),key=candleKey(cfg.interval,result.periods[2].openTime),blocked=own(state.deleted.flow[symbol]||{},key);
+     if(result.accepted&&flowCandidate(symbol)&&!blocked){const source=state.records.common[symbol];state.records.flow[symbol]={symbol,...result,evaluatedAt:now(),sources:clone(source.sources),quoteSnapshot:clone(currentQuote(symbol,source))};flowRuntime.passed++;}
+     else{delete state.records.flow[symbol];selected.flow.delete(symbol);}
+    }catch(error){if(gen!==flowRuntime.generation)return;flowRuntime.errors++;delete state.records.flow[symbol];selected.flow.delete(symbol);if(flowRuntime.errors<=4)log('فلتر الشراء · '+symbol+': '+error.message,'error');}
+    finally{if(gen===flowRuntime.generation){flowRuntime.done++;persist();renderFlowTable();}}
+   }
+  };
+  await Promise.all([slot(),slot()]);if(gen!==flowRuntime.generation)return;
+  flowRuntime.lastAt=now();flowRuntime.note=`اكتمل فحص ${flowRuntime.total} مشتركة · ${flowRuntime.passed} مقبولة · ${flowRuntime.errors} أخطاء/بيانات ناقصة`;
+  log('فلتر الشراء: '+flowRuntime.note+'؛ فترات مغلقة '+cfg.interval+'، المتوسط يستبعد نوافذ الاختبار.');persistNow();
+ }catch(error){if(gen===flowRuntime.generation){flowRuntime.note='تعذر التقييم: '+error.message;flowRuntime.errors++;for(const symbol of list)delete state.records.flow[symbol];persist();log(flowRuntime.note,'error');}}
+ finally{if(gen===flowRuntime.generation){flowRuntime.busy=false;renderFlowTable();updateWorkers();if(flowRuntime.followUp){flowRuntime.followUp=false;queueFlowEvaluation(gen);}}}
+}
+
+buildWorkers();buildTables();fillSettings();if(syncCommon())persist();pruneFlowRecords();TABLES.forEach(renderTable);
 if(startupWarning){banner(startupWarning);$('storageStatus').textContent='الحفظ المحلي غير متاح';}
 log('الصفحة جاهزة: مدة التلقائي لا تقل عن ساعة؛ المسح اليدوي متاح؛ إعدادات الحساب لكل مؤشر قابلة للتعديل؛ اجتماع المؤشّرين يُسجّل دون اشتراط فريم موحّد. إفراغ الجدول يسمح بإعادة الشموع نفسها؛ الحذف الفردي يمنع تكرارها. لا توجد نتائج تجريبية.');
 // Read-only computational interface plus state access for local automated tests.
 // Nothing here sends credentials, places orders, or invokes arbitrary code.
-window.ScannerDiagnostics={engine,validateState,validSettings,historyLimit,isDeletedCandle,autoDelayMs,commonPresent,parseIndicatorNumber,getState:()=>clone(state),getRuntime:()=>runtime.map(r=>({id:r.id,want:r.want,auto:r.auto,preparing:r.preparing,busy:r.busy,nextAt:r.nextAt,lastFinished:r.lastFinished,done:r.done,total:r.total,rounds:r.rounds})),getSymbols:()=>[...symbols]};
+window.ScannerDiagnostics={engine,validateState,validSettings,historyLimit,isDeletedCandle,autoDelayMs,commonPresent,parseIndicatorNumber,scanOptions,validScanWindow,windowLabel,evaluateFlow,flowStats,sortRows,getFlowRuntime:()=>({busy:flowRuntime.busy,done:flowRuntime.done,total:flowRuntime.total,errors:flowRuntime.errors}),getState:()=>clone(state),getRuntime:()=>runtime.map(r=>({id:r.id,want:r.want,auto:r.auto,preparing:r.preparing,busy:r.busy,nextAt:r.nextAt,lastFinished:r.lastFinished,done:r.done,total:r.total,rounds:r.rounds})),getSymbols:()=>[...symbols]};
 })();
 
 </script>
