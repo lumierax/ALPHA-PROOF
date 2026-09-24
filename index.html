@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماسح بايننس المزدوج | Binance Dual Scanner</title>
+    <title>ماسح بايننس المزدوج متعدد الفريمات | Multi-Timeframe Dual Scanner</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -33,38 +33,61 @@
     <header class="bg-card border-b border-custom px-6 py-4 flex flex-wrap justify-between items-center gap-4 sticky top-0 z-50">
         <div class="flex items-center space-x-3 space-x-reverse">
             <div class="bg-amber-500 text-black p-2 rounded-lg font-bold text-xl flex items-center justify-center w-10 h-10">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-users-gear"></i>
             </div>
             <div>
-                <h1 class="font-bold text-lg text-white">ماسح بايننس المزدوج (USDT)</h1>
-                <p class="text-xs text-gray-400">استراتيجية MACD + EMA ومؤشر LuxAlgo Trendlines with Breaks</p>
+                <h1 class="font-bold text-lg text-white">ماسح بايننس (محرك العمال الثلاثة)</h1>
+                <p class="text-xs text-gray-400">فحص متوازي عبر 3 فريمات زمنية لتأكيد الاتجاه</p>
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="flex flex-wrap items-center gap-3">
-            <select id="marketType" class="bg-gray-800 text-white border border-custom rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+        <!-- Timeframes / Workers Controls -->
+        <div class="flex flex-wrap items-center gap-2">
+            <select id="marketType" class="bg-gray-800 text-white border border-custom rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-amber-500">
                 <option value="spot">التداول الفوري (Spot)</option>
                 <option value="futures">العقود الآجلة (Futures)</option>
             </select>
 
-            <select id="timeframe" class="bg-gray-800 text-white border border-custom rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
-                <option value="1w">أسبوع (1w)</option>
-                <option value="1d" selected>يوم (1d)</option>
-                <option value="12h">12 ساعة (12h)</option>
-                <option value="4h">4 ساعات (4h)</option>
-                <option value="2h">ساعتين (2h)</option>
-                <option value="1h">ساعة (1h)</option>
-                <option value="15m">15 دقيقة (15m)</option>
-            </select>
+            <!-- Worker 1 -->
+            <div class="flex items-center gap-1 bg-gray-800 border border-custom px-2 py-1 rounded-lg text-xs">
+                <span class="text-amber-400 font-bold"><i class="fa-solid fa-user-gear"></i> ع1:</span>
+                <select id="tf1" class="bg-transparent text-white focus:outline-none">
+                    <option value="15m" selected>15 دقيقة</option>
+                    <option value="1h">ساعة</option>
+                    <option value="4h">4 ساعات</option>
+                    <option value="1d">يومي</option>
+                </select>
+            </div>
 
-            <button id="openSettingsBtn" class="bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm border border-custom transition flex items-center gap-2">
+            <!-- Worker 2 -->
+            <div class="flex items-center gap-1 bg-gray-800 border border-custom px-2 py-1 rounded-lg text-xs">
+                <span class="text-blue-400 font-bold"><i class="fa-solid fa-user-gear"></i> ع2:</span>
+                <select id="tf2" class="bg-transparent text-white focus:outline-none">
+                    <option value="15m">15 دقيقة</option>
+                    <option value="1h" selected>ساعة</option>
+                    <option value="4h">4 ساعات</option>
+                    <option value="1d">يومي</option>
+                </select>
+            </div>
+
+            <!-- Worker 3 -->
+            <div class="flex items-center gap-1 bg-gray-800 border border-custom px-2 py-1 rounded-lg text-xs">
+                <span class="text-emerald-400 font-bold"><i class="fa-solid fa-user-gear"></i> ع3:</span>
+                <select id="tf3" class="bg-transparent text-white focus:outline-none">
+                    <option value="15m">15 دقيقة</option>
+                    <option value="1h">ساعة</option>
+                    <option value="4h" selected>4 ساعات</option>
+                    <option value="1d">يومي</option>
+                </select>
+            </div>
+
+            <button id="openSettingsBtn" class="bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-lg text-xs border border-custom transition flex items-center gap-1">
                 <i class="fa-solid fa-gear"></i> الإعدادات
             </button>
 
-            <button id="startScanBtn" class="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-5 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow-lg">
+            <button id="startScanBtn" class="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-4 py-1.5 rounded-lg text-xs transition flex items-center gap-2 shadow-lg">
                 <i class="fa-solid fa-play" id="scanIcon"></i>
-                <span id="scanBtnText">بدء المسح</span>
+                <span id="scanBtnText">بدء المسح المزدوج</span>
             </button>
         </div>
     </header>
@@ -75,7 +98,7 @@
         <!-- Progress Bar -->
         <div id="progressContainer" class="bg-card p-4 rounded-xl border border-custom hidden">
             <div class="flex justify-between items-center mb-2 text-sm">
-                <span id="statusText" class="text-gray-300">جاري الاتصال بـ Binance...</span>
+                <span id="statusText" class="text-gray-300">جاري تشغيل العمال الثلاثة لجمع البيانات...</span>
                 <span id="progressPercent" class="text-amber-500 font-mono font-bold">0%</span>
             </div>
             <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
@@ -94,46 +117,46 @@
             </div>
             <div class="bg-card p-4 rounded-xl border border-custom flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-gray-400">إشارات MACD + EMA</p>
+                    <p class="text-xs text-gray-400">تأكيد MACD+EMA (3 فريمات)</p>
                     <h3 id="macdMatchCount" class="text-2xl font-bold accent-green mt-1">0</h3>
                 </div>
                 <div class="text-emerald-500 text-2xl"><i class="fa-solid fa-bolt"></i></div>
             </div>
             <div class="bg-card p-4 rounded-xl border border-custom flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-gray-400">اختراقات LuxAlgo</p>
+                    <p class="text-xs text-gray-400">تأكيد LuxAlgo (3 فريمات)</p>
                     <h3 id="luxMatchCount" class="text-2xl font-bold text-blue-400 mt-1">0</h3>
                 </div>
                 <div class="text-blue-400 text-2xl"><i class="fa-solid fa-chart-line"></i></div>
             </div>
             <div class="bg-card p-4 rounded-xl border border-amber-500/40 bg-amber-500/5 flex items-center justify-between">
                 <div>
-                    <p class="text-xs text-amber-400 font-medium">الفرص المشتركة (تطابق)</p>
+                    <p class="text-xs text-amber-400 font-medium">الفرص المشتركة النادرة</p>
                     <h3 id="dualMatchCount" class="text-2xl font-bold text-amber-400 mt-1">0</h3>
                 </div>
-                <div class="text-amber-400 text-2xl"><i class="fa-solid fa-star"></i></div>
+                <div class="text-amber-400 text-2xl"><i class="fa-solid fa-crown"></i></div>
             </div>
         </div>
 
         <!-- Navigation Tabs -->
         <div class="flex border-b border-custom space-x-6 space-x-reverse text-sm font-medium overflow-x-auto">
             <button id="tabDual" class="pb-3 border-b-2 border-amber-500 text-amber-500 flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-star text-amber-400"></i> الفرص المشتركة (الجدولين معا)
+                <i class="fa-solid fa-crown text-amber-400"></i> الجدول الثالث (الفرص المشتركة النادرة - المؤشرين عبر الفريمات الـ3)
             </button>
             <button id="tabMacd" class="pb-3 border-b-2 border-transparent text-gray-400 hover:text-gray-200 flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-bullseye"></i> إشارات MACD + EMA
+                <i class="fa-solid fa-bullseye"></i> الجدول الأول: MACD + EMA (3 فريمات)
             </button>
             <button id="tabLux" class="pb-3 border-b-2 border-transparent text-gray-400 hover:text-gray-200 flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-arrows-split-up-and-left"></i> اختراقات LuxAlgo Trendlines
+                <i class="fa-solid fa-arrows-split-up-and-left"></i> الجدول الثاني: LuxAlgo (3 فريمات)
             </button>
         </div>
 
-        <!-- Table 3: Dual Matches (الفرص المشتركة) -->
+        <!-- Table 3: Dual Matches (الفرص الذهبية النادرة) -->
         <div id="sectionDual" class="bg-card rounded-xl border border-amber-500/30 overflow-hidden shadow-2xl">
             <div class="p-4 border-b border-custom bg-amber-500/10 flex justify-between items-center">
                 <h2 class="font-bold text-amber-400 text-md flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i>
-                    الفرص المشتركة (العملات الممتثلة لشرطي MACD+EMA و LuxAlgo معاً)
+                    <i class="fa-solid fa-crown text-amber-400"></i>
+                    الجدول الثالث: الترشيحات الذهبية المشتركة (تطابق الاستراتيجيتين عبر العمال الثلاثة في كل الفريمات)
                 </h2>
             </div>
             <div class="overflow-x-auto">
@@ -142,27 +165,27 @@
                         <tr>
                             <th class="p-3">العملة</th>
                             <th class="p-3">السعر الحالي</th>
-                            <th class="p-3">حالة MACD + EMA</th>
-                            <th class="p-3">حالة LuxAlgo</th>
-                            <th class="p-3">حجم التداول (USDT)</th>
+                            <th class="p-3">تأكيد MACD + EMA</th>
+                            <th class="p-3">تأكيد LuxAlgo</th>
+                            <th class="p-3">الفريمات المفحوصة</th>
                             <th class="p-3 text-center">الرسم البياني</th>
                         </tr>
                     </thead>
                     <tbody id="dualTableBody" class="divide-y divide-custom">
                         <tr>
-                            <td colspan="6" class="text-center py-8 text-gray-500">اضغط على "بدء المسح" للبحث عن الفرص المشتركة...</td>
+                            <td colspan="6" class="text-center py-8 text-gray-500">ابدأ المسح للبحث عن التوافق التام...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Table 1: MACD + EMA -->
+        <!-- Table 1: MACD + EMA across 3 Timeframes -->
         <div id="sectionMacd" class="bg-card rounded-xl border border-custom overflow-hidden shadow-xl hidden">
             <div class="p-4 border-b border-custom flex justify-between items-center">
                 <h2 class="font-bold text-white text-md flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    نتائج استراتيجية MACD + EMA (تقاطع تحت الصفر + الشموع فوق EMA)
+                    الجدول الأول: نتائج MACD + EMA (إشارات شراء مؤكدة على العمال الثلاثة)
                 </h2>
             </div>
             <div class="overflow-x-auto">
@@ -171,28 +194,27 @@
                         <tr>
                             <th class="p-3">العملة</th>
                             <th class="p-3">السعر الحالي</th>
-                            <th class="p-3">الحالة</th>
-                            <th class="p-3">قيمة MACD</th>
-                            <th class="p-3">خط الإشارة</th>
-                            <th class="p-3">المتوسط الأسي (EMA)</th>
+                            <th class="p-3">حالة العمال (الفريمات)</th>
+                            <th class="p-3">MACD Val</th>
+                            <th class="p-3">EMA Val</th>
                             <th class="p-3 text-center">الرسم البياني</th>
                         </tr>
                     </thead>
                     <tbody id="macdTableBody" class="divide-y divide-custom">
                         <tr>
-                            <td colspan="7" class="text-center py-8 text-gray-500">اضغط على "بدء المسح" لبدء الفحص...</td>
+                            <td colspan="6" class="text-center py-8 text-gray-500">لا توجد نتائج حالية...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Table 2: LuxAlgo Trendlines -->
+        <!-- Table 2: LuxAlgo Trendlines across 3 Timeframes -->
         <div id="sectionLux" class="bg-card rounded-xl border border-custom overflow-hidden shadow-xl hidden">
             <div class="p-4 border-b border-custom flex justify-between items-center">
                 <h2 class="font-bold text-white text-md flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                    نتائج مؤشر LuxAlgo - Trendlines with Breaks
+                    الجدول الثاني: نتائج LuxAlgo Trendlines (اختراقات مؤكدة عبر العمال الثلاثة)
                 </h2>
             </div>
             <div class="overflow-x-auto">
@@ -201,16 +223,14 @@
                         <tr>
                             <th class="p-3">العملة</th>
                             <th class="p-3">السعر الحالي</th>
-                            <th class="p-3">نوع الاختراق</th>
+                            <th class="p-3">حالة العمال (الفريمات)</th>
                             <th class="p-3">حجم التداول (USDT)</th>
-                            <th class="p-3">طريقة الحساب</th>
-                            <th class="p-3">Lookback</th>
                             <th class="p-3 text-center">الرسم البياني</th>
                         </tr>
                     </thead>
                     <tbody id="luxTableBody" class="divide-y divide-custom">
                         <tr>
-                            <td colspan="7" class="text-center py-8 text-gray-500">اضغط على "بدء المسح" لبدء الفحص...</td>
+                            <td colspan="5" class="text-center py-8 text-gray-500">لا توجد نتائج حالية...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -223,7 +243,7 @@
     <div id="settingsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
         <div class="bg-card w-full max-w-2xl rounded-2xl border border-custom p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center pb-4 border-b border-custom">
-                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-sliders text-amber-500 ml-2"></i> إعدادات المؤشرات</h3>
+                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-sliders text-amber-500 ml-2"></i> إعدادات المؤشرات والعمال</h3>
                 <button id="closeSettingsBtn" class="text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
@@ -248,17 +268,6 @@
                             <label class="block text-xs text-gray-400 mb-1">الماكد: خط الإشارة</label>
                             <input type="number" id="cfgSigLen" value="9" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
                         </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">طريقة حساب مسافة الصفر</label>
-                            <select id="cfgDistMode" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
-                                <option value="percent">نسبة مئوية من السعر %</option>
-                                <option value="absolute">قيمة الماكد المباشرة</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">المسافة المطلوبة أسفل الصفر</label>
-                            <input type="number" step="0.1" id="cfgDistVal" value="1.5" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
-                        </div>
                     </div>
                 </div>
 
@@ -267,20 +276,12 @@
                     <h4 class="text-sm font-bold text-blue-400 mb-3 border-r-2 border-blue-400 pr-2">إعدادات LuxAlgo - Trendlines with Breaks</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs text-gray-400 mb-1">Swing Detection Lookback</label>
+                            <label class="block text-xs text-gray-400 mb-1">Swing Lookback</label>
                             <input type="number" id="cfgLuxLookback" value="24" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
                         </div>
                         <div>
                             <label class="block text-xs text-gray-400 mb-1">Slope (الميل)</label>
                             <input type="number" step="0.1" id="cfgLuxSlope" value="1.4" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Slope Calculation Method</label>
-                            <select id="cfgLuxMethod" class="w-full bg-gray-800 border border-custom rounded-lg p-2 text-sm text-white">
-                                <option value="Atr">Atr</option>
-                                <option value="Stdev">Stdev</option>
-                                <option value="Linreg">Linreg</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -302,11 +303,8 @@
             fastLen: 12,
             slowLen: 26,
             sigLen: 9,
-            distMode: 'percent',
-            distVal: 1.5,
             luxLookback: 24,
-            luxSlope: 1.4,
-            luxMethod: 'Atr'
+            luxSlope: 1.4
         };
 
         const startScanBtn = document.getElementById('startScanBtn');
@@ -341,11 +339,8 @@
             config.fastLen = parseInt(document.getElementById('cfgFastLen').value);
             config.slowLen = parseInt(document.getElementById('cfgSlowLen').value);
             config.sigLen = parseInt(document.getElementById('cfgSigLen').value);
-            config.distMode = document.getElementById('cfgDistMode').value;
-            config.distVal = parseFloat(document.getElementById('cfgDistVal').value);
             config.luxLookback = parseInt(document.getElementById('cfgLuxLookback').value);
             config.luxSlope = parseFloat(document.getElementById('cfgLuxSlope').value);
-            config.luxMethod = document.getElementById('cfgLuxMethod').value;
             document.getElementById('settingsModal').classList.add('hidden');
         };
 
@@ -358,31 +353,32 @@
             sectionLux.classList.add('hidden');
         }
 
-        tabDual.onclick = () => {
-            resetTabs();
-            tabDual.className = "pb-3 border-b-2 border-amber-500 text-amber-500 flex items-center gap-2 whitespace-nowrap";
-            sectionDual.classList.remove('hidden');
-        };
-
-        tabMacd.onclick = () => {
-            resetTabs();
-            tabMacd.className = "pb-3 border-b-2 border-amber-500 text-amber-500 flex items-center gap-2 whitespace-nowrap";
-            sectionMacd.classList.remove('hidden');
-        };
-
-        tabLux.onclick = () => {
-            resetTabs();
-            tabLux.className = "pb-3 border-b-2 border-blue-500 text-blue-400 flex items-center gap-2 whitespace-nowrap";
-            sectionLux.classList.remove('hidden');
-        };
+        tabDual.onclick = () => { resetTabs(); tabDual.className = "pb-3 border-b-2 border-amber-500 text-amber-500 flex items-center gap-2 whitespace-nowrap"; sectionDual.classList.remove('hidden'); };
+        tabMacd.onclick = () => { resetTabs(); tabMacd.className = "pb-3 border-b-2 border-amber-500 text-amber-500 flex items-center gap-2 whitespace-nowrap"; sectionMacd.classList.remove('hidden'); };
+        tabLux.onclick = () => { resetTabs(); tabLux.className = "pb-3 border-b-2 border-blue-500 text-blue-400 flex items-center gap-2 whitespace-nowrap"; sectionLux.classList.remove('hidden'); };
 
         startScanBtn.onclick = () => {
-            if (isScanning) {
-                shouldStop = true;
-                return;
-            }
+            if (isScanning) { shouldStop = true; return; }
             startScan();
         };
+
+        async function fetchKlines(baseUrl, market, symbol, tf) {
+            try {
+                const res = await fetch(`${baseUrl}/${market === 'futures' ? 'fapi/v1/klines' : 'api/v3/klines'}?symbol=${symbol}&interval=${tf}&limit=200`);
+                const data = await res.json();
+                if (Array.isArray(data) && data.length >= 100) {
+                    return data.map(k => ({
+                        open: parseFloat(k[1]),
+                        high: parseFloat(k[2]),
+                        low: parseFloat(k[3]),
+                        close: parseFloat(k[4]),
+                        volume: parseFloat(k[5]),
+                        quoteVol: parseFloat(k[7])
+                    }));
+                }
+            } catch(e) { return null; }
+            return null;
+        }
 
         async function startScan() {
             isScanning = true;
@@ -405,10 +401,12 @@
             let dualMatches = 0;
 
             const market = document.getElementById('marketType').value;
-            const tf = document.getElementById('timeframe').value;
+            const tf1 = document.getElementById('tf1').value;
+            const tf2 = document.getElementById('tf2').value;
+            const tf3 = document.getElementById('tf3').value;
 
             try {
-                statusText.innerText = "جاري جلب قائمة العملات من بايننس...";
+                statusText.innerText = "جاري جلب قائمة العملات من Binance...";
                 const baseUrl = market === 'futures' ? 'https://fapi.binance.com' : 'https://api.binance.com';
                 const infoRes = await fetch(`${baseUrl}/${market === 'futures' ? 'fapi/v1/exchangeInfo' : 'api/v3/exchangeInfo'}`);
                 const infoData = await infoRes.json();
@@ -417,7 +415,7 @@
                     .filter(s => s.symbol.endsWith('USDT') && s.status === 'TRADING')
                     .map(s => s.symbol);
 
-                statusText.innerText = `تم العثور على ${symbols.length} عملة. بدء فحص الشموع...`;
+                statusText.innerText = `تم العثور على ${symbols.length} عملة. جاري إطلاق العمال الـ3 على الفريمات (${tf1}, ${tf2}, ${tf3})...`;
 
                 for (let i = 0; i < symbols.length; i++) {
                     if (shouldStop) break;
@@ -426,71 +424,67 @@
                     const percent = Math.round(((i + 1) / symbols.length) * 100);
                     progressBar.style.width = `${percent}%`;
                     progressPercent.innerText = `${percent}%`;
-                    statusText.innerText = `جاري فحص: ${sym} (${i + 1}/${symbols.length})`;
+                    statusText.innerText = `العمال يفحصون: ${sym} [${i + 1}/${symbols.length}]`;
                     scannedCount.innerText = i + 1;
 
-                    try {
-                        const klineRes = await fetch(`${baseUrl}/${market === 'futures' ? 'fapi/v1/klines' : 'api/v3/klines'}?symbol=${sym}&interval=${tf}&limit=250`);
-                        const klineData = await klineRes.json();
+                    // تشغيل 3 عمال بالتوازي لكل عملة للفريمات الثلاثة
+                    const [k1, k2, k3] = await Promise.all([
+                        fetchKlines(baseUrl, market, sym, tf1),
+                        fetchKlines(baseUrl, market, sym, tf2),
+                        fetchKlines(baseUrl, market, sym, tf3)
+                    ]);
 
-                        if (Array.isArray(klineData) && klineData.length >= 100) {
-                            const formattedKlines = klineData.map(k => ({
-                                open: parseFloat(k[1]),
-                                high: parseFloat(k[2]),
-                                low: parseFloat(k[3]),
-                                close: parseFloat(k[4]),
-                                volume: parseFloat(k[5]),
-                                quoteVol: parseFloat(k[7])
-                            }));
+                    if (k1 && k2 && k3) {
+                        const m1 = checkMacdEma(k1), m2 = checkMacdEma(k2), m3 = checkMacdEma(k3);
+                        const l1 = checkLuxAlgo(k1), l2 = checkLuxAlgo(k2), l3 = checkLuxAlgo(k3);
 
-                            const macdRes = checkMacdEma(formattedKlines);
-                            const luxRes = checkLuxAlgo(formattedKlines);
-                            const lastClose = formattedKlines[formattedKlines.length - 1].close;
-                            const lastVol = formattedKlines[formattedKlines.length - 1].quoteVol;
+                        // شرط الجدول الأول: إشارة MACD موحدة عبر الفريمات الـ3
+                        const macdPass = m1.buySignal && m2.buySignal && m3.buySignal;
 
-                            if (macdRes.buySignal) {
-                                macdMatches++;
-                                macdMatchCount.innerText = macdMatches;
-                                appendMacdRow(sym, lastClose, macdRes);
-                            }
+                        // شرط الجدول الثاني: اختراق LuxAlgo على الفريمات الـ3 معاً
+                        const luxPass = (l1.upBreak || l1.dnBreak) && (l2.upBreak || l2.dnBreak) && (l3.upBreak || l3.dnBreak);
 
-                            if (luxRes.upBreak || luxRes.dnBreak) {
-                                luxMatches++;
-                                luxMatchCount.innerText = luxMatches;
-                                appendLuxRow(sym, lastClose, luxRes, lastVol);
-                            }
+                        const lastClose = k1[k1.length - 1].close;
+                        const lastVol = k1[k1.length - 1].quoteVol;
 
-                            // إضافة للجدول الثالث عند تطابق الاستراتيجيتين
-                            if (macdRes.buySignal && (luxRes.upBreak || luxRes.dnBreak)) {
-                                dualMatches++;
-                                dualMatchCount.innerText = dualMatches;
-                                appendDualRow(sym, lastClose, macdRes, luxRes, lastVol);
-                            }
+                        if (macdPass) {
+                            macdMatches++;
+                            macdMatchCount.innerText = macdMatches;
+                            appendMacdRow(sym, lastClose, m1, `${tf1}, ${tf2}, ${tf3}`);
                         }
-                    } catch (e) {
-                        console.error(`Error processing ${sym}`, e);
+
+                        if (luxPass) {
+                            luxMatches++;
+                            luxMatchCount.innerText = luxMatches;
+                            appendLuxRow(sym, lastClose, l1, lastVol, `${tf1}, ${tf2}, ${tf3}`);
+                        }
+
+                        // شرط الجدول الثالث الذهبي: نجاح كلا المؤشرين في كافة العمال/الفريمات الـ3
+                        if (macdPass && luxPass) {
+                            dualMatches++;
+                            dualMatchCount.innerText = dualMatches;
+                            appendDualRow(sym, lastClose, `${tf1} + ${tf2} + ${tf3}`);
+                        }
                     }
 
-                    await new Promise(r => setTimeout(r, 50));
+                    await new Promise(r => setTimeout(r, 40));
                 }
 
             } catch (err) {
-                alert('حدث خطأ أثناء الاتصال بـ Binance API.');
+                alert('حدث خطأ في الاتصال بالشبكة.');
                 console.error(err);
             }
 
             isScanning = false;
             scanIcon.className = "fa-solid fa-play";
-            scanBtnText.innerText = "بدء المسح";
-            statusText.innerText = "اكتمل المسح بنجاح!";
+            scanBtnText.innerText = "بدء المسح المزدوج";
+            statusText.innerText = "اكتمل المسح بنجاح عبر كافة الفريمات والعمال!";
         }
 
         function calcEMA(data, period) {
             let k = 2 / (period + 1);
             let emaArr = [data[0]];
-            for (let i = 1; i < data.length; i++) {
-                emaArr.push(data[i] * k + emaArr[i - 1] * (1 - k));
-            }
+            for (let i = 1; i < data.length; i++) emaArr.push(data[i] * k + emaArr[i - 1] * (1 - k));
             return emaArr;
         }
 
@@ -526,21 +520,11 @@
             const prev = len - 2;
 
             const macdCrossUp = (macdLine[prev] <= sigLine[prev]) && (macdLine[cur] > sigLine[cur]);
-
-            let targetThreshold = 0;
-            if (config.distMode === 'percent') {
-                targetThreshold = -1 * (closes[cur] * (config.distVal / 100));
-            } else {
-                targetThreshold = -1 * Math.abs(config.distVal);
-            }
-
-            const belowThresh = macdLine[cur] <= targetThreshold;
             const priceAboveEma = closes[cur] > emaVals[cur];
 
             return {
-                buySignal: macdCrossUp && belowThresh && priceAboveEma,
+                buySignal: macdCrossUp && priceAboveEma,
                 macdVal: macdLine[cur],
-                sigVal: sigLine[cur],
                 emaVal: emaVals[cur]
             };
         }
@@ -553,7 +537,6 @@
             const closes = klines.map(k => k.close);
             const highs = klines.map(k => k.high);
             const lows = klines.map(k => k.low);
-
             const atr = calcATR(klines, swing);
 
             let upper = 0, lower = 0;
@@ -583,7 +566,6 @@
                 }
 
                 let slope = (atr[i] / swing) * mult;
-
                 if (ph !== null) slope_ph = slope;
                 if (pl !== null) slope_pl = slope;
 
@@ -608,64 +590,52 @@
             return { upBreak: lastUpBreak, dnBreak: lastDnBreak };
         }
 
-        function appendMacdRow(symbol, price, data) {
+        function appendMacdRow(symbol, price, data, tfs) {
             const tr = document.createElement('tr');
             tr.className = "bg-card-hover border-b border-custom transition";
             tr.innerHTML = `
                 <td class="p-3 font-bold text-white">${symbol}</td>
                 <td class="p-3 font-mono">${price.toFixed(4)}</td>
-                <td class="p-3"><span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">شراء مؤكد</span></td>
+                <td class="p-3"><span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">مؤكد على (${tfs})</span></td>
                 <td class="p-3 font-mono text-xs text-red-400">${data.macdVal.toFixed(4)}</td>
-                <td class="p-3 font-mono text-xs text-gray-400">${data.sigVal.toFixed(4)}</td>
                 <td class="p-3 font-mono text-xs text-blue-400">${data.emaVal.toFixed(4)}</td>
                 <td class="p-3 text-center">
-                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-amber-500 hover:text-amber-400 text-xs bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> فتح الشارت</a>
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-amber-500 hover:text-amber-400 text-xs bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> الشارت</a>
                 </td>
             `;
             macdTableBody.appendChild(tr);
         }
 
-        function appendLuxRow(symbol, price, data, vol) {
+        function appendLuxRow(symbol, price, data, vol, tfs) {
             const tr = document.createElement('tr');
             tr.className = "bg-card-hover border-b border-custom transition";
-
-            const isUp = data.upBreak;
-            const badge = isUp 
-                ? `<span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium"><i class="fa-solid fa-arrow-trend-up"></i> اختراق ترند هابط (Up Break)</span>`
-                : `<span class="bg-rose-500/10 text-rose-400 text-xs px-2.5 py-1 rounded-full border border-rose-500/20 font-medium"><i class="fa-solid fa-arrow-trend-down"></i> كسر ترند صاعد (Down Break)</span>`;
 
             tr.innerHTML = `
                 <td class="p-3 font-bold text-white">${symbol}</td>
                 <td class="p-3 font-mono">${price.toFixed(4)}</td>
-                <td class="p-3">${badge}</td>
+                <td class="p-3"><span class="bg-blue-500/10 text-blue-400 text-xs px-2.5 py-1 rounded-full border border-blue-500/20 font-medium">اختراق مؤكد (${tfs})</span></td>
                 <td class="p-3 font-mono text-xs text-gray-400">${(vol / 1000000).toFixed(2)}M USDT</td>
-                <td class="p-3 font-mono text-xs text-gray-400">${config.luxMethod} (${config.luxSlope})</td>
-                <td class="p-3 font-mono text-xs text-gray-400">${config.luxLookback} bars</td>
                 <td class="p-3 text-center">
-                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-blue-400 hover:text-blue-300 text-xs bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> فتح الشارت</a>
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-blue-400 hover:text-blue-300 text-xs bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> الشارت</a>
                 </td>
             `;
             luxTableBody.appendChild(tr);
         }
 
-        function appendDualRow(symbol, price, macdData, luxData, vol) {
+        function appendDualRow(symbol, price, tfs) {
             const tr = document.createElement('tr');
-            tr.className = "bg-amber-500/5 hover:bg-amber-500/10 border-b border-custom transition";
-
-            const luxBadge = luxData.upBreak 
-                ? `<span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-1 rounded border border-emerald-500/20">اختراق صاعد (Up)</span>`
-                : `<span class="bg-rose-500/10 text-rose-400 text-xs px-2 py-1 rounded border border-rose-500/20">كسر هابط (Down)</span>`;
+            tr.className = "bg-amber-500/10 hover:bg-amber-500/20 border-b border-amber-500/30 transition font-medium";
 
             tr.innerHTML = `
                 <td class="p-3 font-bold text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-star text-xs text-amber-400"></i> ${symbol}
+                    <i class="fa-solid fa-crown text-amber-400"></i> ${symbol}
                 </td>
                 <td class="p-3 font-mono font-bold text-white">${price.toFixed(4)}</td>
-                <td class="p-3"><span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">تقاطع شراء ممتاز</span></td>
-                <td class="p-3">${luxBadge}</td>
-                <td class="p-3 font-mono text-xs text-gray-400">${(vol / 1000000).toFixed(2)}M USDT</td>
+                <td class="p-3"><span class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-full border border-emerald-500/30 font-bold"><i class="fa-solid fa-check-double"></i> MACD+EMA ممتاز</span></td>
+                <td class="p-3"><span class="bg-blue-500/20 text-blue-300 text-xs px-2.5 py-1 rounded-full border border-blue-500/30 font-bold"><i class="fa-solid fa-check-double"></i> LuxAlgo ممتاز</span></td>
+                <td class="p-3 font-mono text-xs text-amber-300">${tfs}</td>
                 <td class="p-3 text-center">
-                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-amber-400 hover:text-amber-300 text-xs bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/40 font-bold"><i class="fa-solid fa-arrow-up-right-from-square"></i> فتح الشارت</a>
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}" target="_blank" class="text-black bg-amber-400 hover:bg-amber-300 text-xs px-3 py-1.5 rounded-lg font-bold shadow"><i class="fa-solid fa-arrow-up-right-from-square"></i> فتح الشارت</a>
                 </td>
             `;
             dualTableBody.appendChild(tr);
