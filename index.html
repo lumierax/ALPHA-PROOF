@@ -24,6 +24,10 @@
 .flow-stat{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:-8px 0 16px;border-color:#466253}.flow-stat .value{font-size:24px;color:var(--good);margin:0}.flow .tableicon{background:#223c2b;color:var(--good)}.flow .frame.lux-frame{color:var(--lux)}.flow .frame.macd-frame{color:var(--macd)}.sort-button{border:0;background:transparent;border-radius:5px;color:inherit;padding:3px 0;text-align:inherit;font:inherit;width:100%}.sort-button:hover:not(:disabled){color:var(--text);background:transparent}.sort-arrow{display:inline-block;margin-right:6px;color:var(--blue)}th[aria-sort=ascending],th[aria-sort=descending]{color:var(--text)}.scope-live{margin-top:12px;color:var(--lux);line-height:1.8}.flow-settings{padding:0 20px 20px}.flow-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.flow-rule{padding:12px 16px;background:#14271e;border:1px solid #395b45;border-radius:10px;margin:12px 0;line-height:1.9}.flow-progress{padding:8px 20px;color:var(--muted);font-size:12px}.sort-help{font-size:11px;color:var(--muted);padding:0 20px 10px}.flow-periods{display:flex;gap:6px;direction:ltr}.flow-periods span{display:inline-block;background:#172a22;border-radius:5px;padding:3px 6px}.flow-periods small{display:block;color:var(--muted)}
 @media(max-width:1100px){.flow-fields{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}.flow-settings{padding:0 12px 16px}.flow-fields{grid-template-columns:1fr}.sort-button{min-height:32px}.flow-stat{gap:8px 15px}.indicator-dialog-scroll .checkline{font-size:12px}}
+
+.flow-group{border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin:12px 0;background:#0f1923}.flow-group h3{margin-bottom:11px;color:var(--text)}.flow-toggles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 16px}.flow-toggles .checkline{margin:4px 0}.flow-diagnostics{padding:0 20px 10px;color:#c7d8ca;font-size:11px;line-height:1.9}.flow-diagnostics:empty{display:none}.flow-disabled{opacity:.5}.flow-settings input:disabled,.flow-settings select:disabled{opacity:.55;cursor:not-allowed}.flow-check{display:inline-block;margin-inline-end:8px}.flow-check.ok{color:var(--good)}.flow-check.off{color:var(--muted)}.flow-check.fail{color:var(--red)}
+@media(max-width:1100px){.flow-toggles{grid-template-columns:1fr 1fr}}@media(max-width:760px){.flow-toggles{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -80,8 +84,8 @@
 <div class="actions" style="margin:18px 0"><button id="exportBackup">تصدير نسخة احتياطية JSON</button><button id="importBackup">استيراد نسخة احتياطية</button><input type="file" id="backupFile" accept="application/json,.json" hidden><button class="ghost" id="resetDeleted">السماح بإعادة اكتشاف المحذوفات</button></div>
 <details class="panel help"><summary>طريقة التشغيل ومعنى النتائج</summary><div class="body">
 <p><strong>نطاق LuxAlgo المستقل:</strong> من إعدادات المؤشر اختر الحالية المفتوحة فقط، السابقة المغلقة فقط، آخر 30 شمعة، أو عددًا من 1 إلى 1000. العدد هنا إجمالي: 30 مع الحالية = الحالية + 29 سابقة، و30 دونها = آخر 30 مغلقة. لا يغير Lookback الحسابي ولا نطاق MACD. قد يلزم تاريخ تهيئة أطول لحساب المؤشر، لكنه لا يوسّع نافذة قبول الإشارات. النتائج القديمة محفوظة؛ إفراغ الجدول يسمح بالبدء من الصفر. حفظ يعتمد النطاق للجولة القادمة؛ حفظ ومسح الآن يبدأ جولة جديدة للمؤشر.</p>
-<p><strong>الجدول الرابع: فلتر قبول، وليس نقاطًا:</strong> يفحص العملات الموجودة في الجدول الثالث والمستمرة في المصدرين، بغض النظر عن تطابق الفريمات. لا نضيف شرط تثبيت المؤشرين خفية؛ تظل فريماتهما وحالاتهما معروضة. فلتر التدفق نفسه يستعمل فترات مغلقة فقط. يشترط زيادة الشراء المبادر خلال ثلاث فترات متتالية بحيث تكون الزيادة الثانية أكبر من الأولى، ثم حصة شراء لا تقل عن 60% ومضاعف نشاط لا يقل عن 1.5 افتراضيًا. المتوسط من 20 فترة تسبق الفترات الثلاث (لا تتداخل معها). المدة والحصة والمضاعف والمتوسط قابلة للتغيير. القياس Taker Buy Quote Volume من Binance، والبيع = الإجمالي − الشراء. هذا ليس صافي تدفقات مالية ولا اختبار ربحية، ولا يقيس دفتر الأوامر.</p>
-<p><strong>توقيت الفلتر:</strong> يُقيّم بعد جولات المؤشرات، أو يدويًا من زر الجدول الرابع. لا توجد جولة دورية جديدة كل 5 دقائق؛ 5 دقائق هي مدة نافذة القياس فقط، والتلقائي ما زال بحد أدنى ساعة. جميع عملات دفعة التقييم تستخدم نهاية نافذة زمنية واحدة. يعرض وقت التقييم وانتهاء نافذة البيانات، لا بيانات لحظية مزعومة. عند فشل الشروط أو تعذر البيانات يُزال القبول السابق حتى يتم التحقق مجددًا، دون حذف الثالث. لا تُعرض قائمة العملات المرفوضة.</p>
+<p><strong>الجدول الرابع: فلتر قبول قابل للتخصيص بالكامل:</strong> يفحص العملات الموجودة في الجدول الثالث والمستمرة في المصدرين. يستخدم فترات Binance المغلقة فقط. يمكنك تعديل مدة الفترة، وعدد فترات الاختبار، وعدد فترات المتوسط، ومصدر قياس المضاعف، وحصة الشراء، والمضاعف، والحد الأدنى للشراء، والحد الأدنى للزيادة، وتشغيل أو تعطيل الارتفاع المتتابع والتسارع وكل شرط مستقلًا، وعدد الطلبات المتوازية وطريقة التشغيل التلقائي. القياس الأساسي للشراء هو Taker Buy Quote Volume، والبيع = Quote Volume − Taker Buy Quote Volume. الجدول يعرض المقبول فقط، بينما شريط التشخيص يوضح أسباب الرفض المجمعة دون عرض العملات المرفوضة.</p>
+<p><strong>توقيت الفلتر:</strong> من إعدادات الجدول الرابع اختر: يدوي فقط، بعد انتهاء جولات المؤشرات، أو تلقائيًا مع إغلاق كل فترة قياس. جميع عملات دفعة التقييم تستخدم نهاية نافذة زمنية واحدة من فترات Binance المغلقة. عند فشل الشروط أو تعذر البيانات يُزال القبول السابق من الرابع فقط، ويظهر السبب ضمن التشخيص المجمع دون عرض قائمة العملات المرفوضة.</p>
 <p><strong>حذف الرابع:</strong> الحذف الفردي/المحدد يمنع عودة نتيجة الفترة الأخيرة نفسها على فريم الفلتر. يمكن العودة عند فترة مكتملة مختلفة. إفراغ الرابع يمسح سجله ومنع نتائجه فقط، ولا يغير الثالث؛ ولا يُعاد ملؤه قبل تقييم جديد. إعادة تحميل الصفحة لا تنفذ فحصًا من تلقاء نفسها.</p>
 <p><strong>الترتيب بالعناوين:</strong> اضغط عنوان أي عمود بيانات للتصاعدي، ثم اضغط ثانية للتنازلي. الترتيب العددي لا يستخدم نصوص K وM. الفريمات بحسب أكبر فريم ثم عدد الفريمات عند التعادل. عمود التفاصيل بحسب عدد الإشارات، والتوقيت بحسب القيمة الفعلية. الاختيار مستقل ومحفوظ لكل جدول. أعمدة الحذف والتحديد ليست معايير ترتيب.</p>
 <p><strong>ابدأ من لوحة العمال:</strong> لكل عامل اختيار مستقل بين LuxAlgo وMACD + EMA، وفريم من ساعة، 4 ساعات، 8 ساعات، يوم، 3 أيام، أسبوع. يمكن للعاملين أو العمال الثلاثة البحث عن المؤشر نفسه؛ تُدمج العملات والفريمات دون نسخ الصف نفسه. تظهر النتيجة فور وصولها، لا بعد نهاية الجولة.</p>
@@ -101,7 +105,7 @@
 <p class="tiny">مصادر التنفيذ: <a href="https://developers.binance.com/en/docs/products/spot/faqs/market_data_only" target="_blank" rel="noopener noreferrer">Binance: البيانات العامة</a> · <a href="https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md" target="_blank" rel="noopener noreferrer">Binance: الشموع والفوليوم وحدود الطلبات</a> · <a href="https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md" target="_blank" rel="noopener noreferrer">Binance: تدفق الأسعار</a> · <a href="https://www.tradingview.com/pine-script-docs/concepts/repainting/" target="_blank" rel="noopener noreferrer">TradingView: الإشارات أثناء التكوّن</a></p>
 </div></details>
 <details class="panel logs"><summary>سجل التشغيل والاتصال <span class="muted tiny" id="logCount"></span></summary><div class="logbody" id="logBody"></div></details>
-<footer class="footer">إصدار 1.5 · 24 سبتمبر 2026 · مستقل عن Binance وTradingView وLuxAlgo.<br>حسابات Trendlines with Breaks مقتبسة من © LuxAlgo مع تعديلات JavaScript، والنسخة المشتقة تحت <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> — نَسب العمل، استخدام غير تجاري، ومشاركة بالمثل.</footer>
+<footer class="footer">إصدار 1.6 · 24 سبتمبر 2026 · مستقل عن Binance وTradingView وLuxAlgo.<br>حسابات Trendlines with Breaks مقتبسة من © LuxAlgo مع تعديلات JavaScript، والنسخة المشتقة تحت <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> — نَسب العمل، استخدام غير تجاري، ومشاركة بالمثل.</footer>
 </main>
 <dialog id="indicatorDialog" class="indicator-dialog" aria-labelledby="indicatorDialogTitle" aria-describedby="indicatorDialogSubtitle" aria-modal="true">
  <form id="indicatorForm" novalidate>
@@ -312,7 +316,7 @@ const FLOW_TF={'1m':60000,'3m':180000,'5m':300000,'15m':900000,'30m':1800000,'1h
 const TABLES=['lux','macd','common','flow'];
 const DEFAULTS = {
  workers:[{enabled:true,indicator:'lux',interval:'1h'},{enabled:true,indicator:'lux',interval:'4h'},{enabled:true,indicator:'macd',interval:'1d'}],
- lux:{length:24,mult:1.4,method:'Atr',direction:'up',scanWindow:{mode:'last30',count:30,includeCurrent:true}},flow:{interval:'5m',share:60,multiple:1.5,baseline:20},macd:{ema:50,fast:12,slow:26,signal:9,mode:'percent',distance:1.5},
+ lux:{length:24,mult:1.4,method:'Atr',direction:'up',scanWindow:{mode:'last30',count:30,includeCurrent:true}},flow:{interval:'5m',testPeriods:3,enableRise:true,enableAcceleration:true,enableMinIncrease:false,minIncrease:0,enableShare:true,share:60,enableMultiple:true,multiple:1.5,baseline:20,multipleMetric:'buy',enableMinBuy:false,minLastBuy:0,parallel:2,autoMode:'afterWorkers'},macd:{ema:50,fast:12,slow:26,signal:9,mode:'percent',distance:1.5},
  previousBars:30,includeCurrent:true,autoHours:1,parallel:2,endpoint:'https://data-api.binance.vision',
  excludeStable:false,excludedAssets:'USDC, FDUSD, TUSD, USDP, DAI, BUSD, USTC, USDD, USD1, USDE, EURI, EUR, AEUR, RLUSD, PYUSD, USDG'
 };
@@ -321,12 +325,12 @@ const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g,c=>({'&':'&amp;',
 const own = (obj,key) => Object.prototype.hasOwnProperty.call(obj,key);
 const finite = x => typeof x === 'number' && Number.isFinite(x);
 const symOK = s => typeof s==='string' && s.length<90 && s.endsWith('USDT') && !/[\s<>"'&/\\]/.test(s);
-let state = {version:4,commonResetEpoch:0,settings:clone(DEFAULTS),sorts:{},records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
+let state = {version:5,commonResetEpoch:0,settings:clone(DEFAULTS),sorts:{},records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
 let storageOK = true, clockOffset = 0, clockSynced = false, symbols = [], allSymbols = [], metadata = new Map(), marketAt = 0, marketPromise = null;
 let selected = {lux:new Set(),macd:new Set(),common:new Set(),flow:new Set()}, renderTimer=null, saveTimer=null, toastTimer=null, logs=[];
 let quotes = new Map(), socket=null, socketTimer=null, socketWanted=false, socketTry=0, quoteAt=0, quoteBusy=false, quotePollAt=0;
 let lastQuotesSaved=0, runtime=DEFAULTS.workers.map((_,i)=>({id:i,want:false,auto:false,preparing:false,busy:false,lastFinished:0,worker:null,generation:0,done:0,total:0,errors:0,found:0,rounds:0,nextAt:0,note:'جاهز',lastSymbol:''}));
-const flowRuntime={generation:0,busy:false,timer:null,followUp:false,done:0,total:0,passed:0,errors:0,lastAt:0,note:'بانتظار فحص جديد أو الزر اليدوي'};
+const flowRuntime={generation:0,busy:false,timer:null,closeTimer:null,followUp:false,done:0,total:0,passed:0,errors:0,lastAt:0,note:'بانتظار فحص جديد أو الزر اليدوي',rejects:{rise:0,acceleration:0,minIncrease:0,share:0,multiple:0,minBuy:0,blocked:0,data:0}};
 const now = () => Date.now()+clockOffset;
 function validScanWindow(w){return w&&['current','previous','last30','custom'].includes(w.mode)&&Number.isInteger(w.count)&&w.count>=1&&w.count<=1000&&typeof w.includeCurrent==='boolean';}
 function normalizedWindow(w){return {mode:w.mode,count:w.mode==='current'||w.mode==='previous'?1:w.mode==='last30'?30:w.count,includeCurrent:w.mode==='current'?true:w.mode==='previous'?false:w.includeCurrent};}
@@ -335,7 +339,25 @@ function scanOptions(ind,cfg=state.settings[ind]){
  return {previousBars:state.settings.previousBars,includeCurrent:state.settings.includeCurrent,currentOnly:false};
 }
 function windowLabel(w){w=normalizedWindow(w);return w.mode==='current'?'الحالية المفتوحة فقط':w.mode==='previous'?'السابقة المغلقة فقط':w.count+' شمعة إجمالًا · '+(w.includeCurrent?'الحالية + '+(w.count-1)+' سابقة':'آخر '+w.count+' مغلقة');}
-function validFlowSettings(f){return f&&own(FLOW_TF,f.interval)&&finite(f.share)&&f.share>=0&&f.share<=100&&finite(f.multiple)&&f.multiple>=0&&f.multiple<=1000&&Number.isInteger(f.baseline)&&f.baseline>=1&&f.baseline<=500;}
+function normalizeFlowSettings(f){
+ const d=clone(DEFAULTS.flow),x=f&&typeof f==='object'?f:{};
+ const out={...d,...x};
+ for(const k of ['enableRise','enableAcceleration','enableMinIncrease','enableShare','enableMultiple','enableMinBuy'])if(typeof out[k]!=='boolean')out[k]=d[k];
+ if(!['buy','quote'].includes(out.multipleMetric))out.multipleMetric=d.multipleMetric;
+ if(!['manual','afterWorkers','candleClose'].includes(out.autoMode))out.autoMode=d.autoMode;
+ if(!Number.isInteger(out.testPeriods))out.testPeriods=d.testPeriods;
+ if(!Number.isInteger(out.parallel))out.parallel=d.parallel;
+ return out;
+}
+function validFlowSettings(f){
+ return f&&own(FLOW_TF,f.interval)&&Number.isInteger(f.testPeriods)&&f.testPeriods>=2&&f.testPeriods<=20&&
+ ['enableRise','enableAcceleration','enableMinIncrease','enableShare','enableMultiple','enableMinBuy'].every(k=>typeof f[k]==='boolean')&&
+ (!f.enableAcceleration||f.testPeriods>=3)&&finite(f.minIncrease)&&f.minIncrease>=0&&f.minIncrease<=1e18&&
+ finite(f.share)&&f.share>=0&&f.share<=100&&finite(f.multiple)&&f.multiple>=0&&f.multiple<=1000&&
+ Number.isInteger(f.baseline)&&f.baseline>=1&&f.baseline<=500&&['buy','quote'].includes(f.multipleMetric)&&
+ finite(f.minLastBuy)&&f.minLastBuy>=0&&f.minLastBuy<=1e18&&Number.isInteger(f.parallel)&&f.parallel>=1&&f.parallel<=6&&
+ ['manual','afterWorkers','candleClose'].includes(f.autoMode);
+}
 
 function validCfg(indicator,x) {
  const num=(v,min,max,integer=false)=>finite(v)&&v>=min&&v<=max&&(!integer||Number.isInteger(v));
@@ -375,16 +397,16 @@ function cleanSourceRow(indicator,symbol,row) {
 }
 function cleanQuote(q){return q&&finite(q.price)&&q.price>0&&finite(q.quoteVolume)&&q.quoteVolume>=0?{price:q.price,quoteVolume:q.quoteVolume,at:finite(q.at)?q.at:0}:null;}
 function validateState(input) {
- if(!input||![2,3,4].includes(input.version)||!input.settings||!input.records)throw new Error('هذه ليست نسخة احتياطية متوافقة مع هذا الماسح');
+ if(!input||![2,3,4,5].includes(input.version)||!input.settings||!input.records)throw new Error('هذه ليست نسخة احتياطية متوافقة مع هذا الماسح');
  const settings=clone(input.settings);
  if(input.version===2&&!own(settings,'autoHours'))settings.autoHours=1;
  delete settings.liveSeconds;
  if(!settings.lux.scanWindow)settings.lux.scanWindow={mode:'custom',count:settings.previousBars+1,includeCurrent:settings.includeCurrent};
- if(!settings.flow)settings.flow=clone(DEFAULTS.flow);
+ settings.flow=normalizeFlowSettings(settings.flow);
  if(!validSettings(settings))throw new Error('إعدادات النسخة غير صالحة؛ مدة المسح التلقائي لا تقل عن ساعة');
  const commonResetEpoch=input.commonResetEpoch===undefined?0:input.commonResetEpoch;
  if(!Number.isSafeInteger(commonResetEpoch)||commonResetEpoch<0||commonResetEpoch>1000000000000)throw new Error('سجل إعادة بدء الجدول الثالث غير صالح');
- const out={version:4,commonResetEpoch,settings,sorts:cleanSorts(input.sorts),records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
+ const out={version:5,commonResetEpoch,settings,sorts:cleanSorts(input.sorts),records:{lux:{},macd:{},common:{},flow:{}},deleted:{lux:{},macd:{},common:{},flow:{}}};
  for(const indicator of ['lux','macd']) {
   const rows=input.records[indicator];if(!rows||typeof rows!=='object'||Array.isArray(rows))throw new Error('تنسيق جدول غير صالح');
   for(const symbol of Object.keys(rows)){
@@ -1059,7 +1081,7 @@ $('tables').addEventListener('click',e=>{
  if(b.dataset.deleteSelected)deleteRows(b.dataset.deleteSelected,[...selected[b.dataset.deleteSelected]]);
  if(b.dataset.resetTable)resetTables([b.dataset.resetTable]);
 });
-$('startAll').onclick=()=>{state.settings.workers.forEach((w,i)=>{if(w.enabled)startWorker(i);});};
+$('startAll').onclick=()=>{state.settings.workers.forEach((w,i)=>{if(w.enabled)startWorker(i);});syncFlowAutoSchedule();};
 $('stopAll').onclick=stopAll;
 $('resetAllTables').onclick=()=>resetTables(TABLES);
 $('manualScan').onclick=()=>manualScan([0,1,2]);
@@ -1076,7 +1098,7 @@ $('importBackup').onclick=()=>$('backupFile').click();
 $('backupFile').onchange=async e=>{
  const file=e.target.files[0];if(!file)return;
  try{if(file.size>20*1024*1024)throw new Error('حجم النسخة يتجاوز 20 MB');const incoming=validateState(JSON.parse(await file.text()));if(!confirm('استبدال الإعدادات والنتائج الحالية بهذه النسخة الاحتياطية؟ صدّر الحالية أولًا للاحتفاظ بها.'))return;
-  stopAll();state=incoming;selected={lux:new Set(),macd:new Set(),common:new Set(),flow:new Set()};marketAt=0;symbols=[];cache.clear();storageOK=true;syncCommon();pruneFlowRecords();persistNow();buildWorkers();fillSettings();fillFlowSettings();TABLES.forEach(ind=>{updateSortHeaders(ind);renderTable(ind);});notify('استُوردت النسخة والجدول الثالث؛ اختر مسحًا يدويًا أو تلقائيًا');
+  stopAll();state=incoming;selected={lux:new Set(),macd:new Set(),common:new Set(),flow:new Set()};marketAt=0;symbols=[];cache.clear();storageOK=true;syncCommon();pruneFlowRecords();persistNow();buildWorkers();fillSettings();fillFlowSettings();TABLES.forEach(ind=>{updateSortHeaders(ind);renderTable(ind);});syncFlowAutoSchedule();notify('استُوردت النسخة والجدول الثالث؛ اختر مسحًا يدويًا أو تلقائيًا');
  }catch(e){banner('لم تُستورد النسخة: '+e.message);}finally{$('backupFile').value='';}
 };
 $('resetDeleted').onclick=()=>{if(confirm('السماح بإعادة اكتشاف كل النتائج المحذوفة عند الفحص القادم؟ لن تُحذف النتائج الموجودة.')){state.deleted={lux:{},macd:{},common:{},flow:{}};persistNow();notify('أُلغي منع إعادة الاكتشاف؛ يُستعاد المطابق عند الفحص التالي');}};
@@ -1101,7 +1123,7 @@ function sortColumns(ind){
  const base=[['symbol','العملة'],['price','أحدث سعر'],['volume','فوليوم USDT']];
  if(ind==='lux'||ind==='macd')return [...base,['frames','الفريمات'],['latest','أحدث شمعة إشارة'],['count','عدد الإشارات']];
  if(ind==='common')return [...base,['luxFrames','فريمات LuxAlgo'],['macdFrames','فريمات MACD'],['firstSeen','وقت تسجيل الاشتراك'],['status','حالة الاشتراك'],['count','عدد الإشارات'],['latest','آخر تحديث للسجل']];
- return [...base,['luxFrames','فريمات LuxAlgo'],['macdFrames','فريمات MACD'],['buy','الشراء في آخر فترة'],['share','حصة الشراء'],['multiple','مضاعف الشراء'],['gain','تسارع الزيادة'],['latest','وقت التقييم'],['count','عدد فترات الاختبار']];
+ return [...base,['luxFrames','فريمات LuxAlgo'],['macdFrames','فريمات MACD'],['buy','الشراء في آخر فترة'],['share','حصة الشراء'],['multiple','مضاعف النشاط'],['gain','تسارع الزيادة'],['latest','وقت التقييم'],['count','عدد فترات الاختبار']];
 }
 function cleanSorts(input){
  const out={};for(const ind of TABLES){const v=input?.[ind];out[ind]=v&&sortColumns(ind).some(([k])=>k===v.key)&&['asc','desc'].includes(v.dir)?{key:v.key,dir:v.dir}:{key:'latest',dir:'desc'};}return out;
@@ -1114,11 +1136,11 @@ function metric(ind,row,key){
  if(key==='volume')return currentQuote(row.symbol,row)?.quoteVolume??null;
  if(key==='frames')return frames(signals);
  if(key==='luxFrames'||key==='macdFrames')return frames(row.sources?.[key==='luxFrames'?'lux':'macd']?.signals||[]);
- if(key==='count')return ind==='flow'?row.config.baseline+3:signals.length;
+ if(key==='count')return ind==='flow'?row.periods.length:signals.length;
  if(key==='firstSeen')return row.firstSeen;
  if(key==='status')return commonPresent(row.symbol)?1:0;
  if(key==='latest')return ind==='common'?row.lastChanged:ind==='flow'?row.evaluatedAt:Math.max(0,...signals.map(s=>s.openTime));
- if(ind==='flow'){if(key==='buy')return row.periods[2].buy;if(key==='share')return row.buyShare;if(key==='multiple')return row.multiple;if(key==='gain')return row.delta2-row.delta1;}
+ if(ind==='flow'){const last=row.periods[row.periods.length-1];if(key==='buy')return last?.buy??null;if(key==='share')return row.buyShare;if(key==='multiple')return finite(row.multiple)?row.multiple:null;if(key==='gain')return finite(row.acceleration)?row.acceleration:null;}
  return null;
 }
 function sortRows(ind,rows){
@@ -1144,18 +1166,32 @@ function updateSortHeaders(ind){
 function toggleSort(ind,key){
  const prior=state.sorts[ind];state.sorts[ind]={key,dir:prior?.key===key&&prior.dir==='asc'?'desc':'asc'};persist();updateSortHeaders(ind);renderTable(ind);
 }
-// Execution filter: equal, CLOSED windows; the baseline excludes all 3 test windows.
+// Execution filter: equal, CLOSED windows. Every rule is configurable from the fourth table.
+function flowMetricValue(p,cfg){return cfg.multipleMetric==='quote'?p.quote:p.buy;}
 function flowStats(periods,mean,cfg){
- if(!validFlowSettings(cfg)||!Array.isArray(periods)||periods.length!==3||!finite(mean)||mean<=0)throw new Error('لا يوجد متوسط شراء موجب كافٍ للمقارنة');
+ cfg=normalizeFlowSettings(cfg);
+ if(!validFlowSettings(cfg)||!Array.isArray(periods)||periods.length!==cfg.testPeriods)throw new Error('إعدادات أو فترات الاختبار غير صالحة');
  for(const p of periods)if(!p||!['openTime','closeTime','buy','quote'].every(k=>finite(p[k]))||p.buy<0||p.quote<0||p.buy>p.quote+Math.max(1e-8,p.quote*1e-10)||p.closeTime-p.openTime+1!==FLOW_TF[cfg.interval])throw new Error('قيم تنفيذ غير صالحة');
- for(let i=1;i<3;i++)if(periods[i].openTime-periods[i-1].openTime!==FLOW_TF[cfg.interval])throw new Error('فجوة بين فترات الاختبار');
- const [a,b,c]=periods,delta1=b.buy-a.buy,delta2=c.buy-b.buy,buyShare=c.quote>0?Math.min(100,c.buy/c.quote*100):0,multiple=c.buy/mean;
- if(![delta1,delta2,buyShare,multiple].every(finite))throw new Error('قيم اختبار غير قابلة للحساب');
- return {accepted:delta1>0&&delta2>delta1&&buyShare>=cfg.share&&multiple>=cfg.multiple,delta1,delta2,buyShare,multiple};
+ for(let i=1;i<periods.length;i++)if(periods[i].openTime-periods[i-1].openTime!==FLOW_TF[cfg.interval])throw new Error('فجوة بين فترات الاختبار');
+ if(cfg.enableMultiple&&(!finite(mean)||mean<=0))throw new Error('لا يوجد متوسط موجب كافٍ للمقارنة');
+ const last=periods[periods.length-1],deltas=[];for(let i=1;i<periods.length;i++)deltas.push(periods[i].buy-periods[i-1].buy);
+ const accelerationSteps=[];for(let i=1;i<deltas.length;i++)accelerationSteps.push(deltas[i]-deltas[i-1]);
+ const buyShare=last.quote>0?Math.min(100,last.buy/last.quote*100):0,multiple=cfg.enableMultiple?flowMetricValue(last,cfg)/mean:null,acceleration=accelerationSteps.length?accelerationSteps[accelerationSteps.length-1]:null;
+ const checks={
+  rise:{enabled:cfg.enableRise,pass:!cfg.enableRise||deltas.every(d=>d>0)},
+  acceleration:{enabled:cfg.enableAcceleration,pass:!cfg.enableAcceleration||accelerationSteps.every(d=>d>0)},
+  minIncrease:{enabled:cfg.enableMinIncrease,pass:!cfg.enableMinIncrease||deltas.every(d=>d>=cfg.minIncrease)},
+  share:{enabled:cfg.enableShare,pass:!cfg.enableShare||buyShare>=cfg.share},
+  multiple:{enabled:cfg.enableMultiple,pass:!cfg.enableMultiple||multiple>=cfg.multiple},
+  minBuy:{enabled:cfg.enableMinBuy,pass:!cfg.enableMinBuy||last.buy>=cfg.minLastBuy}
+ };
+ const accepted=Object.values(checks).every(x=>x.pass);
+ return {accepted,deltas,accelerationSteps,acceleration,buyShare,multiple,checks,delta1:deltas[0]??null,delta2:deltas[1]??null};
 }
 function evaluateFlow(rows,cfg,at){
+ cfg=normalizeFlowSettings(cfg);
  if(!validFlowSettings(cfg)||!finite(at)||!Array.isArray(rows))throw new Error('إعدادات أو استجابة الفلتر غير صالحة');
- const ms=FLOW_TF[cfg.interval],end=Math.floor(at/ms)*ms-1,need=cfg.baseline+3;
+ const ms=FLOW_TF[cfg.interval],end=Math.floor(at/ms)*ms-1,baselineCount=cfg.enableMultiple?cfg.baseline:0,need=baselineCount+cfg.testPeriods;
  const sample=rows.filter(r=>Array.isArray(r)&&+r[6]<=end).slice(-need).map(r=>({openTime:+r[0],closeTime:+r[6],quote:+r[7],buy:+r[10]}));
  if(sample.length!==need)throw new Error(`بيانات غير كافية: يلزم ${need} فترة مغلقة`);
  for(let i=0;i<sample.length;i++){
@@ -1163,18 +1199,20 @@ function evaluateFlow(rows,cfg,at){
   if(i&&p.openTime!==sample[i-1].openTime+ms)throw new Error('بيانات غير مكتملة: توجد فترات مفقودة');
  }
  if(sample[sample.length-1].closeTime!==end)throw new Error('لم تصل آخر فترة مغلقة؛ لن تُعرض بيانات أقدم كقياس جديد');
- const periods=sample.slice(-3),baselineBuys=sample.slice(0,-3).map(p=>p.buy),baselineMean=baselineBuys.reduce((a,b)=>a+b,0)/cfg.baseline;
- return {...flowStats(periods,baselineMean,cfg),periods,baselineBuys,baselineMean,config:clone(cfg),dataAsOf:end+1,evaluatedAt:at};
+ const periods=sample.slice(-cfg.testPeriods),baselineRows=baselineCount?sample.slice(0,-cfg.testPeriods):[],baselineValues=baselineRows.map(p=>flowMetricValue(p,cfg)),baselineMean=baselineValues.length?baselineValues.reduce((a,b)=>a+b,0)/baselineValues.length:null;
+ return {...flowStats(periods,baselineMean,cfg),periods,baselineValues,baselineMean,config:clone(cfg),dataAsOf:end+1,evaluatedAt:at};
 }
 function cleanFlowBackup(input,out){
  const rows=input.records.flow||{},deleted=input.deleted?.flow||{};
  if(!rows||typeof rows!=='object'||Array.isArray(rows)||!deleted||typeof deleted!=='object'||Array.isArray(deleted))throw new Error('تنسيق جدول الفلتر غير صالح');
  for(const [symbol,r]of Object.entries(rows)){
-  if(!symOK(symbol)||!r||!validFlowSettings(r.config)||!Array.isArray(r.baselineBuys)||r.baselineBuys.length!==r.config.baseline||!r.baselineBuys.every(x=>finite(x)&&x>=0)||!finite(r.evaluatedAt)||!finite(r.dataAsOf))throw new Error('سجل فلتر غير صالح');
-  const mean=r.baselineBuys.reduce((a,b)=>a+b,0)/r.baselineBuys.length,calc=flowStats(r.periods,mean,r.config);
-  if(!calc.accepted||r.dataAsOf!==r.periods[2].closeTime+1||r.evaluatedAt<r.dataAsOf)throw new Error('سجل فلتر غير مؤهل أو توقيته غير صالح');
+  const cfg=normalizeFlowSettings(r?.config);
+  const expected=cfg.enableMultiple?cfg.baseline:0,baselineValues=Array.isArray(r?.baselineValues)?r.baselineValues:Array.isArray(r?.baselineBuys)?r.baselineBuys:[];
+  if(!symOK(symbol)||!r||!validFlowSettings(cfg)||!Array.isArray(r.periods)||r.periods.length!==cfg.testPeriods||baselineValues.length!==expected||!baselineValues.every(x=>finite(x)&&x>=0)||!finite(r.evaluatedAt)||!finite(r.dataAsOf))throw new Error('سجل فلتر غير صالح');
+  const mean=baselineValues.length?baselineValues.reduce((a,b)=>a+b,0)/baselineValues.length:null,calc=flowStats(r.periods,mean,cfg),last=r.periods[r.periods.length-1];
+  if(!calc.accepted||r.dataAsOf!==last.closeTime+1||r.evaluatedAt<r.dataAsOf)throw new Error('سجل فلتر غير مؤهل أو توقيته غير صالح');
   const sources={lux:cleanSourceRow('lux',symbol,r.sources.lux),macd:cleanSourceRow('macd',symbol,r.sources.macd)};
-  out.records.flow[symbol]={symbol,...calc,periods:clone(r.periods),baselineBuys:[...r.baselineBuys],baselineMean:mean,config:clone(r.config),dataAsOf:r.dataAsOf,evaluatedAt:r.evaluatedAt,sources,quoteSnapshot:cleanQuote(r.quoteSnapshot)};
+  out.records.flow[symbol]={symbol,...calc,periods:clone(r.periods),baselineValues:[...baselineValues],baselineMean:mean,config:clone(cfg),dataAsOf:r.dataAsOf,evaluatedAt:r.evaluatedAt,sources,quoteSnapshot:cleanQuote(r.quoteSnapshot)};
  }
  for(const [symbol,entries]of Object.entries(deleted)){
   if(!symOK(symbol)||!entries||typeof entries!=='object'||Array.isArray(entries))throw new Error('سجل حذف الفلتر غير صالح');
@@ -1185,95 +1223,155 @@ function flowCandidate(symbol){return own(state.records.common,symbol)&&commonPr
 function pruneFlowRecords(){
  let changed=false;for(const symbol of Object.keys(state.records.flow))if(!flowCandidate(symbol)){delete state.records.flow[symbol];selected.flow.delete(symbol);changed=true;}if(changed)persist();return changed;
 }
-function flowTableMarkup(){return `<section class="panel flow" id="panel-flow"><div class="tablehead"><div class="tabletitle"><div class="tableicon">⇈</div><div><h2>الجدول الرابع · الشراء المتسارع <span class="count" id="count-flow"></span></h2><p class="tiny muted">المقبولة من الجدول الثالث فقط · تسارع شراء منفّذ + هيمنة شراء + نشاط فوق المتوسط</p></div></div><div class="tablecontrols"><button class="small primary" id="runFlow">فحص فلتر الشراء الآن</button><input id="search-flow" type="search" placeholder="ابحث عن عملة…" aria-label="البحث في المقبولة"><select id="filter-flow" aria-label="فلترة فريمات الاكتشاف"><option value="all">كل الفريمات</option>${Object.entries(TF).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select><select id="sort-flow" aria-label="ترتيب المقبولة"></select><button class="small danger" data-delete-selected="flow">حذف المحدد</button><button class="small reset-table" data-reset-table="flow">إفراغ الجدول وبدء جديد</button></div></div>
-<details id="flowSettingsPanel" class="settings"><summary>⚙ إعدادات فلتر الشراء المتسارع <span class="tiny muted" id="flowSettingsSummary"></span></summary><form id="flowForm" class="flow-settings" novalidate><div class="flow-fields"><label class="field">مدة كل فترة قياس<select name="interval">${Object.keys(FLOW_TF).map(v=>`<option value="${v}">${v}</option>`).join('')}</select></label><label class="field">الحد الأدنى لحصة الشراء %<input name="share" type="text" inputmode="decimal" dir="ltr"></label><label class="field">الحد الأدنى لمضاعف الشراء<input name="multiple" type="text" inputmode="decimal" dir="ltr"></label><label class="field">عدد فترات المتوسط السابقة (1–500)<input name="baseline" type="text" inputmode="numeric" dir="ltr"></label></div><p class="flow-rule">يشترط دائمًا: شراء الفترة الثانية أكبر من الأولى، وشراء الثالثة أكبر من الثانية، والزيادة الثانية أكبر من الزيادة الأولى. تُطبّق حصة الشراء والمضاعف على الفترة الثالثة المغلقة. المتوسط يسبق الفترات الثلاث ولا يشملها.</p><div class="actions"><button type="submit" value="save">حفظ الفلتر للفحص القادم</button><button type="submit" value="scan" class="primary">حفظ وفحص الفلتر الآن</button></div><p class="hint" id="flowError" role="status"></p><p class="hint">تغيير إعدادات الفلتر يلغي نتائج قبوله القديمة فقط حتى تُفحص بالشروط الجديدة؛ الجداول الثلاثة الأصلية لا تتغير. مدة 5m ليست موعد المسح؛ التلقائي لا يقل عن ساعة، واليدوي متاح. هذه معايير تجريبية وليست ضمانًا للصعود.</p></form></details>
-<div class="flow-progress" id="flowProgress" role="status"></div><div class="commonNotice">بيانات التنفيذ تخص فترات مغلقة. حصة الشراء = Taker Buy Quote Volume ÷ Quote Volume. ليست صافي أموال داخلة. قد تكون إشارات المؤشرين مفتوحة أو تاريخية؛ حالات فريماتها ظاهرة ولا يعني اجتياز الفلتر أنها مثبتة. <a href="https://developers.binance.com/en/docs/catalog/core-trading-spot-trading/api/rest-api/market" target="_blank" rel="noopener noreferrer">مصدر حقول Binance</a></div>
-<div class="sort-help">اضغط العناوين للترتيب ↑ ↓ · لا تظهر العملات المرفوضة أو غير مكتملة البيانات هنا.</div><div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="selectall-flow" data-select-all="flow" aria-label="تحديد المقبولة المعروضة"></th><th>العملة</th><th>أحدث سعر USDT</th><th>فوليوم USDT<br>آخر 24 ساعة</th><th>فريمات LuxAlgo</th><th>فريمات MACD</th><th>الشراء المنفّذ USDT<br>الفترات الثلاث · الأولى ← الأخيرة</th><th>حصة الشراء<br>آخر فترة</th><th>مضاعف الشراء<br>مقارنة بالمتوسط</th><th>تسارع الزيادة<br>USDT / فترة²</th><th>وقت التقييم UTC</th><th>تفاصيل الاختبار</th><th>حذف</th></tr></thead><tbody id="body-flow"></tbody></table></div><div class="tablefoot"><span id="foot-flow"></span><span>القبول عند وقت التقييم المعروض فقط؛ لا يعتمد على دفتر الأوامر.</span></div></section>`;}
+function flowTableMarkup(){return `<section class="panel flow" id="panel-flow"><div class="tablehead"><div class="tabletitle"><div class="tableicon">⇈</div><div><h2>الجدول الرابع · فلتر الشراء المنفّذ <span class="count" id="count-flow"></span></h2><p class="tiny muted">المقبولة من الجدول الثالث فقط · جميع شروط القبول قابلة للتعديل أو التعطيل</p></div></div><div class="tablecontrols"><button class="small primary" id="runFlow">حفظ الإعدادات وفحص الآن</button><input id="search-flow" type="search" placeholder="ابحث عن عملة…" aria-label="البحث في المقبولة"><select id="filter-flow" aria-label="فلترة فريمات الاكتشاف"><option value="all">كل الفريمات</option>${Object.entries(TF).map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select><select id="sort-flow" aria-label="ترتيب المقبولة"></select><button class="small danger" data-delete-selected="flow">حذف المحدد</button><button class="small reset-table" data-reset-table="flow">إفراغ الجدول وبدء جديد</button></div></div>
+<details id="flowSettingsPanel" class="settings"><summary>⚙ إعدادات الجدول الرابع <span class="tiny muted" id="flowSettingsSummary"></span></summary><form id="flowForm" class="flow-settings" novalidate>
+<div class="flow-group"><h3>نطاق القياس وطريقة التشغيل</h3><div class="flow-fields">
+<label class="field">مدة كل فترة<select name="interval">${Object.keys(FLOW_TF).map(v=>`<option value="${v}">${v}</option>`).join('')}</select></label>
+<label class="field">عدد فترات الاختبار (2–20)<input name="testPeriods" type="number" min="2" max="20" step="1" dir="ltr"></label>
+<label class="field">طلبات متوازية للجدول الرابع (1–6)<input name="parallel" type="number" min="1" max="6" step="1" dir="ltr"></label>
+<label class="field">طريقة التقييم<select name="autoMode"><option value="manual">يدوي فقط</option><option value="afterWorkers">بعد جولات المؤشرات</option><option value="candleClose">مع إغلاق كل فترة للفلتر</option></select></label>
+</div></div>
+<div class="flow-group"><h3>شروط الحركة</h3><div class="flow-toggles">
+<label class="checkline"><input name="enableRise" type="checkbox"><span>اشتراط أن يكون شراء كل فترة أكبر من السابقة</span></label>
+<label class="checkline"><input name="enableAcceleration" type="checkbox"><span>اشتراط تسارع الزيادات: كل زيادة أكبر من التي قبلها</span></label>
+<label class="checkline"><input name="enableMinIncrease" type="checkbox"><span>تفعيل حد أدنى لقيمة كل زيادة</span></label>
+</div><div class="flow-fields"><label class="field" data-flow-dependent="enableMinIncrease">الحد الأدنى لكل زيادة USDT<input name="minIncrease" type="text" inputmode="decimal" dir="ltr"></label></div></div>
+<div class="flow-group"><h3>حصة المشترين والنشاط</h3><div class="flow-toggles">
+<label class="checkline"><input name="enableShare" type="checkbox"><span>تفعيل شرط حصة الشراء في آخر فترة</span></label>
+<label class="checkline"><input name="enableMultiple" type="checkbox"><span>تفعيل شرط المضاعف مقارنة بالمتوسط السابق</span></label>
+<label class="checkline"><input name="enableMinBuy" type="checkbox"><span>تفعيل حد أدنى للشراء المنفّذ في آخر فترة</span></label>
+</div><div class="flow-fields">
+<label class="field" data-flow-dependent="enableShare">الحد الأدنى لحصة الشراء %<input name="share" type="text" inputmode="decimal" dir="ltr"></label>
+<label class="field" data-flow-dependent="enableMultiple">الحد الأدنى للمضاعف<input name="multiple" type="text" inputmode="decimal" dir="ltr"></label>
+<label class="field" data-flow-dependent="enableMultiple">عدد فترات المتوسط السابقة (1–500)<input name="baseline" type="number" min="1" max="500" step="1" dir="ltr"></label>
+<label class="field" data-flow-dependent="enableMultiple">مصدر قياس المضاعف<select name="multipleMetric"><option value="buy">الشراء المنفّذ Taker Buy Quote</option><option value="quote">إجمالي التنفيذ Quote Volume</option></select></label>
+<label class="field" data-flow-dependent="enableMinBuy">الحد الأدنى للشراء في آخر فترة USDT<input name="minLastBuy" type="text" inputmode="decimal" dir="ltr"></label>
+</div></div>
+<p class="flow-rule">كل شرط يمكن تشغيله أو تعطيله مستقلًا. المتوسط — عند تفعيله — يسبق فترات الاختبار ولا يتداخل معها. الفحص يستخدم فترات مغلقة فقط. زر «حفظ الإعدادات وفحص الآن» يستخدم القيم الظاهرة في هذه الحقول نفسها.</p><div class="actions"><button type="submit" value="save">حفظ فقط</button><button type="submit" value="scan" class="primary">حفظ وفحص الآن</button><button type="button" id="resetFlowDefaults">إعادة افتراضيات الجدول الرابع</button></div><p class="hint" id="flowError" role="status"></p><p class="hint">تغيير الشروط يمسح نتائج القبول القديمة في الرابع فقط حتى تُفحص بالشروط الجديدة؛ الجداول الثلاثة الأصلية لا تتغير. «عدد فترات المتوسط» لا يقبل الصفر؛ لتعطيل المتوسط أوقف شرط المضاعف.</p></form></details>
+<div class="flow-progress" id="flowProgress" role="status"></div><div class="flow-diagnostics" id="flowDiagnostics"></div><div class="commonNotice">بيانات التنفيذ تخص فترات مغلقة. حصة الشراء = Taker Buy Quote Volume ÷ Quote Volume. لا تُعرض العملات المرفوضة، لكن أسباب الرفض تظهر كمجاميع تشخيصية. هذا ليس صافي أموال داخلة ولا يعتمد على دفتر الأوامر.</div>
+<div class="sort-help">اضغط العناوين للترتيب ↑ ↓ · يعرض الجدول العملات المقبولة فقط.</div><div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="selectall-flow" data-select-all="flow" aria-label="تحديد المقبولة المعروضة"></th><th>العملة</th><th>أحدث سعر USDT</th><th>فوليوم USDT<br>آخر 24 ساعة</th><th>فريمات LuxAlgo</th><th>فريمات MACD</th><th>الشراء المنفّذ USDT<br>فترات الاختبار</th><th>حصة الشراء<br>آخر فترة</th><th>مضاعف النشاط<br>مقارنة بالمتوسط</th><th>آخر تسارع<br>USDT / فترة²</th><th>وقت التقييم UTC</th><th>تفاصيل الاختبار</th><th>حذف</th></tr></thead><tbody id="body-flow"></tbody></table></div><div class="tablefoot"><span id="foot-flow"></span><span>القبول عند وقت التقييم المعروض فقط.</span></div></section>`;}
+function readFlowForm(){
+ const f=$('flowForm')?.elements;if(!f)return null;
+ return normalizeFlowSettings({interval:f.interval.value,testPeriods:parseIndicatorNumber(f.testPeriods.value),parallel:parseIndicatorNumber(f.parallel.value),autoMode:f.autoMode.value,enableRise:f.enableRise.checked,enableAcceleration:f.enableAcceleration.checked,enableMinIncrease:f.enableMinIncrease.checked,minIncrease:parseIndicatorNumber(f.minIncrease.value),enableShare:f.enableShare.checked,share:parseIndicatorNumber(f.share.value),enableMultiple:f.enableMultiple.checked,multiple:parseIndicatorNumber(f.multiple.value),baseline:parseIndicatorNumber(f.baseline.value),multipleMetric:f.multipleMetric.value,enableMinBuy:f.enableMinBuy.checked,minLastBuy:parseIndicatorNumber(f.minLastBuy.value)});
+}
 function fillFlowSettings(){
- const f=$('flowForm')?.elements;if(!f)return;for(const k of ['interval','share','multiple','baseline'])f.namedItem(k).value=state.settings.flow[k];updateFlowUI();
+ const f=$('flowForm')?.elements;if(!f)return;const x=normalizeFlowSettings(state.settings.flow);
+ for(const k of ['interval','testPeriods','parallel','autoMode','minIncrease','share','multiple','baseline','multipleMetric','minLastBuy'])f.namedItem(k).value=x[k];
+ for(const k of ['enableRise','enableAcceleration','enableMinIncrease','enableShare','enableMultiple','enableMinBuy'])f.namedItem(k).checked=x[k];
+ syncFlowFormDisabled();updateFlowUI();
+}
+function syncFlowFormDisabled(){
+ const form=$('flowForm');if(!form)return;for(const el of form.querySelectorAll('[data-flow-dependent]')){const on=form.elements.namedItem(el.dataset.flowDependent)?.checked!==false;el.classList.toggle('flow-disabled',!on);for(const c of el.querySelectorAll('input,select'))c.disabled=!on;}
+}
+function flowSettingsError(cfg){
+ if(!cfg)return 'تعذر قراءة إعدادات الجدول الرابع.';
+ if(cfg.enableAcceleration&&cfg.testPeriods<3)return 'شرط التسارع يحتاج 3 فترات اختبار على الأقل.';
+ return 'تحقق من القيم: فترات الاختبار 2–20، المتوسط 1–500، الحصة 0–100، المضاعف 0–1000، والتوازي 1–6. القيم المالية لا تكون سالبة.';
+}
+function saveFlowForm(scan=false){
+ const cfg=readFlowForm();if(!validFlowSettings(cfg)){$('flowError').textContent=flowSettingsError(cfg);return false;}
+ const changed=JSON.stringify(cfg)!==JSON.stringify(state.settings.flow);
+ if(changed){cancelFlowEvaluation('تغيّرت الشروط؛ بانتظار تقييم جديد');state.settings.flow=cfg;state.records.flow={};selected.flow.clear();persistNow();renderFlowTable();}
+ $('flowError').textContent='حُفظت إعدادات الجدول الرابع. الجداول الثلاثة الأصلية محفوظة.';updateFlowUI();syncFlowAutoSchedule();
+ if(scan)runFlowEvaluation('manual');return true;
 }
 function bindFlowSettings(){
- $('runFlow').onclick=()=>runFlowEvaluation();
- $('flowForm').onsubmit=e=>{
-  e.preventDefault();const f=e.currentTarget.elements,cfg={interval:f.interval.value,share:parseIndicatorNumber(f.share.value),multiple:parseIndicatorNumber(f.multiple.value),baseline:parseIndicatorNumber(f.baseline.value)};
-  if(!validFlowSettings(cfg)){$('flowError').textContent='الحصة من 0 إلى 100، المضاعف من 0 إلى 1000، والمتوسط عدد صحيح من 1 إلى 500.';return;}
-  const changed=JSON.stringify(cfg)!==JSON.stringify(state.settings.flow);if(changed){cancelFlowEvaluation('تغيّرت الشروط؛ بانتظار تقييم جديد');state.settings.flow=cfg;state.records.flow={};selected.flow.clear();persistNow();renderFlowTable();}
-  $('flowError').textContent='حُفظت الشروط. الجداول الثلاثة الأصلية محفوظة.';updateFlowUI();
-  if((e.submitter||document.activeElement)?.value==='scan')runFlowEvaluation();
- };
+ $('runFlow').onclick=()=>saveFlowForm(true);
+ $('flowForm').onsubmit=e=>{e.preventDefault();saveFlowForm((e.submitter||document.activeElement)?.value==='scan');};
+ $('flowForm').addEventListener('change',syncFlowFormDisabled);
+ $('resetFlowDefaults').onclick=()=>{state.settings.flow=clone(DEFAULTS.flow);cancelFlowEvaluation('أعيدت افتراضيات الجدول الرابع؛ بانتظار تقييم جديد');state.records.flow={};selected.flow.clear();fillFlowSettings();persistNow();renderFlowTable();syncFlowAutoSchedule();$('flowError').textContent='أعيدت الإعدادات الافتراضية للجدول الرابع.';};
 }
+function emptyFlowRejects(){return {rise:0,acceleration:0,minIncrease:0,share:0,multiple:0,minBuy:0,blocked:0,data:0};}
+function flowModeLabel(m){return m==='manual'?'يدوي':m==='candleClose'?'مع إغلاق الفترة':'بعد جولات المؤشرات';}
 function updateFlowUI(){
- if(!$('flowProgress'))return;const f=state.settings.flow,r=flowRuntime;
- $('flowSettingsSummary').textContent=`· ${f.interval} · شراء ≥ ${f.share}% · مضاعف ≥ ${f.multiple} · متوسط ${f.baseline}`;
+ if(!$('flowProgress'))return;const f=normalizeFlowSettings(state.settings.flow),r=flowRuntime;
+ const enabled=[f.enableRise?'ارتفاع':'',f.enableAcceleration?'تسارع':'',f.enableShare?`حصة ${f.share}%`:'',f.enableMultiple?`مضاعف ${f.multiple}× / متوسط ${f.baseline}`:'',f.enableMinBuy?'حد شراء':''].filter(Boolean).join(' + ')||'دون شروط قبول مفعّلة';
+ $('flowSettingsSummary').textContent=`· ${f.interval} · ${f.testPeriods} فترات · ${flowModeLabel(f.autoMode)} · ${enabled}`;
  $('flowProgress').textContent=r.busy?`جارٍ تقييم ${r.done} / ${r.total} عملة مشتركة · ${r.passed} مقبولة · ${r.errors} أخطاء بيانات`:(r.note+(r.lastAt?' · آخر دفعة '+fmtUTC(r.lastAt)+' UTC':''));
+ const x=r.rejects||emptyFlowRejects(),parts=[];if(x.rise)parts.push(`فشل الارتفاع ${x.rise}`);if(x.acceleration)parts.push(`فشل التسارع ${x.acceleration}`);if(x.minIncrease)parts.push(`فشل حد الزيادة ${x.minIncrease}`);if(x.share)parts.push(`فشل الحصة ${x.share}`);if(x.multiple)parts.push(`فشل المضاعف ${x.multiple}`);if(x.minBuy)parts.push(`فشل حد الشراء ${x.minBuy}`);if(x.blocked)parts.push(`محذوف لنفس الفترة ${x.blocked}`);if(x.data)parts.push(`بيانات/أخطاء ${x.data}`);
+ $('flowDiagnostics').textContent=parts.length?'أسباب عدم القبول في آخر دفعة (قد تتداخل على العملة نفسها): '+parts.join(' · '):'';
  $('runFlow').disabled=r.busy;
 }
 function visibleFlowRows(){
  const q=$('search-flow').value.trim().toUpperCase(),f=$('filter-flow').value;
  return sortRows('flow',Object.values(state.records.flow).filter(r=>flowCandidate(r.symbol)&&r.symbol.includes(q)&&(f==='all'||['lux','macd'].some(ind=>r.sources[ind].signals.some(s=>s.interval===f)))));
 }
+function checkBadge(label,x){return `<span class="flow-check ${!x.enabled?'off':x.pass?'ok':'fail'}">${!x.enabled?'○':x.pass?'✓':'✕'} ${label}</span>`;}
 function renderFlowTable(){
  const body=$('body-flow');if(!body)return;pruneFlowRecords();const rows=visibleFlowRows(),all=Object.values(state.records.flow),opened=new Set([...body.querySelectorAll('details[open]')].map(e=>e.dataset.detail));
  $('flowCount').textContent=all.length;$('count-flow').textContent='· '+all.length+' عملة';
  body.innerHTML=rows.length?rows.map(row=>{
-  const q=currentQuote(row.symbol,row),encoded=encodeURIComponent(row.symbol),cfg=row.config,stale=now()-row.dataAsOf>FLOW_TF[cfg.interval];
-  const detail=`<div class="signalItem">مدة الفترة <bdi>${cfg.interval}</bdi> · متوسط الشراء السابق: <bdi>${price(row.baselineMean)} USDT</bdi> من ${cfg.baseline} فترات غير متداخلة مع الفترات الثلاث.</div>`+row.periods.map((p,i)=>`<div class="signalItem"><b>الفترة ${i+1}</b><div class="mono">${fmtUTC(p.openTime)} → ${fmtUTC(p.closeTime+1)} UTC</div><div>شراء مبادر: <bdi>${price(p.buy)} USDT</bdi></div><div>بيع مبادر: <bdi>${price(Math.max(0,p.quote-p.buy))} USDT</bdi></div><div>إجمالي التنفيذ: <bdi>${price(p.quote)} USDT</bdi></div></div>`).join('')+`<div class="signalItem">الزيادة الأولى: <bdi>${price(row.delta1)}</bdi> · الثانية: <bdi>${price(row.delta2)}</bdi> USDT<br>الشروط المستخدمة: حصة ≥ ${cfg.share}% · مضاعف ≥ ${cfg.multiple}.<br>إجمالي فترات القياس: ${cfg.baseline+3} مغلقة.</div>`;
-  return `<tr data-quote-symbol="${esc(row.symbol)}" data-indicator="flow"><td><input type="checkbox" data-select="flow" data-symbol="${encoded}" ${selected.flow.has(row.symbol)?'checked':''} aria-label="تحديد ${esc(row.symbol)}"></td><td class="asset"><a href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent('BINANCE:'+row.symbol)}" target="_blank" rel="noopener noreferrer"><bdi>${esc(row.symbol)}</bdi></a><small>BINANCE · SPOT</small></td><td><span class="num" data-price>${price(q?.price)}</span><span class="quoteAge" data-quote-age>آخر سعر متاح</span></td><td><span class="num" data-volume>${volume(q?.quoteVolume)}</span></td><td><div class="frames">${frameBadges(row.sources.lux.signals,'lux')}</div></td><td><div class="frames">${frameBadges(row.sources.macd.signals,'macd')}</div></td><td><div class="flow-periods">${row.periods.map((p,i)=>`<span title="${price(p.buy)} USDT"><small>${i+1}</small>${volume(p.buy)}</span>`).join('<b>→</b>')}</div><span class="quoteAge">مدة كل فترة: <bdi>${cfg.interval}</bdi></span></td><td><span class="num">${row.buyShare.toFixed(2)}%</span></td><td><span class="num">${row.multiple.toFixed(2)}×</span></td><td><span class="num">${price(row.delta2-row.delta1)}</span></td><td><div class="mono tiny">${fmtUTC(row.evaluatedAt)}</div><div class="quoteAge">انتهاء نافذة التنفيذ:</div><div class="mono tiny">${fmtUTC(row.dataAsOf)}</div><span class="state ${stale?'stale':''}">${stale?'قبول سابق · راجع الوقت':'اجتاز عند آخر تقييم'}</span></td><td><details class="signalDetails" data-detail="${encoded}" ${opened.has(encoded)?'open':''}><summary>تفاصيل (${cfg.baseline+3} فترة)</summary><div class="signalList">${detail}</div></details></td><td><button class="small danger ghost" data-delete-one="flow" data-symbol="${encoded}">حذف</button></td></tr>`;
- }).join(''):`<tr><td colspan="13"><div class="empty"><strong>${all.length?'لا نتائج تطابق فلاتر العرض':'لا توجد عملة مقبولة عند آخر تقييم'}</strong>الفلتر لا ينشئ إشارات تجريبية. ابدأ فحص المؤشرات أو قيّم العملات الموجودة في الثالث من زر «فحص فلتر الشراء الآن».</div></td></tr>`;
+  const q=currentQuote(row.symbol,row),encoded=encodeURIComponent(row.symbol),cfg=normalizeFlowSettings(row.config),stale=now()-row.dataAsOf>FLOW_TF[cfg.interval],metricLabel=cfg.multipleMetric==='quote'?'إجمالي التنفيذ':'الشراء المنفّذ';
+  const baseline=cfg.enableMultiple?`<div class="signalItem">متوسط ${metricLabel}: <bdi>${price(row.baselineMean)} USDT</bdi> من ${cfg.baseline} فترات سابقة غير متداخلة.</div>`:`<div class="signalItem">شرط المتوسط/المضاعف معطّل.</div>`;
+  const periodDetails=row.periods.map((p,i)=>`<div class="signalItem"><b>الفترة ${i+1}</b><div class="mono">${fmtUTC(p.openTime)} → ${fmtUTC(p.closeTime+1)} UTC</div><div>شراء مبادر: <bdi>${price(p.buy)} USDT</bdi></div><div>بيع مبادر: <bdi>${price(Math.max(0,p.quote-p.buy))} USDT</bdi></div><div>إجمالي التنفيذ: <bdi>${price(p.quote)} USDT</bdi></div></div>`).join('');
+  const checks=`<div class="signalItem"><b>الشروط</b><br>${checkBadge('ارتفاع الشراء',row.checks.rise)}${checkBadge('تسارع الزيادات',row.checks.acceleration)}${checkBadge('حد الزيادة',row.checks.minIncrease)}${checkBadge('حصة الشراء',row.checks.share)}${checkBadge('المضاعف',row.checks.multiple)}${checkBadge('حد الشراء',row.checks.minBuy)}</div>`;
+  const detail=baseline+periodDetails+checks;
+  return `<tr data-quote-symbol="${esc(row.symbol)}" data-indicator="flow"><td><input type="checkbox" data-select="flow" data-symbol="${encoded}" ${selected.flow.has(row.symbol)?'checked':''} aria-label="تحديد ${esc(row.symbol)}"></td><td class="asset"><a href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent('BINANCE:'+row.symbol)}" target="_blank" rel="noopener noreferrer"><bdi>${esc(row.symbol)}</bdi></a><small>BINANCE · SPOT</small></td><td><span class="num" data-price>${price(q?.price)}</span><span class="quoteAge" data-quote-age>آخر سعر متاح</span></td><td><span class="num" data-volume>${volume(q?.quoteVolume)}</span></td><td><div class="frames">${frameBadges(row.sources.lux.signals,'lux')}</div></td><td><div class="frames">${frameBadges(row.sources.macd.signals,'macd')}</div></td><td><div class="flow-periods">${row.periods.map((p,i)=>`<span title="${price(p.buy)} USDT"><small>${i+1}</small>${volume(p.buy)}</span>`).join('<b>→</b>')}</div><span class="quoteAge">${row.periods.length} فترات · ${cfg.interval}</span></td><td><span class="num">${row.buyShare.toFixed(2)}%</span><span class="quoteAge">${cfg.enableShare?'المطلوب ≥ '+cfg.share+'%':'الشرط معطّل'}</span></td><td><span class="num">${finite(row.multiple)?row.multiple.toFixed(2)+'×':'—'}</span><span class="quoteAge">${cfg.enableMultiple?metricLabel+' · المطلوب ≥ '+cfg.multiple+'×':'الشرط معطّل'}</span></td><td><span class="num">${finite(row.acceleration)?price(row.acceleration):'—'}</span></td><td><div class="mono tiny">${fmtUTC(row.evaluatedAt)}</div><div class="quoteAge">انتهاء نافذة التنفيذ:</div><div class="mono tiny">${fmtUTC(row.dataAsOf)}</div><span class="state ${stale?'stale':''}">${stale?'قبول سابق · راجع الوقت':'اجتاز عند آخر تقييم'}</span></td><td><details class="signalDetails" data-detail="${encoded}" ${opened.has(encoded)?'open':''}><summary>تفاصيل (${row.periods.length} اختبار${cfg.enableMultiple?' + '+cfg.baseline+' متوسط':''})</summary><div class="signalList">${detail}</div></details></td><td><button class="small danger ghost" data-delete-one="flow" data-symbol="${encoded}">حذف</button></td></tr>`;
+ }).join(''):`<tr><td colspan="13"><div class="empty"><strong>${all.length?'لا نتائج تطابق فلاتر العرض':'لا توجد عملة مقبولة عند آخر تقييم'}</strong>شريط التشخيص أعلى الجدول يوضح أسباب عدم القبول المجمعة. اضغط «حفظ الإعدادات وفحص الآن» لتقييم العملات الموجودة في الثالث.</div></td></tr>`;
  const n=rows.filter(r=>selected.flow.has(r.symbol)).length;$('selectall-flow').checked=rows.length>0&&n===rows.length;$('selectall-flow').indeterminate=n>0&&n<rows.length;
  $('foot-flow').textContent=`المعروض ${rows.length} من ${all.length} مقبولة · المحدد ${selected.flow.size}`;updateFlowUI();patchQuotes();
 }
 function deleteFlowRows(list){
  list=list.filter(s=>state.records.flow[s]);if(!list.length){notify('لم تحدد عملات للحذف');return;}
  if(!confirm(`حذف ${list.length} عملة من فلتر الشراء فقط؟\nلن تعود نتيجة الفترة الأخيرة نفسها على فريم الفلتر. يمكن العودة عند فترة مغلقة مختلفة.\nللعودة بنفس الفترة استخدم إفراغ الجدول وبدء جديد.`))return;
- for(const symbol of list){const r=state.records.flow[symbol],key=candleKey(r.config.interval,r.periods[2].openTime);(state.deleted.flow[symbol]||(state.deleted.flow[symbol]={}))[key]=now();delete state.records.flow[symbol];selected.flow.delete(symbol);}
+ for(const symbol of list){const r=state.records.flow[symbol],last=r.periods[r.periods.length-1],key=candleKey(r.config.interval,last.openTime);(state.deleted.flow[symbol]||(state.deleted.flow[symbol]={}))[key]=now();delete state.records.flow[symbol];selected.flow.delete(symbol);}
  persistNow();renderFlowTable();notify('حُذفت نتائج الفلتر المحددة فقط؛ يمكن العودة بفترة جديدة.');
 }
 function cancelFlowEvaluation(note='متوقف'){
- flowRuntime.generation++;if(flowRuntime.timer)clearTimeout(flowRuntime.timer);flowRuntime.timer=null;flowRuntime.busy=false;flowRuntime.followUp=false;flowRuntime.note=note;updateFlowUI();
+ flowRuntime.generation++;if(flowRuntime.timer)clearTimeout(flowRuntime.timer);if(flowRuntime.closeTimer)clearTimeout(flowRuntime.closeTimer);flowRuntime.timer=null;flowRuntime.closeTimer=null;flowRuntime.busy=false;flowRuntime.followUp=false;flowRuntime.note=note;updateFlowUI();
 }
 function queueFlowEvaluation(generation){
- if(generation!==flowRuntime.generation)return;
- if(runtime.some(r=>r.busy||r.preparing))return; // Last finishing worker will enqueue the common batch.
+ if(generation!==flowRuntime.generation||state.settings.flow.autoMode!=='afterWorkers')return;
+ if(runtime.some(r=>r.busy||r.preparing))return;
  if(flowRuntime.busy){flowRuntime.followUp=true;return;}
  if(flowRuntime.timer)clearTimeout(flowRuntime.timer);
- flowRuntime.timer=setTimeout(()=>{flowRuntime.timer=null;if(generation===flowRuntime.generation)runFlowEvaluation();},600);
+ flowRuntime.timer=setTimeout(()=>{flowRuntime.timer=null;if(generation===flowRuntime.generation)runFlowEvaluation('afterWorkers');},600);
 }
-async function runFlowEvaluation(){
- if(flowRuntime.busy){notify('تقييم الفلتر جارٍ بالفعل');return;}
- if(flowRuntime.timer)clearTimeout(flowRuntime.timer);flowRuntime.timer=null;
- pruneFlowRecords();const list=Object.keys(state.records.common).filter(flowCandidate),gen=flowRuntime.generation,cfg=clone(state.settings.flow);
- Object.assign(flowRuntime,{busy:true,done:0,total:list.length,passed:0,errors:0,followUp:false});updateFlowUI();updateWorkers();
+function syncFlowAutoSchedule(){
+ if(flowRuntime.closeTimer)clearTimeout(flowRuntime.closeTimer);flowRuntime.closeTimer=null;
+ const cfg=normalizeFlowSettings(state.settings.flow);if(cfg.autoMode!=='candleClose')return;
+ const ms=FLOW_TF[cfg.interval],t=now(),next=Math.floor(t/ms)*ms+ms+1200,delay=Math.max(600,next-t);
+ flowRuntime.closeTimer=setTimeout(()=>{flowRuntime.closeTimer=null;runFlowEvaluation('candleClose');},Math.min(delay,2147483000));
+}
+function recordFlowRejects(result){
+ for(const k of ['rise','acceleration','minIncrease','share','multiple','minBuy'])if(result.checks[k].enabled&&!result.checks[k].pass)flowRuntime.rejects[k]++;
+}
+async function runFlowEvaluation(source='manual'){
+ if(flowRuntime.busy){flowRuntime.followUp=true;notify('تقييم الفلتر جارٍ بالفعل؛ سيعاد التقييم بعد اكتماله');return;}
+ if(flowRuntime.timer)clearTimeout(flowRuntime.timer);flowRuntime.timer=null;if(flowRuntime.closeTimer)clearTimeout(flowRuntime.closeTimer);flowRuntime.closeTimer=null;
+ pruneFlowRecords();const list=Object.keys(state.records.common).filter(flowCandidate),gen=flowRuntime.generation,cfg=clone(normalizeFlowSettings(state.settings.flow));
+ Object.assign(flowRuntime,{busy:true,done:0,total:list.length,passed:0,errors:0,followUp:false,rejects:emptyFlowRejects()});updateFlowUI();updateWorkers();
  try{
   if(!list.length){flowRuntime.note='لا توجد عملات مشتركة حالية لتقييمها';return;}
   await ensureMarket();if(gen!==flowRuntime.generation)return;
-  const at=now(),endTime=Math.floor(at/FLOW_TF[cfg.interval])*FLOW_TF[cfg.interval]-1;let cursor=0;
+  const at=now(),endTime=Math.floor(at/FLOW_TF[cfg.interval])*FLOW_TF[cfg.interval]-1,baselineCount=cfg.enableMultiple?cfg.baseline:0,limit=baselineCount+cfg.testPeriods;let cursor=0;
   const slot=async()=>{
    while(cursor<list.length&&gen===flowRuntime.generation){const symbol=list[cursor++];
     try{
      if(!flowCandidate(symbol))continue;
-     const rows=await gate.request('/api/v3/klines',{symbol,interval:cfg.interval,endTime,limit:cfg.baseline+3},2);
+     const rows=await gate.request('/api/v3/klines',{symbol,interval:cfg.interval,endTime,limit},2);
      if(gen!==flowRuntime.generation)return;
-     const result=evaluateFlow(rows,cfg,at),key=candleKey(cfg.interval,result.periods[2].openTime),blocked=own(state.deleted.flow[symbol]||{},key);
-     if(result.accepted&&flowCandidate(symbol)&&!blocked){const source=state.records.common[symbol];state.records.flow[symbol]={symbol,...result,evaluatedAt:now(),sources:clone(source.sources),quoteSnapshot:clone(currentQuote(symbol,source))};flowRuntime.passed++;}
-     else{delete state.records.flow[symbol];selected.flow.delete(symbol);}
-    }catch(error){if(gen!==flowRuntime.generation)return;flowRuntime.errors++;delete state.records.flow[symbol];selected.flow.delete(symbol);if(flowRuntime.errors<=4)log('فلتر الشراء · '+symbol+': '+error.message,'error');}
+     const result=evaluateFlow(rows,cfg,at),last=result.periods[result.periods.length-1],key=candleKey(cfg.interval,last.openTime),blocked=own(state.deleted.flow[symbol]||{},key);
+     recordFlowRejects(result);
+     if(result.accepted&&flowCandidate(symbol)&&!blocked){const common=state.records.common[symbol];state.records.flow[symbol]={symbol,...result,evaluatedAt:now(),sources:clone(common.sources),quoteSnapshot:clone(currentQuote(symbol,common))};flowRuntime.passed++;}
+     else{if(blocked)flowRuntime.rejects.blocked++;delete state.records.flow[symbol];selected.flow.delete(symbol);}
+    }catch(error){if(gen!==flowRuntime.generation)return;flowRuntime.errors++;flowRuntime.rejects.data++;delete state.records.flow[symbol];selected.flow.delete(symbol);if(flowRuntime.errors<=4)log('فلتر الشراء · '+symbol+': '+error.message,'error');}
     finally{if(gen===flowRuntime.generation){flowRuntime.done++;persist();renderFlowTable();}}
    }
   };
-  await Promise.all([slot(),slot()]);if(gen!==flowRuntime.generation)return;
+  await Promise.all(Array.from({length:cfg.parallel},slot));if(gen!==flowRuntime.generation)return;
   flowRuntime.lastAt=now();flowRuntime.note=`اكتمل فحص ${flowRuntime.total} مشتركة · ${flowRuntime.passed} مقبولة · ${flowRuntime.errors} أخطاء/بيانات ناقصة`;
-  log('فلتر الشراء: '+flowRuntime.note+'؛ فترات مغلقة '+cfg.interval+'، المتوسط يستبعد نوافذ الاختبار.');persistNow();
- }catch(error){if(gen===flowRuntime.generation){flowRuntime.note='تعذر التقييم: '+error.message;flowRuntime.errors++;for(const symbol of list)delete state.records.flow[symbol];persist();log(flowRuntime.note,'error');}}
- finally{if(gen===flowRuntime.generation){flowRuntime.busy=false;renderFlowTable();updateWorkers();if(flowRuntime.followUp){flowRuntime.followUp=false;queueFlowEvaluation(gen);}}}
+  log('فلتر الشراء: '+flowRuntime.note+'؛ المصدر '+source+'؛ '+cfg.testPeriods+' فترات اختبار مغلقة '+cfg.interval+'.');persistNow();
+ }catch(error){if(gen===flowRuntime.generation){flowRuntime.note='تعذر التقييم: '+error.message;flowRuntime.errors++;flowRuntime.rejects.data++;for(const symbol of list)delete state.records.flow[symbol];persist();log(flowRuntime.note,'error');}}
+ finally{if(gen===flowRuntime.generation){flowRuntime.busy=false;renderFlowTable();updateWorkers();const again=flowRuntime.followUp;flowRuntime.followUp=false;if(again)setTimeout(()=>runFlowEvaluation('followUp'),250);else syncFlowAutoSchedule();}}
 }
 
-buildWorkers();buildTables();fillSettings();if(syncCommon())persist();pruneFlowRecords();TABLES.forEach(renderTable);
+buildWorkers();buildTables();fillSettings();if(syncCommon())persist();pruneFlowRecords();TABLES.forEach(renderTable);syncFlowAutoSchedule();
 if(startupWarning){banner(startupWarning);$('storageStatus').textContent='الحفظ المحلي غير متاح';}
 log('الصفحة جاهزة: مدة التلقائي لا تقل عن ساعة؛ المسح اليدوي متاح؛ إعدادات الحساب لكل مؤشر قابلة للتعديل؛ اجتماع المؤشّرين يُسجّل دون اشتراط فريم موحّد. إفراغ الجدول يسمح بإعادة الشموع نفسها؛ الحذف الفردي يمنع تكرارها. لا توجد نتائج تجريبية.');
 // Read-only computational interface plus state access for local automated tests.
 // Nothing here sends credentials, places orders, or invokes arbitrary code.
-window.ScannerDiagnostics={engine,validateState,validSettings,historyLimit,isDeletedCandle,autoDelayMs,commonPresent,parseIndicatorNumber,scanOptions,validScanWindow,windowLabel,evaluateFlow,flowStats,sortRows,getFlowRuntime:()=>({busy:flowRuntime.busy,done:flowRuntime.done,total:flowRuntime.total,errors:flowRuntime.errors}),getState:()=>clone(state),getRuntime:()=>runtime.map(r=>({id:r.id,want:r.want,auto:r.auto,preparing:r.preparing,busy:r.busy,nextAt:r.nextAt,lastFinished:r.lastFinished,done:r.done,total:r.total,rounds:r.rounds})),getSymbols:()=>[...symbols]};
+window.ScannerDiagnostics={engine,validateState,validSettings,historyLimit,isDeletedCandle,autoDelayMs,commonPresent,parseIndicatorNumber,scanOptions,validScanWindow,windowLabel,evaluateFlow,flowStats,sortRows,getFlowRuntime:()=>({busy:flowRuntime.busy,done:flowRuntime.done,total:flowRuntime.total,passed:flowRuntime.passed,errors:flowRuntime.errors,rejects:clone(flowRuntime.rejects)}),getState:()=>clone(state),getRuntime:()=>runtime.map(r=>({id:r.id,want:r.want,auto:r.auto,preparing:r.preparing,busy:r.busy,nextAt:r.nextAt,lastFinished:r.lastFinished,done:r.done,total:r.total,rounds:r.rounds})),getSymbols:()=>[...symbols]};
 })();
 
 </script>
