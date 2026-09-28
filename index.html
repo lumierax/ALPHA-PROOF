@@ -1,0 +1,2182 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Next Move"><meta name="theme-color" content="#0b0f14"><title>Next Move Predictor</title><style>
+:root{--bg:#0b0f14;--surface:#121821;--surface2:#182130;--line:#232d3d;--text:#e7ecf3;--muted:#7d8aa0;--long:#37b98e;--longdim:#1c3a34;--short:#e0594c;--shortdim:#3a2320;--gold:#d9a441;--blue:#6aa9eb}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}body{min-height:100vh;padding-bottom:66px}button,input,select{font:inherit}.num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;direction:ltr}
+header{position:sticky;top:0;z-index:20;padding:12px 12px 9px;background:rgba(11,15,20,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.head{max-width:820px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:8px}.brand h1{margin:0;font-size:16px}.brand p{margin:3px 0 0;color:var(--muted);font-size:9.5px}.conn{font-size:9.5px;padding:5px 7px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);white-space:nowrap}.conn:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-left:5px}.conn.online:before{background:var(--long)}.conn.offline:before{background:var(--short)}
+main{max-width:820px;margin:auto;padding:8px}.page{display:none}.page.active{display:block}.panel,.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}.title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.title h2{font-size:12.5px;margin:0}.hint{font-size:9px;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 72px 70px;gap:5px}input,select{width:100%;background:var(--surface2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;font-size:11px;outline:none;min-height:34px}input:focus,select:focus{border-color:#41516a}.symInput{text-transform:uppercase;direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.btn{border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:8px;padding:7px 9px;min-height:34px;font-size:10.5px;font-weight:650;cursor:pointer}.btn.primary{background:var(--gold);border-color:var(--gold);color:#171106}.btn.long{background:var(--longdim);border-color:#275443;color:var(--long)}.btn.danger{background:var(--shortdim);border-color:#5f3029;color:#ef756b}.btn:disabled{opacity:.45}.tools{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.status{font-size:9.5px;color:var(--muted);margin-top:6px;min-height:13px}.status.err{color:#ef756b}.status.ok{color:var(--long)}
+.card.LONG{border-color:#275443}.card.SHORT{border-color:#5f3029}.cardhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.symln{direction:ltr;display:flex;align-items:baseline;gap:6px}.symbol{font-size:14px;font-weight:750}.tf{font-size:9.5px;color:var(--muted)}.badge{font-size:9.5px;font-weight:750;padding:4px 7px;border-radius:999px}.badge.LONG{background:var(--longdim);color:var(--long)}.badge.SHORT{background:var(--shortdim);color:var(--short)}.badge.NEUTRAL{background:var(--surface2);color:var(--muted)}
+.badge.weak{opacity:.48}
+.confnote{font-size:8.5px;color:var(--gold);margin-top:4px;text-align:left}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;padding-top:8px;border-top:1px dashed var(--line)}
+.chip{font-size:8.8px;padding:5px 7px;border-radius:999px;background:var(--surface2);color:var(--muted);border:1px solid var(--line);display:inline-flex;gap:4px;align-items:center}
+.chip b{font-weight:700;color:var(--text)}
+.chip.good{color:var(--long);border-color:#275443}.chip.good b{color:var(--long)}
+.chip.bad{color:var(--short);border-color:#5f3029}.chip.bad b{color:var(--short)}
+.chip.warn{color:var(--gold);border-color:#5a471f}.chip.warn b{color:var(--gold)}
+.context-head{font-size:9px;color:var(--muted);margin:9px 0 5px;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding-bottom:9px;border-bottom:1px solid var(--line)}.m .k,.mini .k{font-size:8.5px;color:var(--muted)}.m .v{font-size:13px;font-weight:750;margin-top:2px}.good{color:var(--long)}.bad{color:var(--short)}.gold{color:var(--gold)}.details{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}.mini{background:#0f151e;border:1px solid var(--line);border-radius:7px;padding:6px}.mini .v{font-size:10.5px;font-weight:650;margin-top:2px}
+.bars{margin-top:9px}.bar{display:grid;grid-template-columns:57px 1fr 32px;gap:6px;align-items:center;margin:4px 0}.bar label,.bar .val{font-size:9px;color:var(--muted)}.track{height:5px;background:var(--surface2);border-radius:5px;overflow:hidden;position:relative}.track:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:#39465a}.fill{position:absolute;top:0;bottom:0;border-radius:5px}
+.empty{text-align:center;padding:30px 12px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:10.5px;line-height:1.8}.watch{display:flex;flex-direction:column;gap:7px}.scannergrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}.scanres{display:flex;flex-direction:column;gap:6px;margin-top:8px}.scanitem{display:grid;grid-template-columns:1.3fr .7fr .7fr .8fr;gap:5px;align-items:center;background:#0f151e;border:1px solid var(--line);border-radius:8px;padding:7px}.scanitem.hit{border-color:#5a471f}.scanprog{height:6px;background:var(--surface2);border-radius:999px;overflow:hidden;margin-top:7px}.scanprog>div{height:100%;background:var(--gold);width:0%}.scanstat{font-size:9px;color:var(--muted);margin-top:6px}.watchitem{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:9px}.watchtop{display:flex;justify-content:space-between;gap:7px;align-items:center}.watchname{display:flex;gap:6px;align-items:center;direction:ltr}.watchname b{font-size:11.5px}.watchsub{font-size:8.7px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:4px}.tiny{min-height:27px;padding:4px 7px;font-size:9.5px}.switch{width:31px;height:18px;border-radius:999px;background:#303a48;border:0;position:relative;padding:0}.switch:after{content:"";position:absolute;width:14px;height:14px;top:2px;left:2px;border-radius:50%;background:#929dae;transition:.15s}.switch.on{background:var(--longdim)}.switch.on:after{left:15px;background:var(--long)}.lastgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.stat{background:#0f151e;border:1px solid var(--line);border-radius:8px;padding:7px;text-align:center}.stat .k{font-size:8.5px;color:var(--muted)}.stat .v{font-size:13px;font-weight:750;margin-top:2px}.hist{display:grid;grid-template-columns:1.4fr .7fr .7fr .7fr;gap:5px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px;margin-bottom:5px}.hist.pending{border-right:3px solid var(--gold)}.hist.correct{border-right:3px solid var(--long)}.hist.wrong{border-right:3px solid var(--short)}.small{font-size:8.5px;color:var(--muted)}.mainv{font-size:10.5px;font-weight:650}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:6px}.field label{display:block;font-size:8.8px;color:var(--muted);margin-bottom:3px}.full{grid-column:1/-1}
+nav{position:fixed;bottom:0;left:0;right:0;height:58px;padding-bottom:env(safe-area-inset-bottom);background:rgba(15,21,30,.97);border-top:1px solid var(--line);z-index:25;backdrop-filter:blur(10px)}.navin{max-width:820px;height:100%;margin:auto;display:grid;grid-template-columns:repeat(4,1fr)}.navbtn{border:0;background:none;color:var(--muted);font-size:8.8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.navbtn i{font-style:normal;font-size:16px}.navbtn.active{color:var(--gold)}
+.modalbg{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.67);align-items:flex-end;justify-content:center}.modalbg.show{display:flex}.modal{width:min(580px,100%);background:var(--surface);border:1px solid var(--line);border-radius:16px 16px 0 0;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.modalhead h3{font-size:12px;margin:0}.x{border:0;background:none;color:var(--muted);font-size:20px}.toast{position:fixed;left:50%;bottom:68px;z-index:90;transform:translateX(-50%) translateY(15px);opacity:0;background:#202a38;border:1px solid #39465a;border-radius:8px;padding:7px 9px;font-size:9.5px;transition:.2s;pointer-events:none;max-width:90vw}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.spin{display:inline-block;width:10px;height:10px;border:2px solid #536074;border-top-color:var(--gold);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-1px;margin-left:4px}@keyframes sp{to{transform:rotate(360deg)}}
+.binance-lamp{position:fixed;left:12px;bottom:72px;z-index:95;width:13px;height:13px;border-radius:50%;background:var(--short);border:2px solid rgba(255,255,255,.18);box-shadow:0 0 0 3px rgba(224,89,76,.12),0 0 10px rgba(224,89,76,.35);transition:background .2s,box-shadow .2s}.binance-lamp.online{background:var(--long);box-shadow:0 0 0 3px rgba(55,185,142,.12),0 0 10px rgba(55,185,142,.35)}
+@media(max-width:520px){main{padding:7px}.scannergrid{grid-template-columns:repeat(2,1fr)}.scanitem{grid-template-columns:1.2fr .8fr .8fr}.scanitem .scan-time{display:none}.brand h1{font-size:14px}.brand p{font-size:8.7px}.conn{font-size:8.5px}.metrics{grid-template-columns:repeat(2,1fr)}.details{grid-template-columns:repeat(2,1fr)}.settings{grid-template-columns:1fr}.full{grid-column:auto}.lastgrid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.hist{grid-template-columns:1.4fr .7fr .7fr}.hideM{display:none}}
+</style></head><body>
+<header><div class="head"><div class="brand"><h1>Next Move Predictor</h1><p>تنبؤ احتمالي للحركة القادمة — Futures + Spot Scanner</p></div><div id="conn" class="conn">محرك المتصفح</div></div></header>
+<main>
+<section id="p-explorer" class="page active"><div class="panel"><div class="title"><h2>الاستكشاف</h2><span class="hint">حلّل أي عملة بدون إضافتها للمراقبة</span></div><div class="row"><input id="sym" class="symInput" value="BTCUSDT" placeholder="BTCUSDT"><select id="tf"><option>1m</option><option>3m</option><option>4m</option><option selected>5m</option><option>10m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>6h</option><option>8h</option><option>12h</option><option>1d</option></select><button id="analyze" class="btn primary">تحليل</button></div><div class="tools"><button id="addWatch" class="btn long" disabled>🔔 إضافة للمراقبة</button><button id="refreshCur" class="btn" disabled>↻ تحديث</button></div><div id="estatus" class="status">اختر العملة والفريم ثم اضغط تحليل.</div></div><div id="result"></div></section>
+<section id="p-watchlist" class="page">
+<div class="panel"><div class="title"><h2>ماسح Binance Spot / USDT</h2><span class="hint">يجلب جميع أزواج السبوت تلقائيًا — بدون API Key</span></div>
+<div class="scannergrid">
+<div class="field"><label>فريم الفحص</label><select id="spotTf"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>4h</option><option>1d</option></select></div>
+<div class="field"><label>تنبيه عند ≥ %</label><input id="spotProb" type="number" min="50" max="99" value="70"></div>
+<div class="field"><label>إعادة الفحص — دقائق</label><input id="spotEvery" type="number" min="1" max="60" value="5"></div>
+<div class="field"><label>الاتجاه</label><select id="spotMode"><option value="LONG_SHORT">صعود + هبوط</option><option value="LONG_ONLY">صعود فقط</option><option value="SHORT_ONLY">هبوط فقط</option></select></div>
+</div>
+<div class="tools"><button id="spotStart" class="btn primary">▶ تشغيل الماسح</button><button id="spotStop" class="btn danger" disabled>■ إيقاف</button><button id="spotOnce" class="btn">↻ فحص الآن</button><button id="spotNotify" class="btn">🔔 السماح بالتنبيهات</button></div>
+<div class="scanprog"><div id="spotBar"></div></div><div id="spotStatus" class="scanstat">الماسح متوقف.</div><div id="spotResults" class="scanres"></div>
+</div>
+<div class="panel"><div class="title"><h2>قائمة المراقبة اليدوية</h2><span id="watchHint" class="hint">مستقلة عن ماسح Spot</span></div><div class="tools" style="margin-top:0"><button id="newWatch" class="btn primary">+ إضافة مراقبة</button><button id="scanWatch" class="btn">↻ تحديث</button></div><div id="wstatus" class="status"></div></div><div id="watchList" class="watch"></div></section>
+<section id="p-history" class="page"><div class="panel"><div class="title"><h2>السجل والدقة</h2><span class="hint">نتائج التوقعات السابقة</span></div><div id="stats" class="stats"></div><div class="tools"><button id="refreshHist" class="btn">↻ تحديث</button><button id="clearHist" class="btn danger">مسح السجل المحلي</button></div></div><div id="histList"></div></section>
+<section id="p-settings" class="page"><div class="panel"><div class="title"><h2>الإعدادات</h2><span class="hint">التحكم بالمحرك والتنبيهات</span></div><div class="settings"><div class="field full"><label>رابط Railway لتنبيهات Next Move</label><input id="backend" class="symInput" placeholder="https://your-app.up.railway.app"></div><div class="field"><label>الاتجاه الافتراضي</label><select id="dmode"><option value="LONG_SHORT">صعود + هبوط (LONG + SHORT)</option><option value="LONG_ONLY">صعود فقط (LONG)</option><option value="SHORT_ONLY">هبوط فقط (SHORT)</option></select></div><div class="field"><label>أفق التوقع — شموع</label><input id="dhorizon" type="number" min="1"></div><div class="field"><label>أقل درجة Score</label><input id="dscore" type="number" min="0" max="100"></div><div class="field"><label>أقل احتمالية %</label><input id="dprob" type="number" min="50" max="99"></div><div class="field"><label>التنبيه القوي من %</label><input id="dstrong" type="number" min="50" max="99"></div><div class="field"><label>منع التكرار — شموع</label><input id="dcool" type="number" min="1"></div></div></div>
+<div class="panel"><div class="title"><h2>أوزان مكونات التحليل</h2><span class="hint">تؤثر في Score</span></div><div class="settings"><div class="field"><label>الاتجاه العام (Trend)</label><input id="wt" type="number"></div><div class="field"><label>الزخم (Momentum)</label><input id="wm" type="number"></div><div class="field"><label>الحجم (Volume)</label><input id="wv" type="number"></div><div class="field"><label>الهيكل (Structure)</label><input id="ws" type="number"></div><div class="field"><label>التذبذب (Volatility)</label><input id="wvol" type="number"></div></div></div>
+<div class="panel"><div class="title"><h2>سياق السوق</h2><span class="hint">عوامل تأكيد مستقلة عن Probability</span></div>
+<div class="settings">
+  <div class="field"><label>حالة السوق باستخدام ADX</label><select id="regimeOn"><option value="1">مفعلة</option><option value="0">متوقفة</option></select></div>
+  <div class="field"><label>حد ADX للسوق الاتجاهي</label><input id="adxThreshold" type="number" min="5" max="60" step="1"></div>
+  <div class="field"><label>تأكيد الفريم الأعلى</label><select id="mtfOn"><option value="1">مفعّل</option><option value="0">متوقف</option></select></div>
+  <div class="field"><label>Funding / Open Interest</label><select id="futuresOn"><option value="1">مفعّل</option><option value="0">متوقف</option></select></div>
+  <div class="field"><label>الدقة التاريخية الحديثة</label><select id="recentAccOn"><option value="1">مفعلة</option><option value="0">متوقفة</option></select></div>
+  <div class="field"><label>عدد الشموع لحساب الدقة</label><input id="recentLookback" type="number" min="100" max="1500" step="50"></div>
+</div></div>
+<div class="panel"><div class="title"><h2>تنبيهات Next Move</h2><span class="hint">Railway يرسل التنبيه إلى البوت المنفصل</span></div><div id="tgstate" class="status">لم يتم الفحص.</div><div class="tools"><button id="testBackend" class="btn">فحص الباكند</button><button id="testTg" class="btn">اختبار تليجرام</button></div></div><button id="saveSet" class="btn primary" style="width:100%">حفظ الإعدادات</button><div class="status" style="line-height:1.7">التحليل والماسح يعملان داخل المتصفح. Railway هنا مخصص لإرسال تنبيهات Telegram فقط؛ إذا أغلقت الصفحة يتوقف الماسح.</div></section>
+</main>
+<nav><div class="navin"><button class="navbtn active" data-p="explorer"><i>⌕</i>الاستكشاف</button><button class="navbtn" data-p="watchlist"><i>◉</i>المراقبة</button><button class="navbtn" data-p="history"><i>▤</i>السجل</button><button class="navbtn" data-p="settings"><i>⚙</i>الإعدادات</button></div></nav>
+<div id="modalbg" class="modalbg"><div class="modal"><div class="modalhead"><h3 id="mtitle">إضافة مراقبة</h3><button id="closeModal" class="x">×</button></div><div class="settings"><div class="field"><label>العملة</label><input id="msym" class="symInput"></div><div class="field"><label>الفريم</label><select id="mtf"><option>1m</option><option>3m</option><option>4m</option><option>5m</option><option>10m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>6h</option><option>8h</option><option>12h</option><option>1d</option></select></div><div class="field"><label>الاتجاه المطلوب</label><select id="mmode"><option value="LONG_SHORT">صعود + هبوط (LONG + SHORT)</option><option value="LONG_ONLY">صعود فقط (LONG)</option><option value="SHORT_ONLY">هبوط فقط (SHORT)</option></select></div><div class="field"><label>تنبيه عند احتمالية ≥ %</label><input id="mprob" type="number" min="50" max="99"></div><div class="field"><label>إشارة قوية عند ≥ %</label><input id="mstrong" type="number" min="50" max="99"></div><div class="field"><label>منع التكرار — شموع</label><input id="mcool" type="number" min="1"></div><div class="field"><label>أفق التوقع — شموع</label><input id="mhorizon" type="number" min="1"></div><div class="field"><label>أقل درجة Score</label><input id="mscore" type="number" min="0" max="100"></div><div class="field"><label>تليجرام</label><select id="mtg"><option value="1">مفعّل</option><option value="0">متوقف</option></select></div><div class="field"><label>حالة المراقبة</label><select id="menabled"><option value="1">مفعّل</option><option value="0">متوقف</option></select></div></div><div class="tools"><button id="saveWatch" class="btn primary">حفظ</button><button id="cancelWatch" class="btn">إلغاء</button></div></div></div>
+<div id="binanceLamp" class="binance-lamp" aria-label="Binance connection" title="Binance"></div>
+<div id="toast" class="toast"></div>
+<script>/* ======================= CONFIG (ported from config.json) ======================= */
+const CFG = {
+  prediction: {
+    signal_mode: "LONG_SHORT",
+    horizon_bars: 5,
+    minimum_absolute_score: 25.0,
+    minimum_probability: 70.0,
+    minimum_move_pct: 0.1,
+    minimum_room_pct: 0.25,
+    room_penalty_points: 8.0,
+    calibration_enabled: true,
+    calibration_min_samples: 35,
+    calibration_initial_tolerance: 8.0,
+    neutral_if_insufficient_room: false
+  },
+  components: {
+    trend: { enabled:true, weight:30.0 },
+    momentum: { enabled:true, weight:25.0 },
+    volume: { enabled:true, weight:15.0 },
+    structure: { enabled:true, weight:20.0 },
+    volatility: { enabled:true, weight:10.0 }
+  },
+  indicators: {
+    ema_fast:20, ema_mid:50, ema_long:200,
+    rsi_length:14, atr_length:14,
+    macd_fast:12, macd_slow:26, macd_signal:9,
+    roc_length:9, volume_z_length:30,
+    structure_length:20, bollinger_length:20, bollinger_std:2.0
+  },
+  context: {
+    regime_enabled:true,
+    adx_length:14,
+    adx_threshold:20,
+    mtf_enabled:true,
+    futures_enabled:true,
+    recent_accuracy_enabled:true,
+    recent_accuracy_lookback:400,
+    funding_extreme_pct:0.03
+  }
+};
+const KLINE_LIMIT = 1000; // Binance max useful window for this client-side port
+
+/* ======================= small numeric helpers ======================= */
+const NaNv = NaN;
+const isFin = Number.isFinite;
+function clip(v, lo, hi){ return v < lo ? lo : (v > hi ? hi : v); }
+function sign(v){ return v > 0 ? 1 : (v < 0 ? -1 : 0); }
+function tanh(x){ return Math.tanh(x); }
+
+function ewm(arr, length, seedIndex=0){
+  const alpha = 2 / (length + 1);
+  const out = new Array(arr.length).fill(NaNv);
+  let prev = NaNv, count = 0;
+  for(let i=0;i<arr.length;i++){
+    const v = arr[i];
+    if(!isFin(v)){ out[i]=NaNv; continue; }
+    prev = isFin(prev) ? alpha*v + (1-alpha)*prev : v;
+    count++;
+    if(count >= length) out[i] = prev;
+  }
+  return out;
+}
+function ewmAlpha(arr, alpha, minPeriods){
+  const out = new Array(arr.length).fill(NaNv);
+  let prev = NaNv, count = 0;
+  for(let i=0;i<arr.length;i++){
+    const v = arr[i];
+    if(!isFin(v)){ out[i]=NaNv; continue; }
+    prev = isFin(prev) ? alpha*v + (1-alpha)*prev : v;
+    count++;
+    if(count >= minPeriods) out[i] = prev;
+  }
+  return out;
+}
+function diffArr(arr, lag=1){
+  const out = new Array(arr.length).fill(NaNv);
+  for(let i=lag;i<arr.length;i++) out[i] = arr[i]-arr[i-lag];
+  return out;
+}
+function shiftArr(arr, lag){
+  const out = new Array(arr.length).fill(NaNv);
+  if(lag>=0){ for(let i=lag;i<arr.length;i++) out[i]=arr[i-lag]; }
+  else { const l=-lag; for(let i=0;i<arr.length-l;i++) out[i]=arr[i+l]; }
+  return out;
+}
+function rollingMax(arr, n){
+  const out = new Array(arr.length).fill(NaNv);
+  for(let i=0;i<arr.length;i++){
+    if(i<n-1) continue;
+    let m=-Infinity;
+    for(let j=i-n+1;j<=i;j++) m=Math.max(m, arr[j]);
+    out[i]=m;
+  }
+  return out;
+}
+function rollingMin(arr, n){
+  const out = new Array(arr.length).fill(NaNv);
+  for(let i=0;i<arr.length;i++){
+    if(i<n-1) continue;
+    let m=Infinity;
+    for(let j=i-n+1;j<=i;j++) m=Math.min(m, arr[j]);
+    out[i]=m;
+  }
+  return out;
+}
+function rollingMean(arr, n, minP){
+  const out = new Array(arr.length).fill(NaNv);
+  for(let i=0;i<arr.length;i++){
+    const start = Math.max(0, i-n+1);
+    const window = arr.slice(start, i+1).filter(isFin);
+    if(window.length < (minP ?? n)) continue;
+    out[i] = window.reduce((a,b)=>a+b,0)/window.length;
+  }
+  return out;
+}
+function rollingStd(arr, n, minP){
+  const out = new Array(arr.length).fill(NaNv);
+  for(let i=0;i<arr.length;i++){
+    const start = Math.max(0, i-n+1);
+    const window = arr.slice(start, i+1).filter(isFin);
+    if(window.length < (minP ?? n)) continue;
+    const m = window.reduce((a,b)=>a+b,0)/window.length;
+    const v = window.reduce((a,b)=>a+(b-m)*(b-m),0)/window.length;
+    out[i] = Math.sqrt(v);
+  }
+  return out;
+}
+
+/* ======================= indicators.py port ======================= */
+function ema(close, length){ return ewm(close, length); }
+function rsiFn(close, length=14){
+  const d = diffArr(close,1);
+  const gain = d.map(v=> isFin(v) ? Math.max(v,0) : NaNv);
+  const loss = d.map(v=> isFin(v) ? Math.max(-v,0) : NaNv);
+  const alpha = 1/length;
+  const ag = ewmAlpha(gain, alpha, length);
+  const al = ewmAlpha(loss, alpha, length);
+  const out = new Array(close.length);
+  for(let i=0;i<close.length;i++){
+    if(!isFin(ag[i]) || !isFin(al[i]) || al[i]===0){
+      out[i] = (al[i]===0 && isFin(ag[i])) ? 100 : 50;
+    } else {
+      const rs = ag[i]/al[i];
+      out[i] = 100 - 100/(1+rs);
+    }
+  }
+  return out;
+}
+function trueRange(high, low, close){
+  const out = new Array(high.length).fill(NaNv);
+  for(let i=0;i<high.length;i++){
+    if(i===0){ out[i] = high[i]-low[i]; continue; }
+    const pc = close[i-1];
+    out[i] = Math.max(high[i]-low[i], Math.abs(high[i]-pc), Math.abs(low[i]-pc));
+  }
+  return out;
+}
+function atrFn(high, low, close, length=14){
+  const tr = trueRange(high, low, close);
+  const tr0 = tr.map(v=>isFin(v)?v:0);
+  return ewmAlpha(tr0, 1/length, length);
+}
+function macdFn(close, fast, slow, signal){
+  const fastE = ema(close, fast), slowE = ema(close, slow);
+  const line = close.map((_,i)=> (isFin(fastE[i])&&isFin(slowE[i])) ? fastE[i]-slowE[i] : NaNv);
+  const sig = ema(line, signal);
+  const hist = line.map((v,i)=> (isFin(v)&&isFin(sig[i])) ? v-sig[i] : NaNv);
+  return {line, sig, hist};
+}
+function rocFn(close, length){
+  const out = new Array(close.length).fill(NaNv);
+  for(let i=length;i<close.length;i++){
+    if(close[i-length]!==0) out[i] = (close[i]/close[i-length]-1)*100;
+  }
+  return out;
+}
+function zscoreFn(arr, length){
+  const m = rollingMean(arr, length, length);
+  const sd = rollingStd(arr, length, length);
+  return arr.map((v,i)=> (isFin(m[i])&&isFin(sd[i])&&sd[i]!==0) ? (v-m[i])/sd[i] : NaNv);
+}
+
+function adxFn(high, low, close, length=14){
+  const n=high.length, plusDM=new Array(n).fill(0), minusDM=new Array(n).fill(0);
+  for(let i=1;i<n;i++){
+    const up=high[i]-high[i-1], down=low[i-1]-low[i];
+    plusDM[i]=(up>down && up>0)?up:0;
+    minusDM[i]=(down>up && down>0)?down:0;
+  }
+  const tr=trueRange(high,low,close);
+  const atrW=ewmAlpha(tr,1/length,length);
+  const pDM=ewmAlpha(plusDM,1/length,length), mDM=ewmAlpha(minusDM,1/length,length);
+  const dx=new Array(n).fill(NaNv);
+  for(let i=0;i<n;i++){
+    if(!isFin(atrW[i]) || atrW[i]===0 || !isFin(pDM[i]) || !isFin(mDM[i])) continue;
+    const pdi=100*pDM[i]/atrW[i], mdi=100*mDM[i]/atrW[i], sum=pdi+mdi;
+    dx[i]=sum!==0?100*Math.abs(pdi-mdi)/sum:0;
+  }
+  const adx=ewmAlpha(dx,1/length,length);
+  return adx;
+}
+
+function obvFn(close, volume){
+  const out = new Array(close.length).fill(0);
+  let acc = 0;
+  for(let i=0;i<close.length;i++){
+    if(i>0){ const d = sign(close[i]-close[i-1]); acc += d*volume[i]; }
+    out[i]=acc;
+  }
+  return out;
+}
+
+/* ======================= features.py port ======================= */
+function buildFeatureFrame(candles, cfg){
+  const n = candles.length;
+  const open = candles.map(c=>c.open), high=candles.map(c=>c.high),
+        low=candles.map(c=>c.low), close=candles.map(c=>c.close),
+        volume=candles.map(c=>c.volume), takerBuyBase=candles.map(c=>c.takerBuyBase);
+  const p = cfg.indicators;
+
+  const atr = atrFn(high, low, close, p.atr_length);
+  const atrSafe = atr.map(v=> (isFin(v)&&v!==0) ? v : NaNv);
+  const atrPct = close.map((c,i)=> atr[i]/c*100);
+
+  const emaFast = ema(close, p.ema_fast);
+  const emaMid = ema(close, p.ema_mid);
+  const emaLong = ema(close, p.ema_long);
+
+  // TREND
+  const emaFastShift3 = shiftArr(emaFast, 3);
+  const trendScore = new Array(n);
+  for(let i=0;i<n;i++){
+    const align = sign(emaFast[i]-emaMid[i])*25 + sign(emaMid[i]-emaLong[i])*25
+      + sign(close[i]-emaMid[i])*15 + sign(close[i]-emaLong[i])*15;
+    let slope = 0;
+    if(isFin(atrSafe[i]) && isFin(emaFastShift3[i])){
+      slope = clip((emaFast[i]-emaFastShift3[i])/atrSafe[i], -1, 1)*20;
+    }
+    trendScore[i] = clip(align+slope, -100, 100);
+  }
+
+  // MOMENTUM
+  const rsi = rsiFn(close, p.rsi_length);
+  const {hist:macdHist} = macdFn(close, p.macd_fast, p.macd_slow, p.macd_signal);
+  const roc = rocFn(close, p.roc_length);
+  const macdHistShift2 = shiftArr(macdHist, 2);
+  const momentumScore = new Array(n);
+  for(let i=0;i<n;i++){
+    const rsiPart = clip((rsi[i]-50)/20, -1, 1)*30;
+    const mhRaw = isFin(macdHist[i]) && isFin(atrSafe[i]) ? macdHist[i]/atrSafe[i] : 0;
+    const mhPart = tanh(mhRaw*4)*30;
+    const maRaw = (isFin(macdHist[i]) && isFin(macdHistShift2[i]) && isFin(atrSafe[i]))
+      ? (macdHist[i]-macdHistShift2[i])/atrSafe[i] : 0;
+    const maPart = tanh(maRaw*6)*20;
+    const rocPart = isFin(roc[i]) ? clip(roc[i]/1.5, -1, 1)*20 : 0;
+    momentumScore[i] = clip(rsiPart+mhPart+maPart+rocPart, -100, 100);
+  }
+
+  // VOLUME
+  const volumeZ = zscoreFn(volume, p.volume_z_length).map(v=>isFin(v)?v:0);
+  const candleDir = close.map((c,i)=> sign(c-open[i]));
+  const obv = obvFn(close, volume);
+  const obvDelta = diffArr(obv, 5);
+  const volMean = rollingMean(volume, 20, 5).map(v=> (isFin(v)&&v!==0)?v:NaNv);
+  const volumeScore = new Array(n);
+  for(let i=0;i<n;i++){
+    const volAnom = candleDir[i]*clip(volumeZ[i]/3,-1,1)*40;
+    const obvRaw = (isFin(obvDelta[i]) && isFin(volMean[i])) ? obvDelta[i]/(volMean[i]*5) : 0;
+    const obvPart = tanh(obvRaw*2)*30;
+    const takerRatio = volume[i]!==0 ? (takerBuyBase[i]/volume[i]) : 0.5;
+    const takerPart = clip((takerRatio-0.5)/0.20,-1,1)*30;
+    volumeScore[i] = clip(volAnom+obvPart+takerPart, -100, 100);
+  }
+
+  // STRUCTURE
+  const nStruct = p.structure_length;
+  const prevHigh = shiftArr(rollingMax(high, nStruct), 1);
+  const prevLow = shiftArr(rollingMin(low, nStruct), 1);
+  const highShift3 = shiftArr(high,3), lowShift3 = shiftArr(low,3);
+  const structureScore = new Array(n);
+  const resistance = prevHigh, support = prevLow;
+  const roomLongPct = new Array(n), roomShortPct = new Array(n);
+  for(let i=0;i<n;i++){
+    let posV = 0;
+    const rng = (isFin(prevHigh[i])&&isFin(prevLow[i])) ? (prevHigh[i]-prevLow[i]) : NaNv;
+    if(isFin(rng) && rng!==0){
+      posV = clip(((close[i]-prevLow[i])/rng)*2-1, -1, 1)*35;
+    }
+    let breakout = 0;
+    if(isFin(prevHigh[i]) && close[i] > prevHigh[i]) breakout = 35;
+    if(isFin(prevLow[i]) && close[i] < prevLow[i]) breakout = -35;
+    const hh = isFin(highShift3[i]) ? sign(high[i]-highShift3[i])*15 : 0;
+    const ll = isFin(lowShift3[i]) ? sign(low[i]-lowShift3[i])*15 : 0;
+    structureScore[i] = clip(posV+breakout+hh+ll, -100, 100);
+    roomLongPct[i] = (isFin(prevHigh[i]) && prevHigh[i] > close[i]) ? (prevHigh[i]-close[i])/close[i]*100 : 999.0;
+    roomShortPct[i] = (isFin(prevLow[i]) && prevLow[i] < close[i]) ? (close[i]-prevLow[i])/close[i]*100 : 999.0;
+  }
+
+  // VOLATILITY
+  const blen = p.bollinger_length;
+  const mid = rollingMean(close, blen, blen);
+  const sd = rollingStd(close, blen, blen);
+  const width = new Array(n);
+  for(let i=0;i<n;i++){
+    width[i] = (isFin(mid[i]) && mid[i]!==0 && isFin(sd[i])) ? (2*p.bollinger_std*sd[i]/mid[i]) : 0;
+  }
+  const widthMean30 = rollingMean(width, 30, 10);
+  const atrMean30 = rollingMean(atr.map(v=>isFin(v)?v:NaNv), 30, 10);
+  const volatilityScore = new Array(n);
+  for(let i=0;i<n;i++){
+    const trRatio = isFin(atrSafe[i]) ? clip((high[i]-low[i])/atrSafe[i], 0, 3) : 0;
+    const rangePart = candleDir[i]*clip((trRatio-0.8)/1.2,-1,1)*35;
+    const widthExp = (isFin(widthMean30[i]) && widthMean30[i]!==0) ? (width[i]/widthMean30[i]-1) : 0;
+    const widthPart = candleDir[i]*clip(widthExp/0.35,-1,1)*30;
+    const atrExp = (isFin(atrMean30[i]) && atrMean30[i]!==0 && isFin(atr[i])) ? (atr[i]/atrMean30[i]-1) : 0;
+    const atrPart = candleDir[i]*clip(atrExp/0.35,-1,1)*35;
+    volatilityScore[i] = clip(rangePart+widthPart+atrPart, -100, 100);
+  }
+
+  // Weighted combined score
+  let totalW = 0;
+  const comps = {trend:trendScore, momentum:momentumScore, volume:volumeScore, structure:structureScore, volatility:volatilityScore};
+  const rawScore = new Array(n).fill(0);
+  for(const name of ["trend","momentum","volume","structure","volatility"]){
+    const c = cfg.components[name];
+    if(c.enabled){
+      totalW += c.weight;
+      for(let i=0;i<n;i++) rawScore[i] += (isFin(comps[name][i])?comps[name][i]:0)*c.weight;
+    }
+  }
+  for(let i=0;i<n;i++) rawScore[i] = rawScore[i]/Math.max(totalW, 1e-9);
+
+  const rows = [];
+  for(let i=0;i<n;i++){
+    rows.push({
+      open_time: candles[i].openTime, close: close[i], high: high[i], low: low[i], open: open[i],
+      atr_pct: atrPct[i], trend_score: trendScore[i], momentum_score: momentumScore[i],
+      volume_score: volumeScore[i], structure_score: structureScore[i], volatility_score: volatilityScore[i],
+      raw_score: rawScore[i], room_long_pct: roomLongPct[i], room_short_pct: roomShortPct[i]
+    });
+  }
+  return rows;
+}
+
+/* ======================= calibration.py port ======================= */
+function heuristicProbability(scoreAbs){
+  return 50.0 + 40.0*tanh(Math.max(scoreAbs,0)/60.0);
+}
+function calibrateCurrent(features, currentScore, cfg){
+  const pcfg = cfg.prediction;
+  const horizon = pcfg.horizon_bars;
+  const minSamples = pcfg.calibration_min_samples;
+  const minMove = pcfg.minimum_move_pct;
+  const tol = pcfg.calibration_initial_tolerance;
+  const direction = currentScore > 0 ? 1 : -1;
+
+  // use features[0 .. n-2] (exclude last row), like features.iloc[:-1]
+  const base = features.slice(0, features.length-1);
+  const n = base.length;
+  const closeArr = base.map(r=>r.close), highArr = base.map(r=>r.high), lowArr = base.map(r=>r.low);
+
+  const rows = [];
+  for(let i=0;i<n;i++){
+    const fi = i+horizon;
+    if(fi >= n) continue;
+    const futureClose = closeArr[fi];
+    const forwardReturnPct = (futureClose/closeArr[i]-1)*100.0;
+    if(!isFin(forwardReturnPct) || !isFin(base[i].raw_score)) continue;
+    if(sign(base[i].raw_score) !== direction) continue;
+    rows.push({raw_score: base[i].raw_score, forward_return_pct: forwardReturnPct});
+  }
+
+  const mag = Math.abs(currentScore);
+  let picked = [];
+  for(const t of [tol, tol*1.7, tol*2.7, 40.0]){
+    picked = rows.filter(r => Math.abs(Math.abs(r.raw_score)-mag) <= t);
+    if(picked.length >= minSamples) break;
+  }
+  if(picked.length < minSamples){
+    return {probability: heuristicProbability(mag), expected_move_pct: NaNv, samples: picked.length, source:"HEURISTIC"};
+  }
+  const aligned = picked.map(r=> r.forward_return_pct*direction);
+  const wins = aligned.filter(v=> v > minMove).length;
+  const prob = (wins+2)/(aligned.length+4)*100.0;
+  const positive = aligned.filter(v=>v>0).sort((a,b)=>a-b);
+  let exp;
+  if(positive.length){
+    const mid = Math.floor(positive.length/2);
+    exp = positive.length%2 ? positive[mid] : (positive[mid-1]+positive[mid])/2;
+  } else {
+    const sortedAll = [...aligned].sort((a,b)=>a-b);
+    const mid = Math.floor(sortedAll.length/2);
+    exp = sortedAll.length%2 ? sortedAll[mid] : (sortedAll[mid-1]+sortedAll[mid])/2;
+  }
+  return {probability: prob, expected_move_pct: Math.max(exp,0.0), samples: picked.length, source:"EMPIRICAL"};
+}
+
+/* ======================= predictor.py port ======================= */
+function analyzePrediction(candles, cfg, symbol, timeframe){
+  const features = buildFeatureFrame(candles, cfg);
+  if(!features.length) throw new Error("No candles");
+  const row = features[features.length-1];
+  const score = row.raw_score;
+  const minScore = cfg.prediction.minimum_absolute_score;
+
+  let direction = Math.abs(score) < minScore ? "NEUTRAL" : (score > 0 ? "LONG" : "SHORT");
+  const mode = cfg.prediction.signal_mode.toUpperCase();
+  if(mode==="LONG_ONLY" && direction==="SHORT") direction="NEUTRAL";
+  if(mode==="SHORT_ONLY" && direction==="LONG") direction="NEUTRAL";
+
+  let prob, source, samples, expectedMove, room=999.0;
+  if(direction==="NEUTRAL"){
+    prob = heuristicProbability(Math.abs(score));
+    source = "HEURISTIC"; samples = 0;
+    expectedMove = (row.atr_pct||0)*Math.sqrt(cfg.prediction.horizon_bars)*0.65;
+  } else {
+    if(cfg.prediction.calibration_enabled){
+      const cal = calibrateCurrent(features, score, cfg);
+      prob=cal.probability; source=cal.source; samples=cal.samples; expectedMove=cal.expected_move_pct;
+    } else {
+      prob = heuristicProbability(Math.abs(score)); source="HEURISTIC"; samples=0; expectedMove=NaNv;
+    }
+    if(!isFin(expectedMove) || expectedMove<=0){
+      expectedMove = (row.atr_pct||0)*Math.sqrt(cfg.prediction.horizon_bars)*0.65;
+    }
+    room = direction==="LONG" ? row.room_long_pct : row.room_short_pct;
+    const minRoom = cfg.prediction.minimum_room_pct;
+    if(room < minRoom){
+      const ratio = clip(room/Math.max(minRoom,1e-9), 0, 1);
+      prob -= cfg.prediction.room_penalty_points*(1-ratio);
+      if(cfg.prediction.neutral_if_insufficient_room) direction="NEUTRAL";
+    }
+  }
+  prob = clip(prob, 50.0, 99.0);
+  const price = row.close;
+  const s = direction==="LONG" ? 1 : direction==="SHORT" ? -1 : (score>=0?1:-1);
+  const expectedPrice = price*(1+s*expectedMove/100.0);
+
+  let strength;
+  if(prob>=88) strength="VERY_HIGH";
+  else if(prob>=80) strength="HIGH";
+  else if(prob>=70) strength="MEDIUM";
+  else strength="LOW";
+
+  return {
+    symbol, timeframe, bar_time: row.open_time, price, direction,
+    raw_score: Math.round(score*1000)/1000,
+    probability: Math.round(prob*100)/100,
+    probability_source: source, calibration_samples: samples,
+    expected_move_pct: Math.round(expectedMove*10000)/10000,
+    expected_price: expectedPrice, strength, room_pct: room,
+    trend: Math.round(row.trend_score*100)/100,
+    momentum: Math.round(row.momentum_score*100)/100,
+    volume: Math.round(row.volume_score*100)/100,
+    structure: Math.round(row.structure_score*100)/100,
+    volatility: Math.round(row.volatility_score*100)/100,
+    horizon_bars: cfg.prediction.horizon_bars
+  };
+}
+
+/* ======================= Binance client (browser fetch) ======================= */
+async function fetchKlines(symbol, interval, limit=KLINE_LIMIT){
+  const url = `https://fapi.binance.com/fapi/v1/klines?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}&limit=${limit}`;
+  const res = await fetchRetry(url,{}, {maxAttempts:5,baseDelay:650,binance:true});
+  if(!res.ok){
+    let msg = `HTTP ${res.status}`;
+    try{ const j = await res.json(); if(j && j.msg) msg = j.msg; }catch(e){}
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  // drop the last (currently forming) candle -> closed_candle_only
+  const closed = data.slice(0, -1);
+  return closed.map(k => ({
+    openTime: k[0], open: parseFloat(k[1]), high: parseFloat(k[2]),
+    low: parseFloat(k[3]), close: parseFloat(k[4]), volume: parseFloat(k[5]),
+    takerBuyBase: parseFloat(k[9])
+  }));
+}
+
+
+
+/* ======================= NEW APP UI / STATE ======================= */
+const DEFAULTS={backendUrl:"https://next-move-predictor-production.up.railway.app",signal_mode:"LONG_SHORT",horizon_bars:5,minimum_absolute_score:25,minimum_probability:70,strong_probability:85,cooldown_bars:3,regime_enabled:true,adx_threshold:20,mtf_enabled:true,futures_enabled:true,recent_accuracy_enabled:true,recent_accuracy_lookback:400,spot_tf:"5m",spot_probability:70,spot_every_min:5,spot_mode:"LONG_SHORT",spot_running:false,spot_last_scan:0};
+const SK="nmp_site_settings_v4",WK="nmp_site_watch_v4",HK="nmp_site_history_v4",SPOT_STATE_K="nmp_spot_runtime_v1";
+const persistedSpot=jload(SPOT_STATE_K,{});
+let S={...DEFAULTS,...jload(SK,{})};if(!S.backendUrl)S.backendUrl=DEFAULTS.backendUrl;let watch=jload(WK,[]), hist=jload(HK,[]), backendOnline=false,current=null,editing=null,watchTimer=null,spotTimer=null,spotRunning=false,spotBusy=false,spotSymbols=[],spotHits=Array.isArray(persistedSpot.hits)?persistedSpot.hits:[],spotAlertState=persistedSpot.alertState||{},binanceOnline=false,binanceHeartbeatTimer=null;
+function jload(k,f){try{const x=localStorage.getItem(k);return x?JSON.parse(x):f}catch{return f}}function jsave(k,v){localStorage.setItem(k,JSON.stringify(v))}function E(id){return document.getElementById(id)}function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}function clamp2(v,a,b){return Math.max(a,Math.min(b,v))}function toast(m){const x=E("toast");x.textContent=m;x.classList.add("show");clearTimeout(x._t);x._t=setTimeout(()=>x.classList.remove("show"),2000)}function st(id,m,c=""){E(id).className="status"+(c?" "+c:"");E(id).innerHTML=m}function price(v){if(!Number.isFinite(+v))return"—";v=+v;return v>=100?v.toFixed(2):v>=1?v.toFixed(4):v>=.01?v.toFixed(6):v.toFixed(8)}function signed(v,d=1){v=+v;return Number.isFinite(v)?(v>=0?"+":"")+v.toFixed(d):"—"}function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4)}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function setBinanceLamp(ok){binanceOnline=!!ok;const x=E("binanceLamp");if(x)x.classList.toggle("online",binanceOnline)}
+function saveSpotRuntime(){
+  try{jsave(SPOT_STATE_K,{hits:spotHits.slice(0,100),alertState:spotAlertState,lastScan:S.spot_last_scan||0})}catch{}
+}
+async function fetchRetry(url,opt={},cfg={}){
+  const maxAttempts=Math.max(1,cfg.maxAttempts||5),baseDelay=Math.max(150,cfg.baseDelay||700),isBinance=cfg.binance!==false;
+  let lastErr;
+  for(let attempt=1;attempt<=maxAttempts;attempt++){
+    try{
+      const r=await fetch(url,opt);
+      if(r.ok){if(isBinance)setBinanceLamp(true);return r}
+      let body="";try{body=await r.clone().text()}catch{}
+      const err=new Error(`HTTP ${r.status}${body?` — ${body.slice(0,120)}`:""}`);err.status=r.status;
+      const retryable=r.status===408||r.status===425||r.status===429||r.status>=500;
+      if(!retryable||attempt===maxAttempts){if(isBinance)setBinanceLamp(false);throw err}
+      let wait=baseDelay*Math.pow(2,attempt-1);
+      const ra=r.headers.get("Retry-After");if(ra&&!Number.isNaN(+ra))wait=Math.max(wait,+ra*1000);
+      await sleep(Math.min(wait,12000));lastErr=err;
+    }catch(e){
+      lastErr=e;if(attempt===maxAttempts){if(isBinance)setBinanceLamp(false);throw e}
+      await sleep(Math.min(baseDelay*Math.pow(2,attempt-1),12000));
+    }
+  }
+  if(isBinance)setBinanceLamp(false);throw lastErr||new Error("Connection failed")
+}
+async function binanceHeartbeat(){
+  try{const r=await fetchRetry("https://api.binance.com/api/v3/time",{}, {maxAttempts:3,baseDelay:500,binance:true});await r.json();setBinanceLamp(true);return true}catch{setBinanceLamp(false);return false}
+}
+function startBinanceHeartbeat(){clearInterval(binanceHeartbeatTimer);binanceHeartbeat();binanceHeartbeatTimer=setInterval(binanceHeartbeat,60000)}
+
+function syncCFG(over={}){CFG.prediction.signal_mode=over.signal_mode||S.signal_mode;CFG.prediction.horizon_bars=+(over.horizon_bars??S.horizon_bars);CFG.prediction.minimum_absolute_score=+(over.minimum_absolute_score??S.minimum_absolute_score);CFG.prediction.minimum_probability=+(over.minimum_probability??S.minimum_probability);CFG.components.trend.weight=+E("wt")?.value||CFG.components.trend.weight;CFG.components.momentum.weight=+E("wm")?.value||CFG.components.momentum.weight;CFG.components.volume.weight=+E("wv")?.value||CFG.components.volume.weight;CFG.components.structure.weight=+E("ws")?.value||CFG.components.structure.weight;CFG.components.volatility.weight=+E("wvol")?.value||CFG.components.volatility.weight}
+function apiBase(){return String(S.backendUrl||"").replace(/\/+$/,'')}async function api(path,opt={}){if(!apiBase())throw Error("NO_BACKEND");const r=await fetchRetry(apiBase()+path,{...opt,headers:{"Content-Type":"application/json",...(opt.headers||{})}},{maxAttempts:5,baseDelay:700,binance:false});let d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.detail||d.error||`HTTP ${r.status}`);return d}
+async function checkBackend(show=false){if(!apiBase()){backendOnline=false;E("conn").className="conn";E("conn").textContent="محرك المتصفح";if(show)toast("يعمل الآن بمحرك المتصفح فقط");return false}try{const d=await api("/api/nextmove/health");backendOnline=true;E("conn").className="conn online";E("conn").textContent="الباكند متصل";E("tgstate").textContent=d.telegram_configured?"تليجرام جاهز ✅":"الباكند متصل — تليجرام غير مضبوط";if(show)toast("الباكند متصل ✅");return true}catch(e){backendOnline=false;E("conn").className="conn offline";E("conn").textContent="الباكند غير متصل";if(show)toast("تعذر الاتصال بالـ Backend");return false}}
+function tfmin(tf){const m=tf.match(/^(\d+)([mhd])$/);if(!m)throw Error("فريم غير صالح");return +m[1]*(m[2]==="m"?1:m[2]==="h"?60:1440)}
+async function nativePage(symbol,interval,limit=1500,end=null){const p=new URLSearchParams({symbol,interval,limit:String(Math.min(limit,1500))});if(end!=null)p.set("endTime",String(end));const r=await fetchRetry("https://fapi.binance.com/fapi/v1/klines?"+p,{}, {maxAttempts:5,baseDelay:650,binance:true});if(!r.ok){let m=`HTTP ${r.status}`;try{const d=await r.json();if(d.msg)m=d.msg}catch{}throw Error(m)}return(await r.json()).map(k=>({openTime:+k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5],closeTime:+k[6],takerBuyBase:+k[9]}))}
+async function nativeHistory(symbol,interval,bars){let all=[],rem=bars,end=null;while(rem>0){const take=Math.min(1500,rem),part=await nativePage(symbol,interval,take,end);if(!part.length)break;all.push(...part);rem-=part.length;end=part[0].openTime-1;if(part.length<take)break}const mp=new Map(all.map(x=>[x.openTime,x]));return[...mp.values()].sort((a,b)=>a.openTime-b.openTime).slice(-bars)}
+function aggregate(rows,mins){const ms=mins*60000,mp=new Map;for(const c of rows){const t=Math.floor(c.openTime/ms)*ms;let b=mp.get(t);if(!b){b={openTime:t,open:c.open,high:c.high,low:c.low,close:c.close,volume:0,closeTime:t+ms-1,takerBuyBase:0};mp.set(t,b)}b.high=Math.max(b.high,c.high);b.low=Math.min(b.low,c.low);b.close=c.close;b.volume+=c.volume;b.takerBuyBase+=c.takerBuyBase}return[...mp.values()].sort((a,b)=>a.openTime-b.openTime)}
+async function smartCandles(symbol,tf,bars=700){const natives=new Set(["1m","3m","5m","15m","30m","1h","2h","4h","6h","8h","12h","1d"]),now=Date.now();if(natives.has(tf))return(await nativeHistory(symbol,tf,bars+3)).filter(x=>x.closeTime<now).slice(-bars);const mins=tfmin(tf),raw=await nativeHistory(symbol,"1m",(bars+3)*mins+mins);return aggregate(raw,mins).filter(x=>x.closeTime<now).slice(-bars)}
+const HIGHER_TF_MAP={"1m":"15m","3m":"15m","4m":"30m","5m":"1h","10m":"1h","15m":"4h","30m":"4h","1h":"4h","2h":"1d","4h":"1d","6h":"1d","8h":"1d","12h":"1d","1d":"1d"};
+
+function detectMarketRegime(candles){
+  if(!S.regime_enabled) return {regime:"OFF",adx:NaNv};
+  const h=candles.map(c=>c.high),l=candles.map(c=>c.low),c=candles.map(x=>x.close);
+  const a=adxFn(h,l,c,CFG.context.adx_length), last=a[a.length-1];
+  if(!isFin(last)) return {regime:"UNKNOWN",adx:NaNv};
+  return {regime:last>=S.adx_threshold?"TRENDING":"RANGING",adx:Math.round(last*10)/10};
+}
+
+function higherTfTrendSign(candles){
+  const close=candles.map(c=>c.close), p=CFG.indicators;
+  const ef=ema(close,p.ema_fast), em=ema(close,p.ema_mid), el=ema(close,p.ema_long), i=close.length-1;
+  if(!isFin(ef[i])||!isFin(em[i])) return 0;
+  let s=sign(ef[i]-em[i])+sign(close[i]-em[i]);
+  if(isFin(el[i])) s+=sign(em[i]-el[i]);
+  return s>=2?1:s<=-2?-1:0;
+}
+
+async function fetchFundingRate(symbol){
+  try{
+    const r=await fetchRetry(`https://fapi.binance.com/fapi/v1/premiumIndex?symbol=${encodeURIComponent(symbol)}`,{}, {maxAttempts:4,baseDelay:650,binance:true});
+    if(!r.ok)return null;
+    const j=await r.json(),v=parseFloat(j.lastFundingRate);
+    return isFin(v)?v:null;
+  }catch{return null}
+}
+
+async function fetchFuturesFlow(symbol){
+  try{
+    const [oir,prices]=await Promise.all([
+      fetchRetry(`https://fapi.binance.com/futures/data/openInterestHist?symbol=${encodeURIComponent(symbol)}&period=1h&limit=6`,{}, {maxAttempts:4,baseDelay:650,binance:true}),
+      nativePage(symbol,"1h",7)
+    ]);
+    if(!oir.ok)return null;
+    const oi=await oir.json();
+    const px=prices.filter(x=>x.closeTime<Date.now()).slice(-6);
+    if(!Array.isArray(oi)||oi.length<2||px.length<2)return null;
+    const oi0=parseFloat(oi[0].sumOpenInterest),oi1=parseFloat(oi[oi.length-1].sumOpenInterest);
+    if(!isFin(oi0)||!isFin(oi1)||oi0===0)return null;
+    const oiChange=(oi1/oi0-1)*100, priceChange=(px[px.length-1].close/px[0].close-1)*100;
+    let kind="NEUTRAL";
+    if(oiChange>0.5 && priceChange>0) kind="NEW_LONGS";
+    else if(oiChange>0.5 && priceChange<0) kind="NEW_SHORTS";
+    else if(oiChange<-0.5 && priceChange>0) kind="SHORT_COVER";
+    else if(oiChange<-0.5 && priceChange<0) kind="LONG_LIQUIDATION";
+    return {oi_change_pct:oiChange,price_change_pct:priceChange,kind};
+  }catch{return null}
+}
+
+function flowRelation(flow,direction){
+  if(!flow || direction==="NEUTRAL")return "NA";
+  if(flow.kind==="NEW_LONGS")return direction==="LONG"?"CONFIRM":"OPPOSE";
+  if(flow.kind==="NEW_SHORTS")return direction==="SHORT"?"CONFIRM":"OPPOSE";
+  if(flow.kind==="SHORT_COVER")return direction==="LONG"?"SUPPORT":"OPPOSE";
+  if(flow.kind==="LONG_LIQUIDATION")return direction==="SHORT"?"SUPPORT":"OPPOSE";
+  return "NEUTRAL";
+}
+
+function fundingRelation(rate,direction){
+  if(!isFin(rate)||direction==="NEUTRAL")return "NA";
+  const pct=rate*100;
+  if(Math.abs(pct)<CFG.context.funding_extreme_pct)return "NORMAL";
+  if(pct>0 && direction==="LONG")return "CROWDED";
+  if(pct<0 && direction==="SHORT")return "CROWDED";
+  return "OPPOSITE_CROWD";
+}
+
+function computeRecentAccuracy(features,direction){
+  if(!S.recent_accuracy_enabled)return {win_rate:NaNv,samples:0,all_win_rate:NaNv,all_samples:0};
+  const h=CFG.prediction.horizon_bars,minScore=CFG.prediction.minimum_absolute_score,minMove=CFG.prediction.minimum_move_pct;
+  const n=features.length,start=Math.max(0,n-1-S.recent_accuracy_lookback);
+  let wins=0,total=0,allWins=0,allTotal=0;
+  for(let i=start;i<n-h-1;i++){
+    const s=features[i].raw_score;
+    if(!isFin(s)||Math.abs(s)<minScore)continue;
+    const dir=s>0?1:-1,ret=(features[i+h].close/features[i].close-1)*100*dir;
+    allTotal++; if(ret>minMove)allWins++;
+    const want=direction==="LONG"?1:direction==="SHORT"?-1:0;
+    if(want!==0 && dir!==want)continue;
+    total++; if(ret>minMove)wins++;
+  }
+  return {
+    win_rate:total?wins/total*100:NaNv,samples:total,
+    all_win_rate:allTotal?allWins/allTotal*100:NaNv,all_samples:allTotal
+  };
+}
+
+function contextQuality(pred){
+  if(pred.direction==="NEUTRAL")return {code:"NEUTRAL",label:"محايد",score:0};
+  let q=0;
+  if(pred.regime==="TRENDING")q+=1; else if(pred.regime==="RANGING")q-=1;
+  if(pred.mtf_status==="AGREE")q+=2; else if(pred.mtf_status==="DISAGREE")q-=2;
+  if(pred.flow_relation==="CONFIRM")q+=2; else if(pred.flow_relation==="SUPPORT")q+=1; else if(pred.flow_relation==="OPPOSE")q-=2;
+  if(isFin(pred.recent_win_rate)){
+    if(pred.recent_win_rate>=60)q+=2;
+    else if(pred.recent_win_rate>=55)q+=1;
+    else if(pred.recent_win_rate<45)q-=2;
+  }
+  if(pred.funding_relation==="CROWDED")q-=1;
+  if(q>=4)return {code:"VERY_STRONG",label:"قوي جدًا",score:q};
+  if(q>=2)return {code:"STRONG",label:"قوي",score:q};
+  if(q>=0)return {code:"MIXED",label:"متوسط / مختلط",score:q};
+  return {code:"WEAK",label:"ضعيف",score:q};
+}
+
+async function enrichContext(pred,symbol,tf,candles,minProbability){
+  try{
+    const features=buildFeatureFrame(candles,CFG);
+    const reg=detectMarketRegime(candles);
+    pred.regime=reg.regime; pred.regime_adx=reg.adx;
+
+    const acc=computeRecentAccuracy(features,pred.direction);
+    pred.recent_win_rate=acc.win_rate; pred.recent_samples=acc.samples;
+    pred.recent_all_win_rate=acc.all_win_rate; pred.recent_all_samples=acc.all_samples;
+
+    pred.mtf_status="NA"; pred.mtf_timeframe=null;
+    if(S.mtf_enabled && pred.direction!=="NEUTRAL"){
+      const higher=HIGHER_TF_MAP[tf];
+      if(higher && higher!==tf){
+        try{
+          const hc=await smartCandles(symbol,higher,400);
+          const hs=higherTfTrendSign(hc),want=pred.direction==="LONG"?1:-1;
+          pred.mtf_timeframe=higher;
+          pred.mtf_status=hs===want?"AGREE":hs===-want?"DISAGREE":"NEUTRAL";
+        }catch{}
+      }
+    }
+
+    pred.funding_rate=null; pred.funding_relation="NA"; pred.oi_change_pct=null; pred.oi_price_change_pct=null; pred.flow_kind="NA"; pred.flow_relation="NA";
+    if(S.futures_enabled && pred.direction!=="NEUTRAL"){
+      const [fund,flow]=await Promise.all([fetchFundingRate(symbol),fetchFuturesFlow(symbol)]);
+      pred.funding_rate=fund;
+      pred.funding_relation=fundingRelation(fund,pred.direction);
+      if(flow){
+        pred.oi_change_pct=flow.oi_change_pct;pred.oi_price_change_pct=flow.price_change_pct;
+        pred.flow_kind=flow.kind;pred.flow_relation=flowRelation(flow,pred.direction);
+      }
+    }
+
+    pred.confidence_ok=pred.direction==="NEUTRAL" || pred.probability>=minProbability;
+    pred.context_quality=contextQuality(pred);
+  }catch{
+    pred.confidence_ok=pred.direction==="NEUTRAL" || pred.probability>=minProbability;
+    pred.context_quality={code:"UNKNOWN",label:"غير مكتمل",score:0};
+  }
+  return pred;
+}
+
+async function analyzeAny(symbol,tf,over={}){
+  symbol=symbol.trim().toUpperCase();
+  if(!symbol)throw Error("اكتب رمز العملة");
+  const minProbability=+(over.minimum_probability??S.minimum_probability);
+  // التحليل يبقى محليًا في المتصفح. Railway مخصص لتنبيهات Next Move فقط.
+  syncCFG(over);
+  const candles=await smartCandles(symbol,tf,700);
+  if(candles.length<210)throw Error("بيانات غير كافية");
+  const p=analyzePrediction(candles,CFG,symbol,tf);
+  return await enrichContext(p,symbol,tf,candles,minProbability);
+}
+
+/* ======================= BINANCE SPOT SCANNER ======================= */
+async function fetchSpotSymbols(){
+  const r=await fetchRetry("https://api.binance.com/api/v3/exchangeInfo",{}, {maxAttempts:5,baseDelay:700,binance:true});
+  if(!r.ok)throw Error(`Binance Spot HTTP ${r.status}`);
+  const d=await r.json();
+  return (d.symbols||[]).filter(x=>x.status==="TRADING"&&x.quoteAsset==="USDT"&&x.isSpotTradingAllowed!==false).map(x=>x.symbol);
+}
+async function spotNativePage(symbol,interval,limit=500){
+  const p=new URLSearchParams({symbol,interval,limit:String(Math.min(limit,1000))});
+  const r=await fetchRetry("https://api.binance.com/api/v3/klines?"+p,{}, {maxAttempts:5,baseDelay:650,binance:true});
+  if(!r.ok){let m=`HTTP ${r.status}`;try{const d=await r.json();if(d.msg)m=d.msg}catch{}throw Error(m)}
+  return (await r.json()).map(k=>({openTime:+k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5],closeTime:+k[6],takerBuyBase:+k[9]}));
+}
+async function spotCandles(symbol,tf,bars=500){
+  const now=Date.now();
+  const natives=new Set(["1m","3m","5m","15m","30m","1h","4h","1d"]);
+  if(!natives.has(tf))throw Error("فريم Spot غير مدعوم في الماسح");
+  return (await spotNativePage(symbol,tf,bars+2)).filter(x=>x.closeTime<now).slice(-bars);
+}
+async function analyzeSpotFast(symbol,tf,over={}){
+  syncCFG(over);
+  const candles=await spotCandles(symbol,tf,500);
+  if(candles.length<210)throw Error("بيانات غير كافية");
+  return analyzePrediction(candles,CFG,symbol,tf);
+}
+function spotConfigFromUI(){
+  S.spot_tf=E("spotTf").value;
+  S.spot_probability=clamp2(+E("spotProb").value||70,50,99);
+  S.spot_every_min=clamp2(+E("spotEvery").value||5,1,60);
+  S.spot_mode=E("spotMode").value;
+  jsave(SK,S);saveSpotRuntime();
+}
+function fillSpotSettings(){
+  if(!E("spotTf"))return;
+  E("spotTf").value=S.spot_tf||"5m";E("spotProb").value=S.spot_probability||70;E("spotEvery").value=S.spot_every_min||5;E("spotMode").value=S.spot_mode||"LONG_SHORT";
+}
+function renderSpotHits(){
+  const box=E("spotResults"); if(!box)return;
+  if(!spotHits.length){box.innerHTML='<div class="empty">لا توجد عملة فوق حد التنبيه في آخر فحص.</div>';return}
+  box.innerHTML=spotHits.slice(0,100).map(p=>`<div class="scanitem hit"><div><b class="num">${esc(p.symbol)}</b><div class="small">${DIR_AR[p.direction]||p.direction} · ${esc(p.timeframe)}</div></div><div><div class="small">الاحتمالية</div><div class="mainv num">${(+p.probability).toFixed(1)}%</div></div><div><div class="small">Score</div><div class="mainv num">${signed(p.raw_score,1)}</div></div><div class="scan-time"><div class="small">آخر فحص</div><div class="mainv">${new Date(p._scanAt).toLocaleTimeString('ar-SA')}</div></div></div>`).join('');
+}
+async function sendNextMoveTelegram(p,threshold){
+  if(!apiBase())return;
+  try{
+    await api("/api/nextmove/alert",{method:"POST",body:JSON.stringify({
+      symbol:p.symbol,direction:p.direction,timeframe:p.timeframe,
+      probability:p.probability,raw_score:p.raw_score,price:p.price,
+      expected_move_pct:p.expected_move_pct,room_pct:p.room_pct,threshold
+    })});
+    backendOnline=true;
+  }catch(e){
+    console.warn("Next Move Telegram alert failed",e);
+  }
+}
+function fireSpotAlert(p,threshold){
+  const key=`${p.symbol}|${p.timeframe}|${p.direction}`;
+  const prev=spotAlertState[key]||{above:false};
+  if(p.probability>=threshold && !prev.above){
+    const msg=`${p.symbol} ${p.direction} — ${(+p.probability).toFixed(1)}%`;
+    toast("🔔 "+msg);
+    try{if(navigator.vibrate)navigator.vibrate([150,80,150])}catch{}
+    try{if("Notification" in window && Notification.permission==="granted")new Notification("Next Move — Spot Alert",{body:msg})}catch{}
+    // لا ننتظر Telegram حتى لا يبطئ دورة فحص Spot.
+    sendNextMoveTelegram(p,threshold);
+  }
+  spotAlertState[key]={above:p.probability>=threshold,probability:p.probability,at:Date.now()};
+}
+async function runSpotScan(){
+  if(spotBusy)return; spotBusy=true; spotConfigFromUI();
+  const threshold=S.spot_probability,tf=S.spot_tf,mode=S.spot_mode;
+  try{
+    if(!spotSymbols.length)spotSymbols=await fetchSpotSymbols();
+    const total=spotSymbols.length; let done=0,ok=0,fail=0,hits=[];
+    E("spotStatus").textContent=`بدء فحص ${total} زوج Spot مقابل USDT...`;E("spotBar").style.width="0%";
+    const concurrency=4;
+    for(let i=0;i<total;i+=concurrency){
+      if(!spotRunning && E("spotStop").disabled===false)break;
+      const batch=spotSymbols.slice(i,i+concurrency);
+      const out=await Promise.all(batch.map(async symbol=>{try{return await analyzeSpotFast(symbol,tf,{signal_mode:mode,minimum_probability:threshold})}catch(e){return null}}));
+      for(const p of out){done++;if(p){ok++;p._scanAt=Date.now();if(p.direction!=="NEUTRAL"){fireSpotAlert(p,threshold);if(p.probability>=threshold)hits.push(p)}}else fail++}
+      E("spotBar").style.width=((done/total)*100).toFixed(1)+"%";
+      E("spotStatus").textContent=`تم فحص ${done}/${total} · مطابق ${hits.length} · أخطاء ${fail}`;
+      if(i+concurrency<total)await new Promise(r=>setTimeout(r,120));
+    }
+    spotHits=hits.sort((a,b)=>b.probability-a.probability);S.spot_last_scan=Date.now();jsave(SK,S);saveSpotRuntime();renderSpotHits();
+    E("spotStatus").textContent=`اكتمل الفحص: ${ok}/${total} · فوق ${threshold}%: ${spotHits.length} · ${new Date().toLocaleTimeString('ar-SA')}`;
+  }catch(e){E("spotStatus").textContent="تعذر الاتصال مؤقتًا بعد محاولات تلقائية."}finally{spotBusy=false}
+}
+function startSpotScanner(fromRestore=false){
+  spotConfigFromUI();spotRunning=true;S.spot_running=true;jsave(SK,S);E("spotStart").disabled=true;E("spotStop").disabled=false;if(!fromRestore||!spotHits.length)runSpotScan();else E("spotStatus").textContent=`تمت استعادة حالة الماسح · آخر فحص ${S.spot_last_scan?new Date(S.spot_last_scan).toLocaleTimeString('ar-SA'):"—"}`;
+  clearInterval(spotTimer);spotTimer=setInterval(()=>{if(spotRunning)runSpotScan()},Math.max(1,S.spot_every_min)*60000);
+}
+function stopSpotScanner(){spotRunning=false;S.spot_running=false;jsave(SK,S);saveSpotRuntime();clearInterval(spotTimer);spotTimer=null;E("spotStart").disabled=false;E("spotStop").disabled=true;E("spotStatus").textContent="الماسح متوقف."}
+E("spotStart").onclick=()=>startSpotScanner(false);E("spotStop").onclick=stopSpotScanner;E("spotOnce").onclick=async()=>{const wasRunning=spotRunning;spotRunning=true;E("spotStop").disabled=false;await runSpotScan();spotRunning=wasRunning;E("spotStop").disabled=!spotRunning;E("spotStart").disabled=spotRunning};
+E("spotNotify").onclick=async()=>{if(!("Notification" in window))return toast("تنبيهات النظام غير مدعومة هنا");try{const p=await Notification.requestPermission();toast(p==="granted"?"تم تفعيل تنبيهات النظام ✅":"لم يتم السماح بالتنبيهات")}catch{toast("تعذر طلب إذن التنبيهات")}};
+function bar(label,v){v=+v||0;const p=Math.min(Math.abs(v),100)/2,left=v>=0?50:50-p;return`<div class="bar"><label>${label}</label><div class="track"><div class="fill" style="left:${left}%;width:${p}%;background:${v>=0?'var(--long)':'var(--short)'}"></div></div><div class="val num">${signed(v,0)}</div></div>`}
+const DIR_AR={LONG:"صعود / LONG",SHORT:"هبوط / SHORT",NEUTRAL:"محايد"};
+const ST_AR={VERY_HIGH:"قوية جدًا",HIGH:"قوية",MEDIUM:"متوسطة",LOW:"ضعيفة"};
+const MODE_AR={LONG_SHORT:"صعود + هبوط",LONG_ONLY:"صعود فقط",SHORT_ONLY:"هبوط فقط"};
+function sourceAr(s){return s==="EMPIRICAL"?"تاريخي (EMPIRICAL)":s==="HEURISTIC"?"تقديري (HEURISTIC)":s||"—"}
+function chip(cls,label,value){return`<span class="chip ${cls}">${label}: <b>${value}</b></span>`}
+function contextChips(p){
+  let x=[];
+  if(p.regime==="TRENDING")x.push(chip("good","حالة السوق",`اتجاهي ✓ · ADX ${p.regime_adx}`));
+  else if(p.regime==="RANGING")x.push(chip("warn","حالة السوق",`عرضي / متذبذب · ADX ${p.regime_adx}`));
+  else if(p.regime==="UNKNOWN")x.push(chip("","حالة السوق","غير محددة"));
+
+  if(p.direction!=="NEUTRAL" && p.mtf_status && p.mtf_status!=="NA"){
+    const tf=p.mtf_timeframe||"";
+    if(p.mtf_status==="AGREE")x.push(chip("good",`الفريم الأعلى ${tf}`,"متوافق ✓"));
+    else if(p.mtf_status==="DISAGREE")x.push(chip("bad",`الفريم الأعلى ${tf}`,"متعارض ✗"));
+    else x.push(chip("warn",`الفريم الأعلى ${tf}`,"محايد"));
+  }
+
+  if(p.direction!=="NEUTRAL" && isFin(p.funding_rate)){
+    const fp=p.funding_rate*100,txt=`${fp>=0?"+":""}${fp.toFixed(3)}%`;
+    if(p.funding_relation==="CROWDED")x.push(chip("warn","معدل التمويل",`${txt} · ازدحام في اتجاه الإشارة`));
+    else if(p.funding_relation==="OPPOSITE_CROWD")x.push(chip("good","معدل التمويل",`${txt} · الازدحام في الاتجاه المقابل`));
+    else x.push(chip("","معدل التمويل",txt));
+  }
+
+  if(p.direction!=="NEUTRAL" && isFin(p.oi_change_pct)){
+    const oi=`${p.oi_change_pct>=0?"+":""}${p.oi_change_pct.toFixed(2)}%`;
+    const price5=isFin(p.oi_price_change_pct)?`${p.oi_price_change_pct>=0?"+":""}${p.oi_price_change_pct.toFixed(2)}%`:"—";
+    let label="متوازن",cls="";
+    if(p.flow_kind==="NEW_LONGS"){label="مراكز جديدة تدعم الصعود";cls=p.flow_relation==="CONFIRM"?"good":"bad"}
+    else if(p.flow_kind==="NEW_SHORTS"){label="مراكز جديدة تدعم الهبوط";cls=p.flow_relation==="CONFIRM"?"good":"bad"}
+    else if(p.flow_kind==="SHORT_COVER"){label="إغلاق شورت / ضغط صاعد";cls=p.flow_relation==="SUPPORT"?"good":"warn"}
+    else if(p.flow_kind==="LONG_LIQUIDATION"){label="تصفية لونق / ضغط هابط";cls=p.flow_relation==="SUPPORT"?"good":"warn"}
+    x.push(chip(cls,"المراكز المفتوحة",`${oi} · السعر ${price5} · ${label}`));
+  }
+
+  const wr=isFin(p.recent_win_rate)?p.recent_win_rate:p.recent_all_win_rate;
+  const ns=p.recent_samples||p.recent_all_samples||0;
+  if(isFin(wr)){
+    const cls=wr>=60?"good":wr<45?"bad":"warn";
+    x.push(chip(cls,"الدقة الحديثة",`${wr.toFixed(0)}% · ${ns} إشارة`));
+  }
+
+  if(p.context_quality){
+    const q=p.context_quality;
+    const cls=q.code==="VERY_STRONG"||q.code==="STRONG"?"good":q.code==="WEAK"?"bad":q.code==="MIXED"?"warn":"";
+    x.push(chip(cls,"جودة السياق",q.label));
+  }
+  return x.length?`<div class="context-head">سياق السوق</div><div class="chips">${x.join("")}</div>`:"";
+}
+function card(p){
+  const mv=p.direction==="SHORT"?-Math.abs(p.expected_move_pct):Math.abs(p.expected_move_pct);
+  const room=p.room_pct>=900?"مفتوح":(+p.room_pct).toFixed(3)+"%";
+  const weak=p.confidence_ok===false?" weak":"";
+  const conf=p.confidence_ok===false?`<div class="confnote">الاحتمالية أقل من حد التنبيه (${S.minimum_probability}%)</div>`:"";
+  return`<div class="card ${p.direction}">
+    <div class="cardhead">
+      <div>
+        <div class="symln"><span class="symbol num">${esc(p.symbol)}</span><span class="tf">${esc(p.timeframe)}</span></div>
+        <div class="status" style="margin-top:2px">${sourceAr(p.probability_source)} · العينات ${p.calibration_samples||0}</div>
+      </div>
+      <div style="text-align:left"><span class="badge ${p.direction}${weak}">${DIR_AR[p.direction]||p.direction}</span>${conf}</div>
+    </div>
+    <div class="metrics">
+      <div class="m"><div class="k">الاحتمالية</div><div class="v num ${p.direction==='LONG'?'good':p.direction==='SHORT'?'bad':''}">${(+p.probability).toFixed(1)}%</div></div>
+      <div class="m"><div class="k">الدرجة (Score)</div><div class="v num">${signed(p.raw_score,1)}</div></div>
+      <div class="m"><div class="k">الحركة المتوقعة</div><div class="v num ${mv>=0?'good':'bad'}">${signed(mv,3)}%</div></div>
+      <div class="m"><div class="k">القوة</div><div class="v ${p.strength==='VERY_HIGH'?'gold':''}">${ST_AR[p.strength]||p.strength}</div></div>
+    </div>
+    <div class="details">
+      <div class="mini"><div class="k">السعر الحالي</div><div class="v num">${price(p.price)}</div></div>
+      <div class="mini"><div class="k">السعر المتوقع</div><div class="v num">${price(p.expected_price)}</div></div>
+      <div class="mini"><div class="k">أفق التوقع</div><div class="v num">${p.horizon_bars} شموع</div></div>
+      <div class="mini"><div class="k">المساحة (Room)</div><div class="v num">${room}</div></div>
+    </div>
+    <div class="bars">
+      ${bar('الاتجاه العام',p.trend)}
+      ${bar('الزخم',p.momentum)}
+      ${bar('الحجم',p.volume)}
+      ${bar('الهيكل',p.structure)}
+      ${bar('التذبذب',p.volatility)}
+    </div>
+    ${contextChips(p)}
+  </div>`
+}
+async function runExplore(){const symbol=E("sym").value.trim().toUpperCase(),tf=E("tf").value;E("sym").value=symbol;E("analyze").disabled=true;st("estatus",`<span class="spin"></span>جاري تحليل ${esc(symbol)} ${esc(tf)}...`);try{const p=await analyzeAny(symbol,tf);current=p;E("result").innerHTML=card(p);E("addWatch").disabled=false;E("refreshCur").disabled=false;st("estatus","تم التحليل · "+(backendOnline?"محرك Python على الباكند":"محرك المتصفح"),"ok");addHist(p,"explorer")}catch(e){current=null;E("result").innerHTML="";st("estatus",esc(e.message||e),"err")}finally{E("analyze").disabled=false}}
+E("analyze").onclick=runExplore;E("refreshCur").onclick=runExplore;E("sym").onkeydown=e=>{if(e.key==="Enter")runExplore()};
+function defaultWatch(a={}){return{id:a.id||uid(),symbol:(a.symbol||"BTCUSDT").toUpperCase(),timeframe:a.timeframe||"5m",signal_mode:a.signal_mode||S.signal_mode,min_probability:+(a.min_probability??S.minimum_probability),strong_probability:+(a.strong_probability??S.strong_probability),cooldown_bars:+(a.cooldown_bars??S.cooldown_bars),horizon_bars:+(a.horizon_bars??S.horizon_bars),min_score:+(a.min_score??S.minimum_absolute_score),telegram:a.telegram??true,enabled:a.enabled??true,last:a.last||null,updated_at:a.updated_at||null}}
+function openModal(a={},id=null){editing=id;const w=defaultWatch(a);E("mtitle").textContent=id?"تعديل المراقبة":"إضافة مراقبة";E("msym").value=w.symbol;E("mtf").value=w.timeframe;E("mmode").value=w.signal_mode;E("mprob").value=w.min_probability;E("mstrong").value=w.strong_probability;E("mcool").value=w.cooldown_bars;E("mhorizon").value=w.horizon_bars;E("mscore").value=w.min_score;E("mtg").value=w.telegram?"1":"0";E("menabled").value=w.enabled?"1":"0";E("modalbg").classList.add("show")}
+function closeM(){E("modalbg").classList.remove("show")}E("closeModal").onclick=closeM;E("cancelWatch").onclick=closeM;E("newWatch").onclick=()=>openModal();E("addWatch").onclick=()=>current&&openModal({symbol:current.symbol,timeframe:current.timeframe});
+E("saveWatch").onclick=async()=>{const w=defaultWatch({id:editing||undefined,symbol:E("msym").value.trim().toUpperCase(),timeframe:E("mtf").value,signal_mode:E("mmode").value,min_probability:+E("mprob").value,strong_probability:+E("mstrong").value,cooldown_bars:+E("mcool").value,horizon_bars:+E("mhorizon").value,min_score:+E("mscore").value,telegram:E("mtg").value==="1",enabled:E("menabled").value==="1"});if(w.strong_probability<w.min_probability)return toast("حد الإشارة القوية يجب أن يكون أكبر أو يساوي حد التنبيه");try{const i=watch.findIndex(x=>x.id===editing);if(i>=0)watch[i]={...watch[i],...w};else{if(watch.some(x=>x.symbol===w.symbol&&x.timeframe===w.timeframe))throw Error("هذه العملة والفريم محفوظان مسبقًا");watch.push(w)}jsave(WK,watch);startTimer();closeM();await refreshWatch();toast("تم الحفظ")}catch(e){toast(e.message||e)}};
+async function getWatch(){return watch}
+async function refreshWatch(scan=false){if(scan)st("wstatus",'<span class="spin"></span>جاري التحديث...');try{if(scan){await scanLocal()}const list=await getWatch();renderWatch(list);E("watchHint").textContent="مراقبة محلية: تعمل فقط والصفحة مفتوحة";if(scan)st("wstatus","اكتمل","ok")}catch(e){st("wstatus",esc(e.message||e),"err")}}
+function renderWatch(list){
+  if(!list.length){E("watchList").innerHTML='<div class="empty">لا توجد مراقبات محفوظة.<br>أضف ETHUSDT أو أي عملة تريد تنبيهًا لها.</div>';return}
+  E("watchList").innerHTML=list.map(w=>{
+    const p=w.last_prediction||w.last;
+    return`<div class="watchitem"><div class="watchtop">
+      <div>
+        <div class="watchname"><b class="num">${esc(w.symbol)}</b><span class="tf">${esc(w.timeframe)}</span>${p?`<span class="badge ${p.direction}">${DIR_AR[p.direction]||p.direction}</span>`:''}</div>
+        <div class="watchsub">${MODE_AR[w.signal_mode]||w.signal_mode} · تنبيه ≥ ${+w.min_probability}% · الأفق ${+w.horizon_bars} شموع · ${w.telegram?'تليجرام مفعّل':'تليجرام متوقف'}</div>
+      </div>
+      <div class="actions"><button class="switch ${w.enabled?'on':''}" onclick="toggleW('${w.id}',${!w.enabled})"></button><button class="btn tiny" onclick="editW('${w.id}')">✎</button><button class="btn tiny danger" onclick="delW('${w.id}')">×</button></div>
+    </div>${p?`<div class="lastgrid">
+      <div class="mini"><div class="k">الاحتمالية</div><div class="v num">${(+p.probability).toFixed(1)}%</div></div>
+      <div class="mini"><div class="k">الدرجة</div><div class="v num">${signed(p.raw_score,1)}</div></div>
+      <div class="mini"><div class="k">الحركة</div><div class="v num">${signed(p.direction==='SHORT'?-Math.abs(p.expected_move_pct):Math.abs(p.expected_move_pct),3)}%</div></div>
+      <div class="mini"><div class="k">آخر تحديث</div><div class="v">${w.updated_at?new Date(w.updated_at).toLocaleTimeString('ar-SA'):'—'}</div></div>
+    </div>`:''}</div>`
+  }).join('')
+}
+window.editW=async id=>{const l=await getWatch(),w=l.find(x=>String(x.id)===String(id));if(w)openModal(w,id)};window.delW=async id=>{if(!confirm("حذف المراقبة؟"))return;try{watch=watch.filter(x=>x.id!==id);jsave(WK,watch);refreshWatch()}catch(e){toast(e.message||e)}};window.toggleW=async(id,on)=>{try{const w=watch.find(x=>x.id===id);if(w){w.enabled=on;jsave(WK,watch)}refreshWatch()}catch(e){toast(e.message||e)}};E("scanWatch").onclick=()=>refreshWatch(true);
+async function scanLocal(){for(const w of watch.filter(x=>x.enabled)){try{const p=await analyzeAny(w.symbol,w.timeframe,{signal_mode:w.signal_mode,horizon_bars:w.horizon_bars,minimum_absolute_score:w.min_score,minimum_probability:w.min_probability});w.last=p;w.updated_at=Date.now();addHist(p,"watch")}catch(e){w.error=e.message}}jsave(WK,watch)}function startTimer(){clearInterval(watchTimer);if(!backendOnline&&watch.some(x=>x.enabled))watchTimer=setInterval(()=>scanLocal().then(()=>refreshWatch()),60000)}
+function addHist(p,source){const key=`${p.symbol}|${p.timeframe}|${p.bar_time}|${p.direction}`;if(hist.some(x=>x.key===key))return;hist.unshift({key,source,created_at:Date.now(),symbol:p.symbol,timeframe:p.timeframe,direction:p.direction,probability:p.probability,status:"PENDING",correct:null});hist=hist.slice(0,300);jsave(HK,hist)}async function getHist(){return hist}async function refreshHist(){
+  try{
+    const r=await getHist(),res=r.filter(x=>x.status==="RESOLVED"||x.correct===true||x.correct===false||x.correct===1||x.correct===0),
+      ok=res.filter(x=>x.correct===true||x.correct===1).length,acc=res.length?ok/res.length*100:0;
+    E("stats").innerHTML=[["الإجمالي",r.length],["تم تقييمها",res.length],["صحيحة",ok],["الدقة",acc.toFixed(1)+"%"]]
+      .map(x=>`<div class="stat"><div class="k">${x[0]}</div><div class="v num">${x[1]}</div></div>`).join('');
+    E("histList").innerHTML=r.length?r.map(x=>{
+      const cls=x.status==="PENDING"?"pending":(x.correct===true||x.correct===1)?"correct":"wrong",
+        state=x.status==="PENDING"?"بانتظار النتيجة":(x.correct===true||x.correct===1)?"صحيح":"خاطئ";
+      return`<div class="hist ${cls}">
+        <div><div class="mainv num">${esc(x.symbol)} <span class="tf">${esc(x.timeframe)}</span></div><div class="small">${new Date(x.created_at||Date.now()).toLocaleString('ar-SA')}</div></div>
+        <div><div class="small">الاتجاه</div><div class="mainv">${DIR_AR[x.direction]||esc(x.direction)}</div></div>
+        <div><div class="small">الاحتمالية</div><div class="mainv num">${(+x.probability).toFixed(1)}%</div></div>
+        <div class="hideM"><div class="small">النتيجة</div><div class="mainv">${state}</div></div>
+      </div>`
+    }).join(''):'<div class="empty">لا يوجد سجل بعد.</div>'
+  }catch(e){E("histList").innerHTML=`<div class="empty">${esc(e.message||e)}</div>`}
+}
+E("refreshHist").onclick=refreshHist;E("clearHist").onclick=()=>{if(confirm("مسح السجل المحلي؟")){hist=[];jsave(HK,hist);refreshHist()}};
+function fillSettings(){
+  E("backend").value=S.backendUrl||"";
+  E("dmode").value=S.signal_mode;E("dhorizon").value=S.horizon_bars;E("dscore").value=S.minimum_absolute_score;
+  E("dprob").value=S.minimum_probability;E("dstrong").value=S.strong_probability;E("dcool").value=S.cooldown_bars;
+  E("wt").value=CFG.components.trend.weight;E("wm").value=CFG.components.momentum.weight;E("wv").value=CFG.components.volume.weight;
+  E("ws").value=CFG.components.structure.weight;E("wvol").value=CFG.components.volatility.weight;
+  E("regimeOn").value=S.regime_enabled?"1":"0";E("adxThreshold").value=S.adx_threshold;
+  E("mtfOn").value=S.mtf_enabled?"1":"0";E("futuresOn").value=S.futures_enabled?"1":"0";
+  E("recentAccOn").value=S.recent_accuracy_enabled?"1":"0";E("recentLookback").value=S.recent_accuracy_lookback;
+}
+function collect(){
+  S.backendUrl=E("backend").value.trim().replace(/\/+$/,'');
+  S.signal_mode=E("dmode").value;S.horizon_bars=Math.max(1,+E("dhorizon").value||5);
+  S.minimum_absolute_score=clamp2(+E("dscore").value||25,0,100);
+  S.minimum_probability=clamp2(+E("dprob").value||70,50,99);
+  S.strong_probability=clamp2(+E("dstrong").value||85,S.minimum_probability,99);
+  S.cooldown_bars=Math.max(1,+E("dcool").value||3);
+  S.regime_enabled=E("regimeOn").value==="1";S.adx_threshold=clamp2(+E("adxThreshold").value||20,5,60);
+  S.mtf_enabled=E("mtfOn").value==="1";S.futures_enabled=E("futuresOn").value==="1";
+  S.recent_accuracy_enabled=E("recentAccOn").value==="1";S.recent_accuracy_lookback=clamp2(+E("recentLookback").value||400,100,1500);
+  CFG.context.regime_enabled=S.regime_enabled;CFG.context.adx_threshold=S.adx_threshold;
+  CFG.context.mtf_enabled=S.mtf_enabled;CFG.context.futures_enabled=S.futures_enabled;
+  CFG.context.recent_accuracy_enabled=S.recent_accuracy_enabled;CFG.context.recent_accuracy_lookback=S.recent_accuracy_lookback;
+  syncCFG();jsave(SK,S)
+}
+E("saveSet").onclick=async()=>{collect();await checkBackend(false);startTimer();toast("تم حفظ الإعدادات")};E("testBackend").onclick=async()=>{collect();await checkBackend(true)};E("testTg").onclick=async()=>{if(!backendOnline)return toast("اربط الباكند أولًا");try{await api("/api/nextmove/test",{method:"POST",body:"{}"});E("tgstate").textContent="تم إرسال رسالة الاختبار ✅";toast("تليجرام يعمل")}catch(e){E("tgstate").textContent=e.message||e;toast("فشل تليجرام")}};
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));b.classList.add('active');E('p-'+b.dataset.p).classList.add('active');if(b.dataset.p==='watchlist'){refreshWatch();fillSpotSettings();renderSpotHits();}if(b.dataset.p==='history')refreshHist();if(b.dataset.p==='settings')fillSettings()});
+(async()=>{
+  CFG.context.regime_enabled=S.regime_enabled;CFG.context.adx_threshold=S.adx_threshold;
+  CFG.context.mtf_enabled=S.mtf_enabled;CFG.context.futures_enabled=S.futures_enabled;
+  CFG.context.recent_accuracy_enabled=S.recent_accuracy_enabled;CFG.context.recent_accuracy_lookback=S.recent_accuracy_lookback;
+  fillSettings();fillSpotSettings();startBinanceHeartbeat();await checkBackend(false);startTimer();refreshWatch();refreshHist();renderSpotHits();
+  if(S.spot_running)startSpotScanner(true);
+})();
+</script>
+
+<script>
+/*
+ * Next Move Scanners Add-on v3
+ * ------------------------------------------------------------
+ * Load this file AFTER the fixed Next Move core supplied by the user.
+ * It does not overwrite the core functions or storage keys.
+ *
+ * Adds:
+ * 1) Multi-timeframe Next Move monitor (Spot/USDT): 4h,6h,8h,12h,1d,3d,1w
+ * 2) LuxAlgo-style trendline breakout scanner on the same timeframes
+ *    with configurable detection window = last N CLOSED candles.
+ * 3) Ignition scanner kept on its original 30s-vs-90s activity model,
+ *    with HOT / IGNITION / LAUNCH thresholds unchanged.
+ * 4) Agreement monitor (NO scanner): combines the three visible result sets
+ *    and shows only symbols present in at least 2 of 3 sources.
+ * 5) Hourly UTC auto-check for (1) and (2), scheduled ~20 seconds after
+ *    the top of each hour. A timeframe is fully rescanned only when
+ *    Binance reports a newly closed candle for that timeframe.
+ * 6) Agreement-page master auto button: monitor + breakouts hourly, ignition continuous.
+ * 7) Agreement-only clear button and Telegram Chat ID / Bot Token settings.
+ */
+(() => {
+  'use strict';
+
+  if (window.NextMoveScannersAddon) return;
+
+  const X = id => document.getElementById(id);
+  const finite = Number.isFinite;
+  const FRAMES = ['4h','6h','8h','12h','1d','3d','1w'];
+  const FRAME_RANK = new Map(FRAMES.map((tf,i)=>[tf,i]));
+  const HOUR = 3600000;
+  const AUTO_DELAY_MS = 20000;
+
+  const KEYS = {
+    monitorRows: 'nmx_monitor_rows_v1',
+    monitorAuto: 'nmx_monitor_auto_v1',
+    breakoutRows: 'nmx_breakout_rows_v1',
+    breakoutAuto: 'nmx_breakout_auto_v1',
+    breakoutWindow: 'nmx_breakout_window_v1',
+    ignitionEvents: 'nmx_ignition_events_v1',
+    agreementCleared: 'nmx_agreement_cleared_v1',
+    addonSettings: 'nmx_addon_settings_v1',
+    globalAuto: 'nmx_global_auto_v1'
+  };
+
+  const load = (key, fallback) => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw == null ? fallback : JSON.parse(raw);
+    } catch {
+      return fallback;
+    }
+  };
+  const save = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch { return false; }
+  };
+  const clearKey = key => { try { localStorage.removeItem(key); } catch {} };
+  const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const number = v => finite(+v) ? (+v).toLocaleString('en-US',{useGrouping:false,maximumFractionDigits:+v>=100?2:+v>=1?4:8}) : '—';
+  const stamp = t => finite(+t) ? new Date(+t).toLocaleString('ar-SA',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}) : '—';
+  const timeOnly = t => finite(+t) ? new Date(+t).toLocaleTimeString('ar-SA') : '—';
+
+  function injectStyles(){
+    const style = document.createElement('style');
+    style.id = 'nmx-addon-style';
+    style.textContent = `
+      .navin{grid-template-columns:repeat(7,minmax(68px,1fr));overflow-x:auto;scrollbar-width:thin}
+      .nmx-frame-list{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+      .nmx-frame{font-size:9px;padding:4px 7px;border:1px solid var(--line);border-radius:999px;background:#0f151e;color:var(--muted)}
+      .nmx-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+      .nmx-table{width:100%;min-width:720px;border-collapse:collapse}
+      .nmx-table th,.nmx-table td{padding:8px 6px;border-bottom:1px solid var(--line);font-size:10px;text-align:right;vertical-align:middle}
+      .nmx-table th{font-size:9px;color:var(--muted);background:var(--surface);position:sticky;top:0;z-index:1}
+      .nmx-table tbody tr:last-child td{border-bottom:0}
+      .nmx-progress{height:6px;background:var(--surface2);border-radius:999px;overflow:hidden;margin-top:8px}
+      .nmx-progress>div{height:100%;width:0%;background:var(--gold);transition:width .15s linear}
+      .nmx-status{font-size:9px;color:var(--muted);line-height:1.7;margin-top:6px;min-height:14px}
+      .nmx-status.err{color:var(--short)} .nmx-status.ok{color:var(--long)}
+      .nmx-inline{display:flex;gap:6px;align-items:end;flex-wrap:wrap}
+      .nmx-inline .field{min-width:140px;flex:1}
+      .nmx-badge{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:750;white-space:nowrap}
+      .nmx-badge.long,.nmx-badge.up,.nmx-badge.launch{background:var(--longdim);color:var(--long)}
+      .nmx-badge.short,.nmx-badge.down{background:var(--shortdim);color:var(--short)}
+      .nmx-badge.hot{background:#4a3a15;color:#f4c34f}.nmx-badge.ignition{background:#4b2b1f;color:#ff9a63}
+      .nmx-badge.two{background:#403718;color:#f0c54f}.nmx-badge.three{background:var(--longdim);color:var(--long)}
+      .nmx-note{font-size:9px;color:var(--muted);line-height:1.8;margin-top:7px}
+      .nmx-count{font-size:9px;color:var(--muted)}
+      .nmx-chart-symbol{border:0;background:none;color:var(--blue);font-weight:750;padding:3px 0;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+      .nmx-chart-symbol:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
+      html,body{width:100%;max-width:100%;overflow-x:hidden}
+      body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+      header{padding-top:calc(12px + env(safe-area-inset-top,0px));padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+      main{width:100%;max-width:820px;padding-left:max(7px,env(safe-area-inset-left,0px));padding-right:max(7px,env(safe-area-inset-right,0px))}
+      nav{height:calc(58px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+      .nmx-table-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+      .nmx-chart-modal{width:min(1080px,100%);max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 24px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:14px}
+      #nmxChartBg{align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 12px) max(6px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 8px) max(6px,env(safe-area-inset-left,0px));overflow:hidden}
+      #nmxChartBg .modalhead{position:sticky;top:0;z-index:8;background:var(--surface);min-height:46px;padding:3px 0 6px;margin-bottom:5px;border-bottom:1px solid var(--line)}
+      #nmxChartClose{width:42px;height:42px;min-width:42px;display:flex;align-items:center;justify-content:center;font-size:28px;line-height:1;border-radius:10px;background:var(--surface2)}
+      .nmx-chart-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:3px 0 8px}
+      .nmx-chart-tools select{width:auto;min-width:82px}
+      .nmx-chart-legend{display:flex;flex-wrap:wrap;gap:5px 11px;font-size:9px;color:var(--muted);margin:8px 0;direction:rtl}
+      .nmx-chart-view{width:100%;min-height:330px}
+      .nmx-chart-view svg{display:block;width:100%;height:auto;direction:ltr;background:#0b1018;border:1px solid var(--line);border-radius:8px}
+      @media(max-width:520px){
+        .navin{grid-template-columns:repeat(7,minmax(64px,1fr))}
+        .nmx-inline .field{min-width:120px}
+        .nmx-table{min-width:650px}
+        #nmxChartBg{padding-top:calc(env(safe-area-inset-top,0px) + 14px)}
+        .nmx-chart-modal{width:100%;padding:7px;max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 26px)}
+        .nmx-chart-view{min-height:260px}
+        .nmx-chart-legend{font-size:8px;gap:4px 7px}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function pageSection(id, html){
+    const section = document.createElement('section');
+    section.id = id;
+    section.className = 'page';
+    section.innerHTML = html;
+    document.querySelector('main').appendChild(section);
+    return section;
+  }
+
+  function addNavButton(beforeDataP, dataP, icon, label){
+    const nav = document.querySelector('.navin');
+    const b = document.createElement('button');
+    b.className = 'navbtn';
+    b.dataset.p = dataP;
+    b.innerHTML = `<i>${icon}</i>${label}`;
+    const before = [...nav.querySelectorAll('.navbtn')].find(x => x.dataset.p === beforeDataP);
+    nav.insertBefore(b, before || null);
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      X('p-'+dataP)?.classList.add('active');
+      if(dataP==='breakouts') renderBreakout();
+      if(dataP==='ignition') renderIgnition();
+      if(dataP==='agreement') renderAgreement();
+    });
+    return b;
+  }
+
+  function injectUI(){
+    // Multi-timeframe monitor is added to the existing Watch page without changing the core markup.
+    const watchPage = X('p-watchlist');
+    const firstPanel = watchPage?.querySelector('.panel');
+    if(firstPanel){
+      const monitorPanel = document.createElement('div');
+      monitorPanel.className = 'panel';
+      monitorPanel.id = 'nmx-monitor-panel';
+      monitorPanel.innerHTML = `
+        <div class="title"><h2>جدول المراقبة متعدد الفريمات — Next Move Spot</h2><span class="hint">إضافة مستقلة · تستخدم analyzePrediction الأصلي</span></div>
+        <div class="nmx-frame-list">${FRAMES.map(tf=>`<span class="nmx-frame num">${tf}</span>`).join('')}</div>
+        <div class="tools" style="margin-top:0">
+          <button id="nmxMonScan" class="btn primary">▶ فحص كل الفريمات</button>
+          <button id="nmxMonAuto" class="btn">⟳ تشغيل تلقائي كل ساعة</button>
+          <button id="nmxMonStop" class="btn danger" disabled>■ إيقاف التلقائي</button>
+          <button id="nmxMonClear" class="btn danger">مسح كامل الجدول</button>
+        </div>
+        <div class="nmx-progress"><div id="nmxMonBar"></div></div>
+        <div id="nmxMonStatus" class="nmx-status">جاهز. يستخدم حد الاحتمالية والاتجاه الموجودين في ماسح Spot الأساسي.</div>
+        <div class="nmx-note">التلقائي يتحقق كل ساعة بتوقيت UTC بعد الدقيقة 00 بـ 20 ثانية، ولا يعيد مسح فريم إلا إذا ظهرت شمعة Binance مغلقة جديدة له.</div>
+      `;
+      const tablePanel = document.createElement('div');
+      tablePanel.className = 'panel';
+      tablePanel.id = 'nmx-monitor-table-panel';
+      tablePanel.innerHTML = `
+        <div class="title"><h2>نتائج المراقبة</h2><span id="nmxMonCount" class="nmx-count">0 نتيجة</span></div>
+        <div id="nmxMonEmpty" class="empty">لا توجد نتائج محفوظة بعد.</div>
+        <div id="nmxMonTableWrap" class="nmx-table-wrap" hidden><table class="nmx-table"><thead><tr><th>العملة</th><th>الفريم</th><th>الاتجاه</th><th>الاحتمالية</th><th>Score</th><th>إغلاق الشمعة</th><th>آخر فحص</th></tr></thead><tbody id="nmxMonRows"></tbody></table></div>
+      `;
+      firstPanel.insertAdjacentElement('afterend', tablePanel);
+      firstPanel.insertAdjacentElement('afterend', monitorPanel);
+    }
+
+    pageSection('p-breakouts', `
+      <div class="panel">
+        <div class="title"><h2>اختراقات خطوط الاتجاه — Spot / USDT</h2><span class="hint">LuxAlgo 24 / 1.4 / ATR</span></div>
+        <div class="nmx-inline">
+          <div class="field"><label>اكتشاف الاختراق خلال آخر N شمعة مغلقة</label><input id="nmxBreakWindow" type="number" min="1" max="50" step="1" value="1"></div>
+        </div>
+        <div class="nmx-frame-list">${FRAMES.map(tf=>`<span class="nmx-frame num">${tf}</span>`).join('')}</div>
+        <div class="tools">
+          <button id="nmxBreakScan" class="btn primary">▶ فحص كل الفريمات</button>
+          <button id="nmxBreakAuto" class="btn">⟳ تشغيل تلقائي كل ساعة</button>
+          <button id="nmxBreakStop" class="btn danger" disabled>■ إيقاف التلقائي</button>
+          <button id="nmxBreakClear" class="btn danger">مسح كامل الجدول</button>
+        </div>
+        <div class="nmx-progress"><div id="nmxBreakBar"></div></div>
+        <div id="nmxBreakStatus" class="nmx-status">جاهز.</div>
+        <div class="nmx-note">قيمة 1 = آخر شمعة مغلقة فقط. قيمة 3 = آخر 3 شمعات مغلقة. قيمة 7 = آخر 7 شمعات مغلقة. الشمعة الجارية لا تدخل في الاكتشاف.</div>
+      </div>
+      <div class="panel">
+        <div class="title"><h2>جدول الاختراقات</h2><span id="nmxBreakCount" class="nmx-count">0 إشارة</span></div>
+        <div id="nmxBreakEmpty" class="empty">لا توجد اختراقات محفوظة بعد.</div>
+        <div id="nmxBreakTableWrap" class="nmx-table-wrap" hidden><table class="nmx-table"><thead><tr><th>العملة</th><th>الفريم</th><th>الإشارة</th><th>موقع الشمعة</th><th>سعر الإغلاق</th><th>وقت إغلاق شمعة الاختراق</th></tr></thead><tbody id="nmxBreakRows"></tbody></table></div>
+      </div>
+    `);
+
+    pageSection('p-ignition', `
+      <div class="panel">
+        <div class="title"><h2>ماسح الاشتعال اللحظي</h2><span class="hint">كما هو: آخر 30ث مقابل متوسط 90ث السابقة</span></div>
+        <div class="tools" style="margin-top:0">
+          <button id="nmxIgnStart" class="btn primary">▶ تشغيل الاشتعال</button>
+          <button id="nmxIgnStop" class="btn danger" disabled>■ إيقاف</button>
+          <button id="nmxIgnClear" class="btn danger">مسح كامل الجدول</button>
+        </div>
+        <div id="nmxIgnStatus" class="nmx-status">الماسح متوقف.</div>
+      </div>
+      <div class="panel"><div class="title"><h2>المرشحون الآن</h2><span id="nmxIgnCount" class="nmx-count">0</span></div><div id="nmxIgnCurrent"></div></div>
+      <div class="panel"><div class="title"><h2>سجل إشارات الاشتعال</h2><span class="hint">HOT / IGNITION / LAUNCH</span></div><div id="nmxIgnLog"></div></div>
+    `);
+
+    pageSection('p-agreement', `
+      <div class="panel">
+        <div class="title"><h2>التوافق — مراقب النتائج فقط</h2><span class="hint">لا يوجد محرك فحص خاص بهذه الصفحة</span></div>
+        <div class="nmx-note">تظهر العملة فقط عندما تكون موجودة في مصدرين على الأقل من: المراقبة، الاختراقات، الاشتعال الحالي. الاشتعال وحده لا يظهر كـ 1/3.</div>
+        <div class="tools">
+          <button id="nmxAgreementAuto" class="btn primary">▶ تشغيل التلقائي للجميع</button>
+          <button id="nmxAgreementRefresh" class="btn">↻ تحديث الجدول</button>
+          <button id="nmxAgreementClear" class="btn danger">مسح جدول التوافق</button>
+        </div>
+        <div id="nmxAgreementAutoStatus" class="nmx-status">الزر يشغّل مراقبة Next Move والاختراقات تلقائيًا كل ساعة، ويشغّل الاشتعال باستمرار.</div>
+      </div>
+      <div class="panel">
+        <div class="title"><h2>جدول التوافق</h2><span id="nmxAgreementCount" class="nmx-count">0 نتيجة</span></div>
+        <div id="nmxAgreementEmpty" class="empty">لا توجد عملة موجودة في مصدرين أو ثلاثة حاليًا.</div>
+        <div id="nmxAgreementTableWrap" class="nmx-table-wrap" hidden><table class="nmx-table"><thead><tr><th>العملة</th><th>التوافق</th><th>المراقبة / الفريمات</th><th>الاختراقات / الفريمات</th><th>الاشتعال الحالي</th><th>المصدر الغائب</th></tr></thead><tbody id="nmxAgreementRows"></tbody></table></div>
+      </div>
+    `);
+
+    const settingsPage=X('p-settings');
+    if(settingsPage){
+      const tgPanel=document.createElement('div');
+      tgPanel.className='panel';
+      tgPanel.id='nmx-telegram-settings';
+      tgPanel.innerHTML=`
+        <div class="title"><h2>Telegram — إعدادات الإضافة</h2><span class="hint">محفوظة محليًا على هذا المتصفح</span></div>
+        <div class="settings">
+          <div class="field"><label>Chat ID أو @اسم_القناة</label><input id="nmxTgChat" class="symInput" placeholder="@channel أو -100..."></div>
+          <div class="field"><label>Telegram Bot Token</label><input id="nmxTgToken" class="symInput" type="password" autocomplete="off" placeholder="123456:ABC..."></div>
+        </div>
+        <div class="tools"><button id="nmxTgSave" class="btn primary">حفظ إعدادات Telegram</button><button id="nmxTgClear" class="btn danger">مسح بيانات Telegram</button></div>
+        <div id="nmxTgStatus" class="nmx-status">لم يتم حفظ إعدادات الإضافة بعد.</div>
+        <div class="nmx-note">هذه النسخة تحفظ Chat ID وBot Token فقط لتستخدمهما تنبيهات الإضافة لاحقًا؛ لا يتم إرسال رسالة تلقائيًا من صفحة التوافق الآن.</div>
+      `;
+      const saveSet=X('saveSet');
+      if(saveSet&&saveSet.parentElement===settingsPage) settingsPage.insertBefore(tgPanel,saveSet); else settingsPage.appendChild(tgPanel);
+    }
+
+    document.body.insertAdjacentHTML('beforeend', `
+      <div id="nmxChartBg" class="modalbg" role="dialog" aria-modal="true" aria-labelledby="nmxChartTitle">
+        <div class="modal nmx-chart-modal">
+          <div class="modalhead">
+            <h3 id="nmxChartTitle">شارت Spot</h3>
+            <button id="nmxChartClose" class="x" type="button" aria-label="إغلاق الشارت">×</button>
+          </div>
+          <div class="nmx-chart-tools">
+            <label for="nmxChartTf" class="small">الفريم</label>
+            <select id="nmxChartTf">${FRAMES.map(tf=>`<option value="${tf}">${tf}</option>`).join('')}</select>
+            <button id="nmxChartRefresh" class="btn primary">↻ تحديث الشارت</button>
+          </div>
+          <div id="nmxChartInfo" class="nmx-note"></div>
+          <div id="nmxChartStatus" class="nmx-status"></div>
+          <div class="nmx-chart-legend">
+            <span style="color:#00897b">━ الترند العلوي</span>
+            <span style="color:#ff5252">━ الترند السفلي</span>
+            <span style="color:#e5b84b">━ EMA 50</span>
+            <span style="color:#b094f5">━ EMA 100</span>
+            <span style="color:#62b8ee">━ EMA 200</span>
+            <span>P = Next Move</span><span>B = اختراق</span><span>H/I/L = الاشتعال</span>
+          </div>
+          <div id="nmxChartView" class="nmx-chart-view"></div>
+        </div>
+      </div>
+    `);
+
+    addNavButton('history','breakouts','↗','الاختراقات');
+    addNavButton('history','ignition','♨','الاشتعال');
+    addNavButton('history','agreement','✓','التوافق');
+  }
+
+  // --------------------------- Shared Binance client ---------------------------
+  const net = {symbols:null,symbolsAt:0,offset:0,clockAt:0};
+
+  function abortError(){ return new DOMException('Aborted','AbortError'); }
+  function check(signal){ if(signal?.aborted) throw abortError(); }
+  function pause(ms, signal){
+    return new Promise((resolve,reject)=>{
+      check(signal);
+      const timer=setTimeout(()=>{signal?.removeEventListener('abort', stop);resolve();},ms);
+      const stop=()=>{clearTimeout(timer);reject(abortError());};
+      signal?.addEventListener('abort',stop,{once:true});
+    });
+  }
+
+  async function request(path, params={}, signal){
+    let lastError;
+    for(let attempt=0;attempt<4;attempt++){
+      check(signal);
+      const controller=new AbortController();
+      const stop=()=>controller.abort();
+      signal?.addEventListener('abort',stop,{once:true});
+      const timeout=setTimeout(()=>controller.abort(),18000);
+      try{
+        const url='https://api.binance.com/api/v3/'+path+(Object.keys(params).length?'?'+new URLSearchParams(params):'');
+        const r=await fetch(url,{signal:controller.signal,cache:'no-store'});
+        if(!r.ok){
+          const e=new Error('Binance Spot HTTP '+r.status); e.status=r.status;
+          e.retryable=r.status===408||r.status===425||r.status===429||r.status>=500;
+          const ra=Number(r.headers.get('Retry-After')); e.retryAfter=finite(ra)?ra:0;
+          throw e;
+        }
+        const data=await r.json();
+        if(typeof setBinanceLamp==='function') setBinanceLamp(true);
+        check(signal);
+        return data;
+      }catch(e){
+        if(signal?.aborted) throw abortError();
+        lastError=e.name==='AbortError'?new Error('انتهت مهلة الاتصال بـ Binance Spot'):e;
+        if(lastError.status===418 || lastError.retryable===false || attempt===3) break;
+        const wait=Math.max(500*2**attempt,(lastError.retryAfter||0)*1000);
+        await pause(Math.min(wait,12000),signal);
+      }finally{
+        clearTimeout(timeout); signal?.removeEventListener('abort',stop);
+      }
+    }
+    if(typeof setBinanceLamp==='function') setBinanceLamp(false);
+    throw lastError || new Error('تعذر الاتصال بـ Binance Spot');
+  }
+
+  async function serverNow(signal, force=false){
+    if(force || Date.now()-net.clockAt>60000){
+      const before=Date.now();
+      const d=await request('time',{},signal);
+      if(!finite(+d.serverTime)) throw Error('وقت Binance غير صالح');
+      net.offset=+d.serverTime-(before+Date.now())/2;
+      net.clockAt=Date.now();
+    }
+    return Math.round(Date.now()+net.offset);
+  }
+
+  async function symbols(signal){
+    if(net.symbols && Date.now()-net.symbolsAt<3600000) return net.symbols;
+    const d=await request('exchangeInfo',{},signal);
+    if(!Array.isArray(d.symbols)) throw Error('قائمة العملات غير صالحة');
+    net.symbols=[...new Set(d.symbols.filter(x=>x.status==='TRADING'&&x.quoteAsset==='USDT'&&x.isSpotTradingAllowed!==false).map(x=>x.symbol))];
+    net.symbolsAt=Date.now();
+    if(!net.symbols.length) throw Error('لا توجد أزواج Spot / USDT متاحة');
+    return net.symbols;
+  }
+
+  async function candles(symbol, tf, bars, asOf, signal){
+    const data=await request('klines',{symbol,interval:tf,limit:String(Math.min(1000,bars+2)),endTime:String(asOf-1)},signal);
+    if(!Array.isArray(data)) throw Error('استجابة شموع غير صالحة');
+    const rows=data.map(k=>({openTime:+k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5],closeTime:+k[6],takerBuyBase:+k[9]}));
+    return rows.filter(c=>[c.openTime,c.open,c.high,c.low,c.close,c.volume,c.closeTime,c.takerBuyBase].every(finite)&&c.close>0&&c.closeTime<asOf).slice(-bars);
+  }
+
+  async function latestClosedBar(tf, asOf, signal){
+    const c=await candles('BTCUSDT',tf,2,asOf,signal);
+    if(!c.length) throw Error('لا توجد شمعة مغلقة لـ '+tf);
+    return c[c.length-1];
+  }
+
+  function cloneCfg(){
+    return JSON.parse(JSON.stringify(CFG));
+  }
+
+  // --------------------------- Generic hourly auto scheduler ---------------------------
+  const autoState = {
+    monitor:{enabled:false,timer:null,busy:false,controller:null,lastBars:{}},
+    breakout:{enabled:false,timer:null,busy:false,controller:null,lastBars:{}}
+  };
+
+  function nextHourlyLocalDelay(){
+    const now=Date.now()+net.offset;
+    const base=Math.floor(now/HOUR)*HOUR;
+    const candidate=base+AUTO_DELAY_MS;
+    const next=now<candidate?candidate:base+HOUR+AUTO_DELAY_MS;
+    return Math.max(1000,next-now);
+  }
+
+  function autoStorage(kind){ return kind==='monitor'?KEYS.monitorAuto:KEYS.breakoutAuto; }
+  function statusId(kind){ return kind==='monitor'?'nmxMonStatus':'nmxBreakStatus'; }
+
+  async function baselineAuto(kind){
+    const state=autoState[kind];
+    const controller=new AbortController(); state.controller=controller;
+    try{
+      const at=await serverNow(controller.signal,true);
+      for(const tf of FRAMES){
+        const bar=await latestClosedBar(tf,at,controller.signal);
+        state.lastBars[tf]=bar.closeTime;
+      }
+      save(autoStorage(kind),{enabled:true,lastBars:state.lastBars});
+      const el=X(statusId(kind)); if(el) el.textContent='التلقائي مفعّل · تمت مزامنة آخر الشموع · الفحص القادم بعد أول إغلاق جديد.';
+    } finally {
+      if(state.controller===controller) state.controller=null;
+    }
+  }
+
+  function scheduleAuto(kind){
+    const state=autoState[kind];
+    clearTimeout(state.timer); state.timer=null;
+    if(!state.enabled) return;
+    state.timer=setTimeout(async()=>{
+      try{ await autoTick(kind); } finally { if(state.enabled) scheduleAuto(kind); }
+    }, nextHourlyLocalDelay());
+  }
+
+  async function startAuto(kind){
+    const state=autoState[kind];
+    if(state.enabled) return;
+    state.enabled=true; updateAutoButtons(kind); save(autoStorage(kind),{enabled:true,lastBars:state.lastBars});
+    try{ await baselineAuto(kind); }catch(e){
+      const el=X(statusId(kind)); if(el){el.className='nmx-status err';el.textContent='تعذر مزامنة التلقائي: '+(e.message||e);}
+    }
+    scheduleAuto(kind);
+  }
+
+  function stopAuto(kind){
+    const state=autoState[kind];
+    state.enabled=false; clearTimeout(state.timer); state.timer=null; state.controller?.abort(); state.controller=null;
+    save(autoStorage(kind),{enabled:false,lastBars:state.lastBars}); save(KEYS.globalAuto,{enabled:false}); updateAutoButtons(kind);
+    const el=X(statusId(kind)); if(el){el.className='nmx-status';el.textContent='المسح التلقائي متوقف.';}
+  }
+
+  function updateAutoButtons(kind){
+    const state=autoState[kind];
+    const p=kind==='monitor'?'nmxMon':'nmxBreak';
+    if(X(p+'Auto')) X(p+'Auto').disabled=state.enabled;
+    if(X(p+'Stop')) X(p+'Stop').disabled=!state.enabled;
+    updateAgreementAutoButton();
+  }
+
+  async function autoTick(kind){
+    const state=autoState[kind];
+    const runtime=kind==='monitor'?monitorRuntime:breakoutRuntime;
+    if(!state.enabled||state.busy||runtime.busy) return;
+    state.busy=true;
+    const controller=new AbortController(); state.controller=controller;
+    try{
+      const at=await serverNow(controller.signal,true), due=[];
+      for(const tf of FRAMES){
+        const bar=await latestClosedBar(tf,at,controller.signal);
+        if(!finite(state.lastBars[tf]) || bar.closeTime>state.lastBars[tf]) due.push({tf,closeTime:bar.closeTime});
+      }
+      if(!due.length){
+        const el=X(statusId(kind)); if(el){el.className='nmx-status ok';el.textContent='فحص الساعة: لا توجد شموع جديدة للفريمات المحددة · '+stamp(at);}
+        return;
+      }
+      for(const item of due){
+        if(kind==='monitor') await scanMonitorFrame(item.tf,at,controller.signal,true);
+        else await scanBreakoutFrame(item.tf,at,controller.signal,true);
+        state.lastBars[item.tf]=item.closeTime;
+        save(autoStorage(kind),{enabled:state.enabled,lastBars:state.lastBars});
+      }
+    }catch(e){
+      if(e.name!=='AbortError'){
+        const el=X(statusId(kind)); if(el){el.className='nmx-status err';el.textContent='فشل فحص الساعة: '+(e.message||e);}
+      }
+    }finally{
+      state.busy=false;
+      if(state.controller===controller) state.controller=null;
+    }
+  }
+
+  function chartSymbolButton(symbol,tf='4h'){
+    const safeTf=FRAMES.includes(tf)?tf:'4h';
+    return `<button type="button" class="nmx-chart-symbol num" data-nmx-chart-symbol="${escapeHtml(symbol)}" data-nmx-chart-tf="${escapeHtml(safeTf)}" aria-label="فتح شارت ${escapeHtml(symbol)} ${escapeHtml(safeTf)}">${escapeHtml(symbol)}</button>`;
+  }
+
+  // --------------------------- Multi-timeframe Next Move monitor ---------------------------
+  let monitorRows = (Array.isArray(load(KEYS.monitorRows,[]))?load(KEYS.monitorRows,[]):[]).filter(r=>r&&typeof r.symbol==='string'&&FRAMES.includes(r.timeframe));
+  const monitorRuntime={busy:false,controller:null};
+
+  function monitorSettings(){
+    const threshold=Math.max(50,Math.min(99,Number(X('spotProb')?.value||S.spot_probability||70)));
+    const mode=String(X('spotMode')?.value||S.spot_mode||S.signal_mode||'LONG_SHORT');
+    const cfg=cloneCfg();
+    cfg.prediction.signal_mode=['LONG_SHORT','LONG_ONLY','SHORT_ONLY'].includes(mode)?mode:'LONG_SHORT';
+    cfg.prediction.minimum_probability=threshold;
+    return {threshold,mode,cfg};
+  }
+
+  function renderMonitor(){
+    const rows=[...monitorRows].sort((a,b)=>(FRAME_RANK.get(a.timeframe)-FRAME_RANK.get(b.timeframe))||(b.probability-a.probability)||a.symbol.localeCompare(b.symbol));
+    if(X('nmxMonCount')) X('nmxMonCount').textContent=rows.length+' نتيجة';
+    if(X('nmxMonEmpty')) X('nmxMonEmpty').hidden=rows.length>0;
+    if(X('nmxMonTableWrap')) X('nmxMonTableWrap').hidden=rows.length===0;
+    if(X('nmxMonRows')) X('nmxMonRows').innerHTML=rows.map(r=>`<tr>
+      <td>${chartSymbolButton(r.symbol,r.timeframe)}</td><td class="num">${escapeHtml(r.timeframe)}</td>
+      <td><span class="nmx-badge ${r.direction==='LONG'?'long':'short'}">${r.direction}</span></td>
+      <td class="num">${(+r.probability).toFixed(1)}%</td><td class="num">${(+r.raw_score).toFixed(1)}</td>
+      <td>${stamp(r.closeTime)}</td><td>${stamp(r.scanAt)}</td></tr>`).join('');
+  }
+
+  function commitMonitorFrame(tf,hits){
+    monitorRows=monitorRows.filter(r=>r.timeframe!==tf).concat(hits);
+    save(KEYS.monitorRows,monitorRows); renderMonitor();
+    document.dispatchEvent(new CustomEvent('nmp:monitor-results',{detail:{rows:[...monitorRows]}}));
+  }
+
+  async function scanMonitorFrame(tf,at,signal,auto=false){
+    const list=await symbols(signal),{threshold,cfg}=monitorSettings();
+    let done=0,fail=0; const hits=[]; const concurrency=4;
+    for(let i=0;i<list.length;i+=concurrency){
+      check(signal); const batch=list.slice(i,i+concurrency);
+      const results=await Promise.allSettled(batch.map(async symbol=>{
+        const c=await candles(symbol,tf,500,at,signal);
+        if(c.length<210) return null;
+        const p=analyzePrediction(c,cfg,symbol,tf);
+        if(p.direction==='NEUTRAL'||p.probability<threshold) return null;
+        return {...p,closeTime:c[c.length-1].closeTime,scanAt:at};
+      }));
+      for(const r of results){done++;if(r.status==='fulfilled'){if(r.value)hits.push(r.value)}else fail++;}
+      if(X('nmxMonBar')) X('nmxMonBar').style.width=(done/list.length*100).toFixed(1)+'%';
+      if(X('nmxMonStatus')) X('nmxMonStatus').textContent=`${auto?'تلقائي · ':''}${tf} · فُحص ${done}/${list.length} · مطابق ${hits.length} · أخطاء ${fail}`;
+      if(i+concurrency<list.length) await pause(120,signal);
+    }
+    commitMonitorFrame(tf,hits);
+    if(X('nmxMonStatus')){X('nmxMonStatus').className='nmx-status ok';X('nmxMonStatus').textContent=`اكتمل ${tf}: ${list.length-fail}/${list.length} · نتائج ${hits.length} · ${stamp(at)}`;}
+    return hits;
+  }
+
+  async function scanMonitorAll(){
+    if(monitorRuntime.busy) return;
+    monitorRuntime.busy=true; const controller=new AbortController(); monitorRuntime.controller=controller;
+    X('nmxMonScan').disabled=true; if(X('nmxMonBar')) X('nmxMonBar').style.width='0%';
+    try{
+      const at=await serverNow(controller.signal,true);
+      for(let i=0;i<FRAMES.length;i++){
+        const tf=FRAMES[i];
+        await scanMonitorFrame(tf,at,controller.signal,false);
+        const bar=await latestClosedBar(tf,at,controller.signal); autoState.monitor.lastBars[tf]=bar.closeTime;
+        save(KEYS.monitorAuto,{enabled:autoState.monitor.enabled,lastBars:autoState.monitor.lastBars});
+        if(X('nmxMonBar')) X('nmxMonBar').style.width=((i+1)/FRAMES.length*100).toFixed(1)+'%';
+      }
+      X('nmxMonStatus').className='nmx-status ok';X('nmxMonStatus').textContent='اكتمل فحص جميع الفريمات · '+stamp(at);
+    }catch(e){
+      if(e.name!=='AbortError'){X('nmxMonStatus').className='nmx-status err';X('nmxMonStatus').textContent=e.message||e;}
+    }finally{
+      monitorRuntime.busy=false; monitorRuntime.controller=null; X('nmxMonScan').disabled=false;
+    }
+  }
+
+  function clearMonitor(){
+    monitorRuntime.controller?.abort(); monitorRuntime.controller=null; monitorRuntime.busy=false;
+    stopAuto('monitor');
+    monitorRows=[]; clearKey(KEYS.monitorRows); renderMonitor();
+    if(X('nmxMonBar')) X('nmxMonBar').style.width='0%';
+    X('nmxMonStatus').className='nmx-status';X('nmxMonStatus').textContent='تم مسح كامل جدول المراقبة والنتائج المحفوظة.';
+    document.dispatchEvent(new CustomEvent('nmp:monitor-results',{detail:{rows:[]}}));
+  }
+
+  // --------------------------- Trendline Breakouts ---------------------------
+  const TL=Object.freeze({length:24,mult:1.4,method:'Atr',backpaint:true,showExt:true,upColor:'#00897b',downColor:'#ff5252'});
+  let breakoutRows=(Array.isArray(load(KEYS.breakoutRows,[]))?load(KEYS.breakoutRows,[]):[]).filter(r=>r&&typeof r.symbol==='string'&&FRAMES.includes(r.timeframe));
+  const breakoutRuntime={busy:false,controller:null};
+
+  function rma(values,length){
+    const out=new Array(values.length).fill(NaN);let sum=0,prev=NaN;
+    for(let i=0;i<values.length;i++){
+      if(i<length){sum+=values[i];if(i===length-1)out[i]=prev=sum/length;}
+      else out[i]=prev=(prev*(length-1)+values[i])/length;
+    }
+    return out;
+  }
+
+  function pivot(cs,index,length,field,high){
+    if(index<2*length) return null;
+    const center=index-length,value=cs[center][field];
+    for(let j=center-length;j<=index;j++){
+      if(j===center) continue;
+      const v=cs[j][field];
+      if(high?(v>value||(j>center&&v===value)):(v<value||(j>center&&v===value))) return null;
+    }
+    return value;
+  }
+
+  function trendlineCalc(cs){
+    const length=TL.length,mult=TL.mult;
+    const tr=cs.map((c,i)=>i?Math.max(c.high-c.low,Math.abs(c.high-cs[i-1].close),Math.abs(c.low-cs[i-1].close)):c.high-c.low);
+    const atr=rma(tr,length),out=[];
+    let upper=0,lower=0,slopePh=0,slopePl=0,upos=0,dnos=0,highPivot=null,lowPivot=null;
+    for(let i=0;i<cs.length;i++){
+      const c=cs[i],ph=pivot(cs,i,length,'high',true),pl=pivot(cs,i,length,'low',false),slope=atr[i]/length*mult;
+      const previousUp=upos,previousDown=dnos;
+      if(ph!==null){slopePh=slope;highPivot={index:i-length,confirmedIndex:i,value:ph,slope};}
+      if(pl!==null){slopePl=slope;lowPivot={index:i-length,confirmedIndex:i,value:pl,slope};}
+      upper=ph!==null?ph:upper-slopePh;
+      lower=pl!==null?pl:lower+slopePl;
+      const upperSignal=upper-slopePh*length,lowerSignal=lower+slopePl*length;
+      upos=ph!==null?0:c.close>upperSignal?1:upos;
+      dnos=pl!==null?0:c.close<lowerSignal?1:dnos;
+      out.push({index:i,candle:c,ph,pl,upper,lower,upperSignal,lowerSignal,slopePh,slopePl,highPivot,lowPivot,
+        upBreak:i>0&&highPivot!==null&&upos>previousUp,
+        downBreak:i>0&&lowPivot!==null&&dnos>previousDown});
+    }
+    return out;
+  }
+
+  function breakoutWindow(){
+    const input=X('nmxBreakWindow');
+    const n=Math.max(1,Math.min(50,Math.trunc(Number(input?.value)||1)));
+    if(input) input.value=n; save(KEYS.breakoutWindow,n); return n;
+  }
+
+  function renderBreakout(){
+    const rows=[...breakoutRows].sort((a,b)=>(FRAME_RANK.get(a.timeframe)-FRAME_RANK.get(b.timeframe))||(b.closeTime-a.closeTime)||a.symbol.localeCompare(b.symbol));
+    if(X('nmxBreakCount')) X('nmxBreakCount').textContent=rows.length+' إشارة';
+    if(X('nmxBreakEmpty')) X('nmxBreakEmpty').hidden=rows.length>0;
+    if(X('nmxBreakTableWrap')) X('nmxBreakTableWrap').hidden=rows.length===0;
+    if(X('nmxBreakRows')) X('nmxBreakRows').innerHTML=rows.map(r=>`<tr>
+      <td>${chartSymbolButton(r.symbol,r.timeframe)}</td><td class="num">${escapeHtml(r.timeframe)}</td>
+      <td><span class="nmx-badge ${r.direction==='UP'?'up':'down'}">${r.direction==='UP'?'اختراق صاعد':'كسر هابط'}</span></td>
+      <td>${r.age===0?'آخر شمعة مغلقة':`قبل ${r.age} شمعة`}</td><td class="num">${number(r.price)}</td><td>${stamp(r.closeTime)}</td></tr>`).join('');
+  }
+
+  function breakoutFromCandles(symbol,tf,cs,n){
+    if(cs.length<TL.length*2+2) return [];
+    const values=trendlineCalc(cs), rows=[], start=Math.max(0,values.length-n);
+    for(let i=start;i<values.length;i++){
+      const v=values[i],c=cs[i],age=values.length-1-i;
+      if(v.upBreak) rows.push({symbol,timeframe:tf,direction:'UP',barTime:c.openTime,closeTime:c.closeTime,price:c.close,level:v.upperSignal,slope:v.slopePh,age,params:{length:24,mult:1.4,method:'Atr'}});
+      if(v.downBreak) rows.push({symbol,timeframe:tf,direction:'DOWN',barTime:c.openTime,closeTime:c.closeTime,price:c.close,level:v.lowerSignal,slope:v.slopePl,age,params:{length:24,mult:1.4,method:'Atr'}});
+    }
+    return rows;
+  }
+
+  function commitBreakoutFrame(tf,rows){
+    const map=new Map();
+    for(const r of breakoutRows.filter(x=>x.timeframe!==tf)) map.set(`${r.symbol}|${r.timeframe}|${r.barTime}|${r.direction}`,r);
+    for(const r of rows) map.set(`${r.symbol}|${r.timeframe}|${r.barTime}|${r.direction}`,r);
+    breakoutRows=[...map.values()]; save(KEYS.breakoutRows,breakoutRows); renderBreakout();
+    document.dispatchEvent(new CustomEvent('nmp:breakout-results',{detail:{rows:[...breakoutRows]}}));
+  }
+
+  async function scanBreakoutFrame(tf,at,signal,auto=false){
+    const list=await symbols(signal),n=breakoutWindow(),all=[]; let done=0,fail=0,short=0; const concurrency=4;
+    for(let i=0;i<list.length;i+=concurrency){
+      check(signal); const batch=list.slice(i,i+concurrency);
+      const results=await Promise.allSettled(batch.map(async symbol=>{
+        const cs=await candles(symbol,tf,500,at,signal);
+        if(cs.length<TL.length*2+2){short++;return [];}
+        return breakoutFromCandles(symbol,tf,cs,n);
+      }));
+      for(const r of results){done++;if(r.status==='fulfilled')all.push(...r.value);else fail++;}
+      if(X('nmxBreakBar')) X('nmxBreakBar').style.width=(done/list.length*100).toFixed(1)+'%';
+      if(X('nmxBreakStatus')) X('nmxBreakStatus').textContent=`${auto?'تلقائي · ':''}${tf} · فُحص ${done}/${list.length} · اختراقات ${all.length} · تاريخ قصير ${short} · أخطاء ${fail}`;
+      if(i+concurrency<list.length) await pause(120,signal);
+    }
+    commitBreakoutFrame(tf,all);
+    if(X('nmxBreakStatus')){X('nmxBreakStatus').className='nmx-status ok';X('nmxBreakStatus').textContent=`اكتمل ${tf}: اختراقات ${all.length} · أخطاء ${fail} · نافذة ${n} شمعة · ${stamp(at)}`;}
+    return all;
+  }
+
+  async function scanBreakoutAll(){
+    if(breakoutRuntime.busy) return;
+    breakoutRuntime.busy=true; const controller=new AbortController(); breakoutRuntime.controller=controller;
+    X('nmxBreakScan').disabled=true; if(X('nmxBreakBar')) X('nmxBreakBar').style.width='0%';
+    try{
+      const at=await serverNow(controller.signal,true);
+      for(let i=0;i<FRAMES.length;i++){
+        const tf=FRAMES[i]; await scanBreakoutFrame(tf,at,controller.signal,false);
+        const bar=await latestClosedBar(tf,at,controller.signal); autoState.breakout.lastBars[tf]=bar.closeTime;
+        save(KEYS.breakoutAuto,{enabled:autoState.breakout.enabled,lastBars:autoState.breakout.lastBars});
+        if(X('nmxBreakBar')) X('nmxBreakBar').style.width=((i+1)/FRAMES.length*100).toFixed(1)+'%';
+      }
+      X('nmxBreakStatus').className='nmx-status ok';X('nmxBreakStatus').textContent='اكتمل فحص جميع الفريمات · نافذة '+breakoutWindow()+' شمعة · '+stamp(at);
+    }catch(e){
+      if(e.name!=='AbortError'){X('nmxBreakStatus').className='nmx-status err';X('nmxBreakStatus').textContent=e.message||e;}
+    }finally{breakoutRuntime.busy=false;breakoutRuntime.controller=null;X('nmxBreakScan').disabled=false;}
+  }
+
+  function clearBreakout(){
+    breakoutRuntime.controller?.abort(); breakoutRuntime.controller=null; breakoutRuntime.busy=false;
+    stopAuto('breakout');
+    breakoutRows=[]; clearKey(KEYS.breakoutRows); renderBreakout();
+    if(X('nmxBreakBar')) X('nmxBreakBar').style.width='0%';
+    X('nmxBreakStatus').className='nmx-status';X('nmxBreakStatus').textContent='تم مسح كامل جدول الاختراقات والنتائج المحفوظة.';
+    document.dispatchEvent(new CustomEvent('nmp:breakout-results',{detail:{rows:[]}}));
+  }
+
+  // --------------------------- Ignition scanner (30s vs previous 90s) ---------------------------
+  const IGN_RANK={HOT:1,IGNITION:2,LAUNCH:3};
+  let ignitionEvents=(Array.isArray(load(KEYS.ignitionEvents,[]))?load(KEYS.ignitionEvents,[]):[]).filter(e=>e&&typeof e.symbol==='string'&&IGN_RANK[e.state]&&finite(+e.ts)).slice(0,300);
+  const ign={running:false,busy:false,epoch:0,controller:null,timer:null,current:[],prev:new Map(),hist:new Map()};
+
+  function ignLabel(s){return ({HOT:'ساخنة',IGNITION:'اشتعال',LAUNCH:'انطلاق'}[s]||s);}
+  function ignClass(s){return ({HOT:'hot',IGNITION:'ignition',LAUNCH:'launch'}[s]||'');}
+
+  function renderIgnition(){
+    if(X('nmxIgnCount')) X('nmxIgnCount').textContent=ign.current.length+' مرشح';
+    if(X('nmxIgnCurrent')) X('nmxIgnCurrent').innerHTML=ign.current.length?`<div class="nmx-table-wrap"><table class="nmx-table"><thead><tr><th>العملة</th><th>الحالة</th><th>السعر</th><th>التسارع</th><th>الشراء المباشر</th><th>ضغط الشراء</th><th>حركة 30ث</th><th>تداول 30ث</th></tr></thead><tbody>${ign.current.map(x=>`<tr><td>${chartSymbolButton(x.symbol,'4h')}</td><td><span class="nmx-badge ${ignClass(x.state)}">${ignLabel(x.state)}</span></td><td class="num">${number(x.price)}</td><td class="num">${x.accel.toFixed(2)}×</td><td class="num">${(x.buy*100).toFixed(1)}%</td><td class="num">${(x.cvd*100).toFixed(1)}%</td><td class="num">${x.move30>=0?'+':''}${x.move30.toFixed(2)}%</td><td class="num">$${Math.round(x.total).toLocaleString('en-US')}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد عملة تحقق شروط النشاط في آخر فحص مكتمل.</div>';
+    if(X('nmxIgnLog')) X('nmxIgnLog').innerHTML=ignitionEvents.length?`<div class="nmx-table-wrap"><table class="nmx-table"><thead><tr><th>الوقت</th><th>العملة</th><th>الحالة</th><th>التسارع</th><th>الشراء</th><th>الضغط</th></tr></thead><tbody>${ignitionEvents.slice(0,100).map(x=>`<tr><td>${stamp(x.ts)}</td><td>${chartSymbolButton(x.symbol,'4h')}</td><td><span class="nmx-badge ${ignClass(x.state)}">${ignLabel(x.state)}</span></td><td class="num">${(+x.accel).toFixed(2)}×</td><td class="num">${(+x.buy*100).toFixed(1)}%</td><td class="num">${(+x.cvd*100).toFixed(1)}%</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا توجد إشارات مسجلة بعد.</div>';
+  }
+
+  function storeIgnition(row,at){
+    const last=ignitionEvents.find(x=>x.symbol===row.symbol);
+    if(last&&at-last.ts>=0&&at-last.ts<120000&&IGN_RANK[last.state]>=IGN_RANK[row.state]) return;
+    ignitionEvents.unshift({...row,ts:at}); ignitionEvents=ignitionEvents.slice(0,300); save(KEYS.ignitionEvents,ignitionEvents);
+  }
+
+  async function tradesWindow(symbol,end,signal){
+    const start=end-120000,all=new Map(); let fromId=null;
+    for(let page=0;page<20;page++){
+      const params={symbol,limit:'1000',endTime:String(end-1)};
+      if(fromId===null) params.startTime=String(start); else params.fromId=String(fromId);
+      const rows=await request('aggTrades',params,signal);
+      if(!Array.isArray(rows)) throw Error('بيانات الصفقات غير صالحة');
+      let maximum=fromId===null?-1:fromId-1,reachedEnd=false;
+      for(const t of rows){
+        if(![+t.a,+t.T,+t.p,+t.q].every(finite)||+t.p<=0||+t.q<0||typeof t.m!=='boolean') throw Error('صفقة غير صالحة');
+        maximum=Math.max(maximum,+t.a); if(+t.T>=end) reachedEnd=true; else if(+t.T>=start) all.set(+t.a,t);
+      }
+      if(rows.length<1000||reachedEnd) return [...all.values()].sort((a,b)=>a.T-b.T||a.a-b.a);
+      if(fromId!==null&&maximum<fromId) throw Error('لم تكتمل بيانات الصفقات'); fromId=maximum+1;
+    }
+    throw Error('نافذة التداول مزدحمة؛ لم تُحسب إشارة من بيانات ناقصة');
+  }
+
+  function evaluateTrades(symbol,trades,end){
+    const valid=trades.filter(t=>+t.T>=end-120000&&+t.T<end).sort((a,b)=>a.T-b.T||a.a-b.a), recent=valid.filter(t=>+t.T>=end-30000), baseline=valid.filter(t=>+t.T<end-30000);
+    if(recent.length<2||!baseline.length) return null;
+    const base=baseline.reduce((s,t)=>s+(+t.p)*(+t.q),0)/3;
+    const total=recent.reduce((s,t)=>s+(+t.p)*(+t.q),0),buyUsd=recent.filter(t=>t.m===false).reduce((s,t)=>s+(+t.p)*(+t.q),0);
+    if(!(base>0&&total>0)) return null;
+    const buy=buyUsd/total,cvd=(2*buyUsd-total)/total,accel=total/base,first=+recent[0].p,last=+recent[recent.length-1].p,move30=(last/first-1)*100;
+    let stage='';
+    if(total>=5000&&accel>=2&&buy>=.54&&cvd>=0) stage='HOT';
+    if(total>=5000&&accel>=3&&buy>=.62&&cvd>=.15) stage='IGNITION';
+    if(stage==='IGNITION'&&move30>=.8) stage='LAUNCH';
+    return stage?{symbol,state:stage,price:last,accel,buy,cvd,move30,total}:null;
+  }
+
+  function ignitionCandidates(rows,universe,now){
+    const allowed=new Set(universe),coarse=[];
+    for(const r of rows){
+      const s=r.symbol,q=+r.quoteVolume,p=+r.lastPrice;if(!allowed.has(s)||!finite(q)||!finite(p)||p<=0)continue;
+      const prev=ign.prev.get(s),seconds=prev?(now-prev.ts)/1000:0,continuous=seconds>0&&seconds<=30,delta=continuous?Math.max(0,q-prev.q)/seconds:0,move=continuous?(p/prev.p-1)*100:0;
+      const old=continuous?(ign.hist.get(s)||[]):[],base=old.length?old.reduce((a,b)=>a+b,0)/old.length:0,acc=base>0?delta/base:0;
+      ign.hist.set(s,[...old,delta].slice(-18));ign.prev.set(s,{q,p,ts:now});coarse.push({symbol:s,rank:acc*100+delta/2000+Math.abs(move)*10,acc,move,q});
+    }
+    coarse.sort((a,b)=>b.rank-a.rank||b.q-a.q);
+    // Keep the original behavior: prioritize currently active names and a small top-volume fallback.
+    const pins=new Set([
+      ...(typeof spotHits!=='undefined'&&Array.isArray(spotHits)?spotHits.map(x=>x.symbol):[]),
+      ...breakoutRows.map(x=>x.symbol),
+      ...monitorRows.map(x=>x.symbol)
+    ]);
+    const selected=coarse.filter(x=>pins.has(x.symbol)||x.acc>=1.5||Math.abs(x.move)>=.15).slice(0,12);
+    for(const c of coarse.slice(0,5)) if(selected.length<12&&!selected.some(x=>x.symbol===c.symbol)) selected.push(c);
+    return selected;
+  }
+
+  async function runIgnition(){
+    if(!ign.running||ign.busy) return; ign.busy=true; const epoch=ign.epoch,controller=new AbortController(); ign.controller=controller; let delay=5000;
+    try{
+      const universe=await symbols(controller.signal),at=await serverNow(controller.signal),tickers=await request('ticker/24hr',{},controller.signal);
+      if(!Array.isArray(tickers)) throw Error('بيانات السوق غير صالحة');
+      const selected=ignitionCandidates(tickers,universe,at),out=[];let next=0,fail=0;
+      async function worker(){
+        while(next<selected.length){check(controller.signal);const symbol=selected[next++].symbol;
+          try{const trades=await tradesWindow(symbol,at,controller.signal),row=evaluateTrades(symbol,trades,at);if(row)out.push(row);}
+          catch(e){check(controller.signal);if(e.status===429||e.status===418)throw e;fail++;}
+        }
+      }
+      await Promise.all(Array.from({length:Math.min(4,selected.length)},worker)); check(controller.signal); if(epoch!==ign.epoch)return;
+      ign.current=out.map(row=>({...row,ts:at})).sort((a,b)=>IGN_RANK[b.state]-IGN_RANK[a.state]||b.accel-a.accel);
+      for(const row of out) storeIgnition(row,at);
+      X('nmxIgnStatus').className='nmx-status ok';X('nmxIgnStatus').textContent=`فحص ${universe.length} زوج Spot · تحليل تفصيلي ${selected.length} · أخطاء ${fail} · التداول: آخر 30ث مقابل متوسط 90ث السابقة`;
+      renderIgnition();
+      document.dispatchEvent(new CustomEvent('nmp:ignition-results',{detail:{current:[...ign.current],events:[...ignitionEvents]}}));
+    }catch(e){
+      if(epoch===ign.epoch&&ign.running){ign.current=[];renderIgnition();document.dispatchEvent(new CustomEvent('nmp:ignition-results',{detail:{current:[],events:[...ignitionEvents]}}));X('nmxIgnStatus').className='nmx-status err';X('nmxIgnStatus').textContent=e.message||'تعذر الاتصال';if(e.status===429||e.status===418)delay=Math.max(60000,(e.retryAfter||60)*1000);}
+    }finally{
+      if(epoch===ign.epoch){ign.busy=false;ign.controller=null;if(ign.running)ign.timer=setTimeout(runIgnition,delay);}
+    }
+  }
+
+  function startIgnition(){
+    if(ign.running){updateAgreementAutoButton();return;}ign.running=true;ign.epoch++;X('nmxIgnStart').disabled=true;X('nmxIgnStop').disabled=false;X('nmxIgnStatus').className='nmx-status';X('nmxIgnStatus').textContent='جاري الفحص...';updateAgreementAutoButton();runIgnition();
+  }
+  function stopIgnition(){
+    ign.running=false;ign.epoch++;clearTimeout(ign.timer);ign.timer=null;ign.controller?.abort();ign.controller=null;ign.busy=false;ign.current=[];ign.prev.clear();ign.hist.clear();save(KEYS.globalAuto,{enabled:false});X('nmxIgnStart').disabled=false;X('nmxIgnStop').disabled=true;X('nmxIgnStatus').className='nmx-status';X('nmxIgnStatus').textContent='الماسح متوقف.';renderIgnition();updateAgreementAutoButton();document.dispatchEvent(new CustomEvent('nmp:ignition-results',{detail:{current:[],events:[...ignitionEvents]}}));
+  }
+  function clearIgnition(){
+    stopIgnition();ignitionEvents=[];clearKey(KEYS.ignitionEvents);renderIgnition();X('nmxIgnStatus').textContent='تم مسح كامل جدول وسجل الاشتعال.';document.dispatchEvent(new CustomEvent('nmp:ignition-results',{detail:{current:[],events:[]}}));
+  }
+
+  // --------------------------- Add-on settings / master controls ---------------------------
+  function normalizeAddonSettings(x){
+    return {
+      telegramChat:typeof x?.telegramChat==='string'?x.telegramChat:'',
+      telegramToken:typeof x?.telegramToken==='string'?x.telegramToken:''
+    };
+  }
+  let addonSettings=normalizeAddonSettings(load(KEYS.addonSettings,{}));
+
+  function fillAddonSettings(){
+    if(X('nmxTgChat')) X('nmxTgChat').value=addonSettings.telegramChat;
+    if(X('nmxTgToken')) X('nmxTgToken').value=addonSettings.telegramToken;
+    if(X('nmxTgStatus')) X('nmxTgStatus').textContent=(addonSettings.telegramChat&&addonSettings.telegramToken)?'إعدادات Telegram محفوظة على هذا المتصفح.':'أدخل Chat ID وBot Token ثم اضغط حفظ.';
+  }
+
+  function saveAddonSettings(){
+    const chat=String(X('nmxTgChat')?.value||'').trim(),token=String(X('nmxTgToken')?.value||'').trim();
+    if((chat&&!token)||(!chat&&token)){
+      if(X('nmxTgStatus')){X('nmxTgStatus').className='nmx-status err';X('nmxTgStatus').textContent='أدخل Chat ID وBot Token معًا.';}
+      return false;
+    }
+    addonSettings={telegramChat:chat,telegramToken:token};save(KEYS.addonSettings,addonSettings);
+    if(X('nmxTgStatus')){X('nmxTgStatus').className='nmx-status ok';X('nmxTgStatus').textContent=chat?'تم حفظ إعدادات Telegram.':'تم حفظ الإعدادات بدون بيانات Telegram.';}
+    return true;
+  }
+
+  function clearAddonSettings(){
+    addonSettings={telegramChat:'',telegramToken:''};clearKey(KEYS.addonSettings);fillAddonSettings();
+    if(X('nmxTgStatus')){X('nmxTgStatus').className='nmx-status';X('nmxTgStatus').textContent='تم مسح Chat ID وBot Token من التخزين المحلي.';}
+  }
+
+  function allAutoRunning(){return !!(autoState.monitor.enabled&&autoState.breakout.enabled&&ign.running);}
+  function updateAgreementAutoButton(){
+    const button=X('nmxAgreementAuto'),status=X('nmxAgreementAutoStatus');if(!button)return;
+    const all=allAutoRunning(),some=autoState.monitor.enabled||autoState.breakout.enabled||ign.running;
+    button.textContent=all?'■ إيقاف التلقائي للجميع':'▶ تشغيل التلقائي للجميع';
+    button.className='btn '+(all?'danger':'primary');
+    if(status){
+      status.className='nmx-status'+(all?' ok':'');
+      status.textContent=all?'التلقائي للجميع مفعّل: المراقبة والاختراقات كل ساعة، والاشتعال يعمل باستمرار.':some?'بعض الماسحات فقط تعمل تلقائيًا. اضغط الزر لتشغيل الثلاثة معًا.':'التلقائي للجميع متوقف.';
+    }
+  }
+
+  async function startAllAuto(){
+    const button=X('nmxAgreementAuto');if(button)button.disabled=true;
+    if(X('nmxAgreementAutoStatus')){X('nmxAgreementAutoStatus').className='nmx-status';X('nmxAgreementAutoStatus').textContent='جاري تفعيل المسح التلقائي لجميع المصادر...';}
+    try{
+      await Promise.all([startAuto('monitor'),startAuto('breakout')]);
+      startIgnition();save(KEYS.globalAuto,{enabled:true});updateAgreementAutoButton();
+    }catch(e){
+      save(KEYS.globalAuto,{enabled:false});
+      if(X('nmxAgreementAutoStatus')){X('nmxAgreementAutoStatus').className='nmx-status err';X('nmxAgreementAutoStatus').textContent='تعذر تشغيل التلقائي للجميع: '+(e.message||e);}
+    }finally{if(button)button.disabled=false;}
+  }
+
+  function stopAllAuto(){
+    stopAuto('monitor');stopAuto('breakout');stopIgnition();save(KEYS.globalAuto,{enabled:false});updateAgreementAutoButton();
+  }
+  function toggleAllAuto(){return allAutoRunning()?stopAllAuto():startAllAuto();}
+
+  // --------------------------- Agreement monitor (no scanner) ---------------------------
+  let agreementDismissed=new Set(Array.isArray(load(KEYS.agreementCleared,[]))?load(KEYS.agreementCleared,[]):[]);
+
+  function groupBySymbol(rows){
+    const map=new Map();
+    for(const row of rows||[]){
+      if(!row||typeof row.symbol!=='string') continue;
+      const symbol=row.symbol.toUpperCase();
+      if(!map.has(symbol)) map.set(symbol,[]);
+      map.get(symbol).push(row);
+    }
+    return map;
+  }
+
+  function sortFrames(frames){
+    return [...new Set(frames.filter(tf=>FRAME_RANK.has(tf)))].sort((a,b)=>FRAME_RANK.get(a)-FRAME_RANK.get(b));
+  }
+
+  function agreementData(includeDismissed=false){
+    const monitorMap=groupBySymbol(monitorRows);
+    const breakoutMap=groupBySymbol(breakoutRows);
+    const ignitionMap=new Map();
+    for(const row of ign.current){
+      if(!row||typeof row.symbol!=='string') continue;
+      const symbol=row.symbol.toUpperCase(),old=ignitionMap.get(symbol);
+      if(!old||IGN_RANK[row.state]>IGN_RANK[old.state]||(IGN_RANK[row.state]===IGN_RANK[old.state]&&(+row.accel||0)>(+old.accel||0))) ignitionMap.set(symbol,row);
+    }
+
+    const symbols=new Set([...monitorMap.keys(),...breakoutMap.keys(),...ignitionMap.keys()]),out=[];
+    for(const symbol of symbols){
+      const monitor=monitorMap.get(symbol)||[],breakouts=breakoutMap.get(symbol)||[],ignition=ignitionMap.get(symbol)||null;
+      const count=Number(monitor.length>0)+Number(breakouts.length>0)+Number(!!ignition);
+      if(count<2) continue;
+      out.push({
+        symbol,count,monitor,breakouts,ignition,
+        monitorFrames:sortFrames(monitor.map(x=>x.timeframe)),
+        breakoutFrames:sortFrames(breakouts.map(x=>x.timeframe))
+      });
+    }
+    const sorted=out.sort((a,b)=>b.count-a.count||a.symbol.localeCompare(b.symbol));
+    return includeDismissed?sorted:sorted.filter(x=>!agreementDismissed.has(agreementSignature(x)));
+  }
+
+  function agreementSignature(x){
+    const monitor=(x.monitor||[]).map(r=>`${r.timeframe}:${r.direction}:${r.closeTime||r.bar_time||0}:${Number(r.probability||0).toFixed(2)}`).sort().join(',');
+    const breakouts=(x.breakouts||[]).map(r=>`${r.timeframe}:${r.direction}:${r.barTime||0}`).sort().join(',');
+    const ignition=x.ignition?`${x.ignition.state}:${Number(x.ignition.price||0).toPrecision(12)}:${Number(x.ignition.accel||0).toFixed(3)}`:'';
+    return `${x.symbol}|${monitor}|${breakouts}|${ignition}`;
+  }
+
+  function clearAgreement(){
+    const current=agreementData(true);
+    for(const row of current) agreementDismissed.add(agreementSignature(row));
+    const saved=[...agreementDismissed].slice(-1000);agreementDismissed=new Set(saved);save(KEYS.agreementCleared,saved);renderAgreement();
+    if(X('nmxAgreementAutoStatus')&&current.length){X('nmxAgreementAutoStatus').className='nmx-status';X('nmxAgreementAutoStatus').textContent='تم مسح نتائج التوافق الحالية فقط. الجداول المصدر لم تُمس، وستعود العملة إذا تغيرت نتائجها.';}
+  }
+
+  function monitorAgreementCell(rows,frames){
+    if(!rows.length) return '—';
+    const byFrame=new Map();
+    for(const r of rows){
+      const old=byFrame.get(r.timeframe);
+      if(!old||(+r.probability||0)>(+old.probability||0)) byFrame.set(r.timeframe,r);
+    }
+    const details=frames.map(tf=>{
+      const r=byFrame.get(tf); if(!r) return escapeHtml(tf);
+      const dir=r.direction==='LONG'?'LONG':r.direction==='SHORT'?'SHORT':String(r.direction||'');
+      return `<span class=\"num\">${escapeHtml(tf)}</span> <span class=\"nmx-badge ${dir==='LONG'?'long':'short'}\">${escapeHtml(dir)}</span> <span class=\"num\">${(+r.probability).toFixed(1)}%</span>`;
+    });
+    return `${details.join('<br>')}<div class=\"small\">الفريمات: <span class=\"num\">${escapeHtml(frames.join(' / '))}</span></div>`;
+  }
+
+  function breakoutAgreementCell(rows,frames){
+    if(!rows.length) return '—';
+    const grouped=new Map();
+    for(const r of rows){
+      if(!grouped.has(r.timeframe)) grouped.set(r.timeframe,[]);
+      grouped.get(r.timeframe).push(r);
+    }
+    const details=frames.map(tf=>{
+      const list=grouped.get(tf)||[];
+      const dirs=[...new Set(list.map(r=>r.direction))];
+      const labels=dirs.map(dir=>`<span class=\"nmx-badge ${dir==='UP'?'up':'down'}\">${dir==='UP'?'UP':'DOWN'}</span>`).join(' ');
+      return `<span class=\"num\">${escapeHtml(tf)}</span> ${labels}`;
+    });
+    return `${details.join('<br>')}<div class=\"small\">الفريمات: <span class=\"num\">${escapeHtml(frames.join(' / '))}</span></div>`;
+  }
+
+  function renderAgreement(){
+    const rows=agreementData();
+    if(X('nmxAgreementCount')) X('nmxAgreementCount').textContent=`${rows.length} نتيجة · 3/3: ${rows.filter(x=>x.count===3).length} · 2/3: ${rows.filter(x=>x.count===2).length}`;
+    if(X('nmxAgreementEmpty')) X('nmxAgreementEmpty').hidden=rows.length>0;
+    if(X('nmxAgreementTableWrap')) X('nmxAgreementTableWrap').hidden=rows.length===0;
+    if(X('nmxAgreementRows')) X('nmxAgreementRows').innerHTML=rows.map(x=>{
+      const missing=[!x.monitor.length?'المراقبة':'',!x.breakouts.length?'الاختراقات':'',!x.ignition?'الاشتعال':''].filter(Boolean);
+      const ignition=x.ignition?`<span class=\"nmx-badge ${ignClass(x.ignition.state)}\">${escapeHtml(ignLabel(x.ignition.state))}</span><div class=\"small\">تسارع <span class=\"num\">${(+x.ignition.accel).toFixed(2)}×</span></div>`:'—';
+      const chartTf=x.monitorFrames[0]||x.breakoutFrames[0]||'4h';
+      return `<tr><td>${chartSymbolButton(x.symbol,chartTf)}</td><td><span class=\"nmx-badge ${x.count===3?'three':'two'}\">${x.count}/3</span></td><td>${monitorAgreementCell(x.monitor,x.monitorFrames)}</td><td>${breakoutAgreementCell(x.breakouts,x.breakoutFrames)}</td><td>${ignition}</td><td>${missing.join(' · ')||'مكتمل'}</td></tr>`;
+    }).join('');
+  }
+
+  // --------------------------- Interactive Spot chart ---------------------------
+  const chartState={symbol:'',tf:'4h',controller:null,version:0,focus:null,bodyOverflow:''};
+
+  function chartEma(values,length){
+    const a=2/(length+1);let prev=NaN;
+    return values.map(v=>prev=finite(prev)?a*v+(1-a)*prev:v);
+  }
+
+  function chartIndicators(cs){
+    const close=cs.map(c=>c.close),ema50=chartEma(close,50),ema100=chartEma(close,100),ema200=chartEma(close,200);
+    const fast=chartEma(close,12),slow=chartEma(close,26),macd=close.map((_,i)=>fast[i]-slow[i]),signal=chartEma(macd,9);
+    const histogram=macd.map((v,i)=>v-signal[i]);
+    return {ema50,ema100,ema200,macd,signal,histogram,hist:histogram};
+  }
+
+  async function chartCandles(symbol,tf,limit,signal){
+    const data=await request('klines',{symbol,interval:tf,limit:String(Math.min(1000,limit))},signal);
+    if(!Array.isArray(data)) throw Error('استجابة شموع الشارت غير صالحة');
+    return data.map(k=>({openTime:+k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5],closeTime:+k[6],takerBuyBase:+k[9]}))
+      .filter(c=>[c.openTime,c.open,c.high,c.low,c.close,c.volume,c.closeTime].every(finite)&&c.close>0);
+  }
+
+  function chartRecords(symbol,tf){
+    return {
+      monitor:monitorRows.filter(r=>r.symbol===symbol&&r.timeframe===tf),
+      breakouts:breakoutRows.filter(r=>r.symbol===symbol&&r.timeframe===tf),
+      ignition:[...ign.current,...ignitionEvents].filter(r=>r.symbol===symbol&&finite(+r.ts)).sort((a,b)=>(+b.ts)-(+a.ts)).slice(0,12)
+    };
+  }
+
+  function chartSvg(cs,asOf,symbol,tf,records,width){
+    const values=trendlineCalc(cs),indicators=chartIndicators(cs),last=cs.length-1;
+    const record=[...(records.breakouts||[])].sort((a,b)=>(+b.barTime)-(+a.barTime))[0]||{symbol,timeframe:tf,params:{...TL}};
+    const settings={...TL,...(record?.params||{}),backpaint:true,showExt:true,upColor:TL.upColor,downColor:TL.downColor};
+    const W=Math.max(340,Math.min(1100,Math.round(width||820))),H=540;
+    const count=W<500?64:110,focusIndex=cs.findIndex(c=>c.openTime===record?.barTime);
+    let start=Math.max(0,last-count+1),end=last;
+    const L=10,R=W-78,top=32,bottom=330,macdTop=392,macdBottom=492;
+    const n=end-start+1,step=(R-L)/Math.max(n,1),x=i=>L+(i-start+.5)*step;
+    const visible=cs.slice(start,end+1),prices=visible.flatMap(c=>[c.low,c.high]);
+    for(let i=start;i<=end;i++) for(const name of ['ema50','ema100','ema200']) if(finite(indicators[name][i])) prices.push(indicators[name][i]);
+    let lo=Math.min(...prices),hi=Math.max(...prices),pad=Math.max((hi-lo)*.09,hi*.0005,1e-10);lo-=pad;hi+=pad;
+    const y=v=>bottom-(v-lo)/(hi-lo)*(bottom-top),point=(a,b)=>`${a.toFixed(2)},${b.toFixed(2)}`;
+    const uid='nmxclip'+(++chartSvg.uid),priceClip=uid+'p',macdClip=uid+'m';
+    const pieces=[`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(symbol)} Spot: شموع وخطوط ترند وEMA وMACD" font-family="Arial,sans-serif" font-size="10">`,
+      `<title>${escapeHtml(symbol)} ${escapeHtml(tf)} — Spot</title><defs><clipPath id="${priceClip}"><rect x="${L}" y="${top}" width="${R-L}" height="${bottom-top}"/></clipPath><clipPath id="${macdClip}"><rect x="${L}" y="${macdTop}" width="${R-L}" height="${macdBottom-macdTop}"/></clipPath></defs><rect width="${W}" height="${H}" fill="#0b1018"/>`];
+    for(let j=0;j<=4;j++){const v=lo+(hi-lo)*j/4,Y=y(v);pieces.push(`<line x1="${L}" y1="${Y}" x2="${R}" y2="${Y}" stroke="#1e2938"/><text x="${R+7}" y="${Y+3}" fill="#9aa9be">${number(v)}</text>`);}
+    pieces.push(`<text x="${L+2}" y="19" fill="#c6d2e2">${escapeHtml(symbol)} · ${escapeHtml(tf)} · SPOT</text>`);
+    if(focusIndex>=start&&focusIndex<=end) pieces.push(`<rect data-breakout-candle="${record.barTime}" x="${x(focusIndex)-step*.62}" y="${top}" width="${Math.max(step*1.24,5)}" height="${bottom-top}" fill="#d9a441" opacity=".13"/>`);
+    pieces.push(`<g clip-path="url(#${priceClip})">`);
+    for(let i=start;i<=end;i++){
+      const c=cs[i],color=c.close>=c.open?'#37b98e':'#e0594c',X=x(i),body=Math.max(1.1,Math.min(step*.66,11));
+      if(c.closeTime>=asOf) pieces.push(`<rect data-forming-candle="true" x="${X-step*.5}" y="${top}" width="${step}" height="${bottom-top}" fill="#6aa9eb" opacity=".10"/>`);
+      pieces.push(`<g><title>${escapeHtml(stamp(c.openTime))} | O ${number(c.open)} H ${number(c.high)} L ${number(c.low)} C ${number(c.close)}</title><line x1="${X}" y1="${y(c.high)}" x2="${X}" y2="${y(c.low)}" stroke="${color}"/><rect x="${X-body/2}" y="${Math.min(y(c.open),y(c.close))}" width="${body}" height="${Math.max(1,Math.abs(y(c.open)-y(c.close)))}" fill="${color}"/></g>`);
+    }
+    function polyline(data,color,extra=''){
+      let path='';for(let i=start;i<=end;i++) if(finite(data[i])) path+=(path?' L':'M')+point(x(i),y(data[i]));
+      if(path) pieces.push(`<path d="${path}" fill="none" stroke="${color}" stroke-width="1.25" ${extra}/>`);
+    }
+    polyline(indicators.ema50,'#e5b84b','data-series="ema50"');
+    polyline(indicators.ema100,'#b094f5','data-series="ema100"');
+    polyline(indicators.ema200,'#62b8ee','data-series="ema200"');
+    const offset=settings.backpaint?settings.length:0;
+    for(const side of ['upper','lower']){
+      const high=side==='upper',color=high?settings.upColor:settings.downColor;let path='',open=false;
+      for(let i=0;i<values.length;i++){
+        const at=i-offset,r=values[i],reset=high?r.ph:r.pl,value=settings.backpaint?r[side]:r[side+'Signal'],known=high?r.highPivot:r.lowPivot;
+        if(at<start||at>end||reset!==null||!known||!finite(value)){open=false;continue;}
+        path+=(open?' L':' M')+point(x(at),y(value));open=true;
+      }
+      if(path) pieces.push(`<path data-trend="${side}" d="${path}" fill="none" stroke="${color}" stroke-width="1.7"/>`);
+      const lastValue=values[values.length-1],anchor=high?lastValue?.highPivot:lastValue?.lowPivot;
+      if(settings.showExt&&anchor){
+        const at=settings.backpaint?anchor.index:anchor.confirmedIndex,rate=high?-anchor.slope:anchor.slope;
+        const value=settings.backpaint?anchor.value:anchor.value+rate*settings.length;
+        const from=Math.max(start,at),to=end+.7;
+        if(from<=to) pieces.push(`<line data-extended="${side}" x1="${x(from)}" y1="${y(value+rate*(from-at))}" x2="${x(to)}" y2="${y(value+rate*(to-at))}" stroke="${color}" stroke-width="1.6" stroke-dasharray="6 4"/>`);
+      }
+    }
+    pieces.push('</g>');
+    for(let i=start;i<=end;i++){
+      const r=values[i],selected=i===focusIndex,up=selected?record.direction==='UP':r.upBreak,down=selected?record.direction==='DOWN':r.downBreak;
+      if(cs[i].closeTime>=asOf) continue;
+      if(!up&&!down) continue;
+      const color=up?settings.upColor:settings.downColor,X=x(i),Y=Math.max(top+9,Math.min(bottom-9,y(up?cs[i].low:cs[i].high)+(up?12:-12)));
+      pieces.push(`<g${selected?' data-selected-breakout="true"':''}><rect x="${X-7}" y="${Y-8}" width="14" height="16" rx="3" fill="${color}" stroke="${selected?'#f5ca70':color}" stroke-width="${selected?2:0}"/><text x="${X}" y="${Y+3}" text-anchor="middle" fill="#fff" font-weight="700">B</text></g>`);
+    }
+    function addonMarker(index,label,color,title,position='top'){
+      if(index<start||index>end)return;const c=cs[index],X=x(index),base=position==='bottom'?y(c.low)+14:y(c.high)-14,Y=Math.max(top+9,Math.min(bottom-9,base));
+      pieces.push(`<g><title>${escapeHtml(title)}</title><circle cx="${X}" cy="${Y}" r="7" fill="${color}" stroke="#f5ca70" stroke-width="1"/><text x="${X}" y="${Y+3}" text-anchor="middle" fill="#10141a" font-weight="700" font-size="9">${escapeHtml(label)}</text></g>`);
+    }
+    for(const r of records.monitor){const i=cs.findIndex(c=>c.openTime===+r.bar_time);addonMarker(i,'P','#6aa9eb',`Next Move ${r.direction} ${(+r.probability).toFixed(1)}%`,'top');}
+    for(const r of records.ignition){const ts=+r.ts,i=cs.findIndex(c=>c.openTime<=ts&&c.closeTime>=ts),label=r.state==='HOT'?'H':r.state==='IGNITION'?'I':'L';addonMarker(i,label,'#d9a441',`${ignLabel(r.state)} · ${stamp(ts)}`,'top');}
+    for(const index of [...new Set([start,Math.round((start+end)/2),end])]){
+      const date=new Date(cs[index].openTime),label=tf.endsWith('m')?date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):date.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+      pieces.push(`<text x="${x(index)}" y="351" text-anchor="${index===start?'start':index===end?'end':'middle'}" fill="#7d8aa0">${escapeHtml(label)}</text>`);
+    }
+    const mValues=[0,...indicators.macd.slice(start,end+1),...indicators.signal.slice(start,end+1),...indicators.histogram.slice(start,end+1)];
+    const mLo=Math.min(...mValues),mHi=Math.max(...mValues),mPad=Math.max((mHi-mLo)*.12,1e-10),mY=v=>macdBottom-(v-(mLo-mPad))/(mHi-mLo+2*mPad)*(macdBottom-macdTop);
+    pieces.push(`<text x="${L+2}" y="377" fill="#97a8bf">MACD (12, 26, 9)</text><text x="${R-5}" y="377" text-anchor="end" fill="#6aa9eb">MACD</text><text x="${R-54}" y="377" text-anchor="end" fill="#e5b84b">Signal</text><line x1="${L}" x2="${R}" y1="${mY(0)}" y2="${mY(0)}" stroke="#455065"/><g clip-path="url(#${macdClip})">`);
+    for(let i=start;i<=end;i++){
+      const v=indicators.histogram[i],previous=indicators.histogram[Math.max(0,i-1)],color=v>=0?(v>=previous?'#37b98e':'#296c5d'):(v<previous?'#e0594c':'#713c38');
+      pieces.push(`<rect data-series="macd-histogram" x="${x(i)-step*.32}" y="${Math.min(mY(v),mY(0))}" width="${Math.max(1,step*.64)}" height="${Math.max(.7,Math.abs(mY(v)-mY(0)))}" fill="${color}"/>`);
+    }
+    for(const [name,color] of [['macd','#6aa9eb'],['signal','#e5b84b']]){
+      let d='';for(let i=start;i<=end;i++) d+=(d?' L':'M')+point(x(i),mY(indicators[name][i]));
+      pieces.push(`<path data-series="${name}" d="${d}" fill="none" stroke="${color}" stroke-width="1.3"/>`);
+    }
+    pieces.push(`</g><text x="${R+7}" y="${mY(mHi)+3}" fill="#7d8aa0">${number(mHi)}</text><text x="${R+7}" y="${mY(mLo)+3}" fill="#7d8aa0">${number(mLo)}</text><text x="${L+2}" y="522" fill="#7d8aa0">Trendlines © LuxAlgo · 24 / 1.4 / ATR · EMA 50 / 100 / 200</text></svg>`);
+    return pieces.join('');
+  }
+  chartSvg.uid=0;
+
+  function paintChart(){
+    const d=chartState.data;if(!d||d.symbol!==chartState.symbol||d.tf!==chartState.tf)return;
+    const view=X('nmxChartView');if(!view)return;
+    view.innerHTML=chartSvg(d.candles,d.asOf,d.symbol,d.tf,d.records,view.clientWidth||820);
+  }
+
+  async function refreshChart(){
+    if(!chartState.symbol)return;
+    chartState.controller?.abort();const controller=new AbortController(),version=++chartState.version;chartState.controller=controller;
+    const symbol=chartState.symbol,tf=chartState.tf;X('nmxChartRefresh').disabled=true;X('nmxChartStatus').className='nmx-status';X('nmxChartStatus').textContent='جاري جلب أحدث شموع Binance Spot...';
+    try{
+      const asOf=await serverNow(controller.signal,true),cs=await chartCandles(symbol,tf,500,controller.signal);check(controller.signal);if(cs.length<210)throw Error('الشموع المتاحة غير كافية لعرض EMA200 بدقة');
+      if(version!==chartState.version)return;const records=chartRecords(symbol,tf);chartState.data={symbol,tf,asOf,candles:cs,records};paintChart();
+      const last=cs[cs.length-1],parts=[`${tf} · Spot`,`آخر سعر ${number(last.close)}`,`P ${records.monitor.length}`,`B ${records.breakouts.length}`];
+      const ignNow=records.ignition[0];if(ignNow)parts.push(`${ignLabel(ignNow.state)} ${stamp(ignNow.ts)}`);
+      X('nmxChartInfo').textContent=parts.join(' · ');X('nmxChartStatus').className='nmx-status ok';X('nmxChartStatus').textContent='آخر تحديث: '+stamp(asOf)+(last.closeTime>=asOf?' · الشمعة الأخيرة جارية':'');
+    }catch(e){if(version===chartState.version&&e.name!=='AbortError'){X('nmxChartStatus').className='nmx-status err';X('nmxChartStatus').textContent='تعذر تحديث الشارت: '+(e.message||e);}}
+    finally{if(version===chartState.version){X('nmxChartRefresh').disabled=false;chartState.controller=null;}}
+  }
+
+  function openChart(symbol,tf='4h'){
+    symbol=String(symbol||'').toUpperCase();tf=FRAMES.includes(tf)?tf:'4h';if(!symbol)return;
+    if(!chartState.symbol){chartState.focus=document.activeElement;chartState.bodyOverflow=document.body.style.overflow;}
+    chartState.symbol=symbol;chartState.tf=tf;chartState.data=null;X('nmxChartTitle').textContent=`${symbol} · Binance Spot`;X('nmxChartTf').value=tf;X('nmxChartView').innerHTML='';X('nmxChartInfo').textContent='';X('nmxChartBg').classList.add('show');document.body.style.overflow='hidden';X('nmxChartClose').focus();return refreshChart();
+  }
+
+  function closeChart(){
+    chartState.version++;chartState.controller?.abort();chartState.controller=null;chartState.data=null;chartState.symbol='';X('nmxChartBg')?.classList.remove('show');if(X('nmxChartView'))X('nmxChartView').innerHTML='';document.body.style.overflow=chartState.bodyOverflow;if(chartState.focus?.isConnected)chartState.focus.focus();chartState.focus=null;
+  }
+
+  // --------------------------- Wiring / restore ---------------------------
+  function restoreAuto(kind){
+    const saved=load(autoStorage(kind),{}),state=autoState[kind];
+    state.enabled=saved?.enabled===true; state.lastBars=saved?.lastBars&&typeof saved.lastBars==='object'?saved.lastBars:{};
+    updateAutoButtons(kind); if(state.enabled) scheduleAuto(kind);
+  }
+
+  function wire(){
+    X('nmxMonScan').onclick=scanMonitorAll;
+    X('nmxMonAuto').onclick=()=>startAuto('monitor');
+    X('nmxMonStop').onclick=()=>stopAuto('monitor');
+    X('nmxMonClear').onclick=clearMonitor;
+
+    X('nmxBreakWindow').value=String(Math.max(1,Math.min(50,Number(load(KEYS.breakoutWindow,1))||1)));
+    X('nmxBreakWindow').onchange=breakoutWindow;
+    X('nmxBreakScan').onclick=scanBreakoutAll;
+    X('nmxBreakAuto').onclick=()=>startAuto('breakout');
+    X('nmxBreakStop').onclick=()=>stopAuto('breakout');
+    X('nmxBreakClear').onclick=clearBreakout;
+
+    X('nmxIgnStart').onclick=startIgnition;
+    X('nmxIgnStop').onclick=stopIgnition;
+    X('nmxIgnClear').onclick=clearIgnition;
+    X('nmxAgreementRefresh').onclick=renderAgreement;
+    X('nmxAgreementAuto').onclick=toggleAllAuto;
+    X('nmxAgreementClear').onclick=clearAgreement;
+    X('nmxTgSave').onclick=saveAddonSettings;
+    X('nmxTgClear').onclick=clearAddonSettings;
+    X('nmxChartClose').onclick=closeChart;
+    X('nmxChartRefresh').onclick=refreshChart;
+    X('nmxChartTf').onchange=()=>{if(!chartState.symbol)return;chartState.tf=X('nmxChartTf').value;chartState.data=null;X('nmxChartView').innerHTML='';return refreshChart();};
+    X('nmxChartBg').onclick=e=>{if(e.target===X('nmxChartBg'))closeChart();};
+    document.addEventListener('click',e=>{const b=e.target.closest('[data-nmx-chart-symbol]');if(b)openChart(b.dataset.nmxChartSymbol,b.dataset.nmxChartTf||'4h');});
+    document.addEventListener('keydown',e=>{if(!chartState.symbol)return;if(e.key==='Escape'){e.preventDefault();closeChart();}});
+    let nmxChartResizeTimer;window.addEventListener('resize',()=>{clearTimeout(nmxChartResizeTimer);nmxChartResizeTimer=setTimeout(paintChart,100);});
+
+    document.addEventListener('nmp:monitor-results',renderAgreement);
+    document.addEventListener('nmp:breakout-results',renderAgreement);
+    document.addEventListener('nmp:ignition-results',renderAgreement);
+    for(const b of document.querySelectorAll('.navbtn')) if(b.dataset.p==='settings') b.addEventListener('click',fillAddonSettings);
+  }
+
+  injectStyles();
+  injectUI();
+  wire();
+  renderMonitor();renderBreakout();renderIgnition();renderAgreement();fillAddonSettings();
+  restoreAuto('monitor');restoreAuto('breakout');
+  if(load(KEYS.globalAuto,{})?.enabled===true){startIgnition();}
+  updateAgreementAutoButton();
+
+  // Sync server time once so the hourly scheduler aligns to Binance UTC.
+  serverNow(undefined,true).then(()=>{if(autoState.monitor.enabled)scheduleAuto('monitor');if(autoState.breakout.enabled)scheduleAuto('breakout');}).catch(()=>{});
+
+  window.NextMoveScannersAddon={
+    frames:[...FRAMES],
+    getMonitorResults:()=>[...monitorRows],
+    getBreakoutResults:()=>[...breakoutRows],
+    getIgnitionResults:()=>({current:[...ign.current],events:[...ignitionEvents]}),
+    scanMonitorAll,scanBreakoutAll,startIgnition,stopIgnition,
+    startMonitorAuto:()=>startAuto('monitor'),stopMonitorAuto:()=>stopAuto('monitor'),
+    startBreakoutAuto:()=>startAuto('breakout'),stopBreakoutAuto:()=>stopAuto('breakout'),
+    clearMonitor,clearBreakout,clearIgnition,
+    startAllAuto,stopAllAuto,toggleAllAuto,
+    getAgreementResults:agreementData,renderAgreement,clearAgreement,
+    getTelegramSettings:()=>({...addonSettings}),saveAddonSettings,clearAddonSettings,
+    evaluateTrades,trendlineCalc,breakoutFromCandles,openChart,closeChart,refreshChart
+  };
+})();
+
+</script>
+</body></html>
